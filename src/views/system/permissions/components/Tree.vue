@@ -1,6 +1,6 @@
 <template>
   <el-tabs v-model="activeName" type="card">
-    <el-tab-pane label="条码系统" name="first">
+    <el-tab-pane label="巡检系统" name="first">
       <el-scrollbar>
         <el-tree
           ref="tree1"

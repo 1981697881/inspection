@@ -6,13 +6,17 @@ const map = {
   Layout: () => import('@/layout'),
   error: () => import('@/views/404'),
   'resource': () => import('@/views/resource/index'),
+  'inspection': () => import('@/views/inspection/index'),
   'dashboard': () => import('@/views/dashboard/index'),
 
-  'processRoute': () => import('@/views/resource/processRoute/index'),
-  'pricingProcess': () => import('@/views/process/pricingProcess/index'),
-  'productionTask': () => import('@/views/process/productionTask/index'),
-  'processDispatching': () => import('@/views/process/processDispatching/index'),
-  'mission': () => import('@/views/process/mission/index'),
+  'category': () => import('@/views/resource/category/index'),
+  'examine': () => import('@/views/resource/examine/index'),
+  'problem': () => import('@/views/resource/problem/index'),
+  'project': () => import('@/views/resource/project/index'),
+
+  'plan': () => import('@/views/inspection/plan/index'),
+  'record': () => import('@/views/inspection/record/index'),
+  'statement': () => import('@/views/inspection/statement/index'),
 
   'system': () => import('@/views/system/index'),
   'users': () => import('@/views/system/users/index'),

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '条码系统',
+  title: '巡检系统',
 
   /**
    * @type {boolean} true | false

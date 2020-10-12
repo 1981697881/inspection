@@ -57,7 +57,7 @@ export const StaticRouterMap = [{
         affix: true ,
       }
     }]
-  },/* {
+  }, {
     path: '/resource',
     component: Layout,
     name: 'Resource',
@@ -66,50 +66,64 @@ export const StaticRouterMap = [{
       icon: "component"
     },
     children: [{
-      path: 'processRoute',
-      component: () => import('@/views/resource/processRoute/index'),
-      name: 'ProcessRoute',
+      path: 'project',
+      component: () => import('@/views/resource/project/index'),
+      name: 'Project',
       meta: {
-        title: '工艺路线'
+        title: '项目信息'
       },
-    }]
+    },{
+      path: 'category',
+      component: () => import('@/views/resource/category/index'),
+      name: 'Category',
+      meta: {
+        title: '项目类别'
+      },
+    },{
+      path: 'examine',
+      component: () => import('@/views/resource/examine/index'),
+      name: 'Examine',
+      meta: {
+        title: '检查项目'
+      },
+    },{
+      path: 'problem',
+      component: () => import('@/views/resource/problem/index'),
+      name: 'Problem',
+      meta: {
+        title: '问题隐患'
+      },
+    },]
   }, {
-    path: '/process',
+    path: '/inspection',
     component: Layout,
-    name: 'Process',
+    name: 'Inspection',
     meta: {
-      title: '工序管理',
+      title: '巡检管理',
       icon: "component"
     },
     children: [{
-      path: 'productionTask',
-      component: () => import('@/views/process/productionTask/index'),
-      name: 'ProductionTask',
+      path: 'plan',
+      component: () => import('@/views/inspection/plan/index'),
+      name: 'Plan',
       meta: {
-        title: '计划生产任务单'
+        title: '巡检计划'
       },
     },{
-      path: 'pricingProcess',
-      component: () => import('@/views/process/pricingProcess/index'),
-      name: 'PricingProcess',
+      path: 'record',
+      component: () => import('@/views/inspection/record/index'),
+      name: 'Record',
       meta: {
-        title: '工序调价表'
+        title: '巡检记录'
       },
     },{
-      path: 'mission',
-      component: () => import('@/views/process/mission/index'),
-      name: 'Mission',
+      path: 'statement',
+      component: () => import('@/views/inspection/statement/index'),
+      name: 'Statement',
       meta: {
-        title: '工序任务单'
+        title: '巡检统计表'
       },
-    },{
-      path: 'processDispatching',
-      component: () => import('@/views/process/processDispatching/index'),
-      name: 'ProcessDispatching',
-      meta: {
-        title: '工序派工单'
-      },
-    }]
+    },]
   },
   {
     path: '/system',
@@ -136,7 +150,7 @@ export const StaticRouterMap = [{
       },
     }
     ]
-  },*/
+  },
   /* {
     path: 'external-link',
     component: Layout,

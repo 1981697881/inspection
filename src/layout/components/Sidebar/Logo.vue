@@ -24,7 +24,7 @@ export default {
   },
   data() {
     return {
-      title: '条码系统',
+      title: '巡检系统',
       logo: require('@/assets/logo/magic.png')
     }
   }
