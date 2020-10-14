@@ -7,30 +7,16 @@
       </div>
       <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
     </div>
-
-    <el-dialog
-      :visible.sync="visible"
-      title="基本信息"
-      v-if="visible"
-      v-dialogDrag
-      :width="'50%'"
-      destroy-on-close
-    >
-      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
-
-    </el-dialog>
   </div>
 </template>
 
 <script>
 import { TabsBar, List } from "./components";
-import { Info } from "./form";
 
 export default {
   components: {
     TabsBar,
-    List,
-    Info
+    List
   },
   data() {
     return {

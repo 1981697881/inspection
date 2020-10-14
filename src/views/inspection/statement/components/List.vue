@@ -33,13 +33,16 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "loPrId", name: "loPrId",default:false },
-        { text: "承运商编码", name: "loPrCode" },
-        { text: "承运商名称", name: "loPrName" },
-        { text: "联系人", name: "contact" },
-        { text: "联系地址", name: "addr" },
-        { text: "联系电话", name: "tel" },
-        { text: "描述", name: "description" },
+        { text: "检查日期", name: "" },
+        { text: "所属公司", name: "" },
+        { text: "项目名称", name: "" },
+        { text: "项目类别", name: "" },
+        { text: "通知书数量", name: "" },
+        { text: "整改序号", name: "" },
+        { text: "存在隐患", name: "" },
+        { text: "整改期限", name: "" },
+        { text: "整改时间", name: "" },
+        { text: "通知单号", name: "" },
       ]
     };
   },
@@ -85,11 +88,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      this.loading = true;
+     /* this.loading = true;
         supplierList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });
+      });*/
     }
   }
 };

@@ -3,45 +3,32 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'loPrId'" style="display: none">
-            <el-input v-model="form.loPrId"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'编码'" prop="loPrCode">
+          <el-form-item :label="'项目编码'" prop="loPrCode">
             <el-input v-model="form.loPrCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'名称'" prop="loPrName">
+          <el-form-item :label="'项目名称'" prop="loPrName">
             <el-input v-model="form.loPrName"></el-input>
           </el-form-item>
         </el-col>
-
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'联系人'" >
-            <el-input v-model="form.contact"></el-input>
+          <el-form-item :label="'项目类别'">
+            <el-select v-model="form.loPrName" filterable placeholder="所属公司" style="width: 100%" @change="changeItem">
+              <el-option
+                v-for="(t,i) in pArray"
+                :key="i"
+                :label="t.FName"
+                :value="t.FItemID">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'联系地址'" >
+          <el-form-item :label="'说明'" >
             <el-input v-model="form.addr"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'联系电话'" >
-            <el-input v-model="form.tel"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'描述'" >
-            <el-input v-model="form.description"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

@@ -3,32 +3,24 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'loPrId'" style="display: none">
-            <el-input v-model="form.loPrId"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'编码'" prop="loPrCode">
+          <el-form-item :label="'项目编码'" prop="loPrCode">
             <el-input v-model="form.loPrCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'名称'" prop="loPrName">
+          <el-form-item :label="'项目名称'" prop="loPrName">
             <el-input v-model="form.loPrName"></el-input>
           </el-form-item>
         </el-col>
-
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'联系人'" >
+          <el-form-item :label="'所属公司'" >
             <el-input v-model="form.contact"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'联系地址'" >
+          <el-form-item :label="'负责人'" >
             <el-input v-model="form.addr"></el-input>
           </el-form-item>
         </el-col>
@@ -40,8 +32,14 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'描述'" >
+          <el-form-item :label="'联系邮箱'" >
             <el-input v-model="form.description"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row> <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'详细地址'" >
+            <el-input v-model="form.tel"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
