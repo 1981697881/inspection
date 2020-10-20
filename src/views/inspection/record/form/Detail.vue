@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
-      <el-tabs  v-model="activeName" @tab-click="handleClick">
+      <el-tabs v-model="activeName">
         <el-tab-pane label="打卡记录" name="first">
           <el-row :gutter="20">
             <el-col :span="12">
@@ -125,7 +125,7 @@
                   <span v-else>{{scope.row[t.name]}}</span>
                 </template>
               </el-table-column>
-              <el-table-column label="操作" width="100">
+              <el-table-column label="操作" width="230" align="center">
                 <template slot-scope="scope">
                   <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="pwdChange2(scope.row,scope.$index,true)">
                     {{scope.row.isSet?'确定':"修改"}}
@@ -135,6 +135,12 @@
                   </span>
                   <span v-else class="el-tag  el-tag--mini" style="cursor: pointer;" @click="pwdChange2(scope.row,scope.$index,false)">
                     取消
+                  </span>
+                  <span class="el-tag el-tag--warning el-tag--mini" style="cursor: pointer;" @click="opinion(scope.row,scope.$index,false)">
+                    整改意见
+                  </span>
+                  <span class="el-tag el-tag--success el-tag--mini" style="cursor: pointer;" @click="feedback(scope.row,scope.$index,false)">
+                    整改反馈
                   </span>
                 </template>
               </el-table-column>
@@ -210,6 +216,175 @@
         </el-tab-pane>
       </el-tabs>
     </el-form>
+    <el-dialog
+      :visible.sync="visible"
+      title="整改信息-整改意见"
+      v-if="visible"
+      :width="'60%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form label-width="100px" :size="'mini'">
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item :label="'通知单号'">
+              <el-input v-model="form.reason"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="'登记日期'">
+              <div class="block" >
+                <el-date-picker
+                  v-model="form.reportDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label-width="130px" :label="'要求整改完成日期'">
+              <div class="block" >
+                <el-date-picker
+                  v-model="form.reportDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="'隐患问题'">
+              <el-select v-model="form.loPrName" filterable placeholder="隐患问题" style="width: 100%" >
+                <el-option
+                  v-for="(t,i) in pArray"
+                  :key="i"
+                  :label="t.FName"
+                  :value="t.FItemID">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="'整改内容'">
+              <el-select v-model="form.loPrName" filterable placeholder="整改内容" style="width: 100%" >
+                <el-option
+                  v-for="(t,i) in pArray"
+                  :key="i"
+                  :label="t.FName"
+                  :value="t.FItemID">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" type="flex" justify="center">
+          <el-upload
+            action="web/file/returnOrder/imgUpload"
+            list-type="picture-card"
+            accept="image/jpeg,image/jpg,image/png,image/gif"
+            :headers="headers"
+            :data="imgData"
+            :limit="5"
+            name="imgS"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            :class="{hide:hideUpload}"
+            :on-preview="handlePictureCardPreview"
+            :on-change="handleChange"
+            :file-list="fileList"
+            ref="upload"
+            :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+        </el-row>
+      </el-form>
+      <div slot="footer" style="text-align:center">
+        <el-button type="primary" @click.native="saveNum">确定</el-button>
+      </div>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible2"
+      title="整改信息-整改反馈"
+      v-if="visible2"
+      :width="'60%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form label-width="100px" :size="'mini'">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="'通知单号'">
+              <el-input v-model="form.reason"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="'整改情况'">
+              <el-input v-model="form.reason"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item :label="'完成日期'">
+              <div class="block" >
+                <el-date-picker
+                  v-model="form.reportDate"
+                  type="date"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="'整改跟踪人'">
+              <el-select v-model="form.loPrName" filterable placeholder="整改内容" style="width: 100%" @change="changeItem">
+                <el-option
+                  v-for="(t,i) in pArray"
+                  :key="i"
+                  :label="t.FName"
+                  :value="t.FItemID">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20" type="flex" justify="center">
+          <el-upload
+            action="web/file/returnOrder/imgUpload"
+            list-type="picture-card"
+            accept="image/jpeg,image/jpg,image/png,image/gif"
+            :headers="headers"
+            :data="imgData"
+            :limit="5"
+            name="imgS"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            :class="{hide:hideUpload}"
+            :on-preview="handlePictureCardPreview"
+            :on-change="handleChange"
+            :file-list="fileList"
+            ref="upload"
+            :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+        </el-row>
+      </el-form>
+      <div slot="footer" style="text-align:center">
+        <el-button type="primary" @click.native="saveNum">确定</el-button>
+      </div>
+    </el-dialog>
     <div slot="footer" style="text-align:center">
         <el-button type="primary" @click="saveData('form')">保存</el-button>
       </div>
@@ -218,7 +393,9 @@
 
 <script>
 import { alterSupplier, addSupplier } from "@/api/basic/index";
-
+import {
+  getToken
+} from '@/utils/auth'
 export default {
   props: {
     listInfo: {
@@ -228,6 +405,17 @@ export default {
   },
   data() {
     return {
+      headers: {
+        'authorization': getToken('clrx'),
+      },
+      imgData: {
+      },
+      visible: null,
+      visible2: null,
+      fileList: [],
+      dialogImageUrl: '',
+      dialogVisible: false,
+      hideUpload: true,
       sel: null, // 选中行
       sel2: null, // 选中行
       activeName: 'first',
@@ -261,6 +449,7 @@ export default {
       ],
       pidS:[],
       pArray:[],
+      plArray:[],
       rules: {
         loPrName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
@@ -278,6 +467,51 @@ export default {
     }
   },
   methods: {
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount;
+    },
+    //上传失败事件
+    uploadError(res) {
+      console.log(res)
+      this.$message({
+        message: res.msg,
+        type: "warning"
+      });
+      this.$emit('uploadList')
+    },
+    //上传成功事件
+    uploadSuccess(res, file, fileList) {
+      file.name = res.data;
+      this.images.push(res.data)
+      this.$message({
+        message: res.msg,
+        type: "success"
+      });
+      console.log(this.images)
+      this.$emit('uploadList')
+    },
+    //删除图片
+    handleRemove(file, fileList) {
+      console.log(file)
+      console.log(this.images)
+      let array = this.images;
+      for (let i in array) {
+        if (file.name == array[i]) {
+          array.splice(i, 1);
+        }
+
+      }
+    },
+    opinion(row, index, cg) {
+      this.visible = true
+    },
+    feedback(row, index, cg) {
+      this.visible2 = true
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     //读取表格数据
     readMasterUser() {
       //根据实际情况，自己改下啊

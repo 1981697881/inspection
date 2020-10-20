@@ -66,6 +66,20 @@ export const StaticRouterMap = [{
       icon: "component"
     },
     children: [{
+      path: 'framework',
+      component: () => import('@/views/resource/framework/index'),
+      name: 'Framework',
+      meta: {
+        title: '组织架构'
+      },
+    },{
+      path: 'clerk',
+      component: () => import('@/views/resource/clerk/index'),
+      name: 'Clerk',
+      meta: {
+        title: '职员信息'
+      },
+    },{
       path: 'project',
       component: () => import('@/views/resource/project/index'),
       name: 'Project',

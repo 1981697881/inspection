@@ -13,6 +13,8 @@ const map = {
   'examine': () => import('@/views/resource/examine/index'),
   'problem': () => import('@/views/resource/problem/index'),
   'project': () => import('@/views/resource/project/index'),
+  'framework': () => import('@/views/resource/framework/index'),
+  'clerk': () => import('@/views/resource/clerk/index'),
 
   'plan': () => import('@/views/inspection/plan/index'),
   'record': () => import('@/views/inspection/record/index'),
