@@ -11,14 +11,14 @@
       <el-row :gutter="20">
         <el-col :span="16">
           <el-form-item :label="'用户账号'" prop="account">
-            <el-input v-model="form.account" disabled></el-input>
+            <el-input v-model="form.account"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+       <!-- <el-col :span="8">
           <el-form-item :label-width="'0px'" >
             <el-button @click="setRow">选择</el-button>
           </el-form-item>
-        </el-col>
+        </el-col>-->
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
@@ -46,7 +46,7 @@
       </el-col>
       </el-row>
       <el-row  style="height: 250px;overflow: auto;border: 1px solid #EBEEF5;">
-          <el-tree
+         <!-- <el-tree
             ref="tree1"
             :props="defaultProps"
             :default-expand-all="false"
@@ -56,7 +56,7 @@
             node-key="processMenuId"
             highlight-current
             :expand-on-click-node="false"
-          />
+          />-->
       </el-row>
     </el-form>
     <el-dialog
@@ -136,7 +136,7 @@
                 label: '后台管理员'
               }, {
                 value: 2,
-                label: 'PDA操作员'
+                label: 'APP'
               }, {
                 value: 3,
                 label: '后台操作员'

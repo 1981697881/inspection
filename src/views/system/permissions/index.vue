@@ -1,7 +1,6 @@
 <template>
   <div class="app-list">
-    <Tree ref="tree" class="list-tree" @handler-node="handlerNode" />
-    <div class="list-container">
+    <div class="list-containerOther">
       <div>
         <tabs-bar @showDialog="handlerDialog" @saveRoles="handlerSave" />
       </div>

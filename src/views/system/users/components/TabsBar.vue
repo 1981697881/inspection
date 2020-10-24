@@ -50,10 +50,10 @@
       },
       mounted() {
         let path = this.$route.meta.id
-        getProcessMenuByParent(path).then(res => {
+       /* getProcessMenuByParent(path).then(res => {
           this.btnList = res.data
           this.$forceUpdate();
-        });
+        });*/
       },
       methods: {
         onFun(method){
