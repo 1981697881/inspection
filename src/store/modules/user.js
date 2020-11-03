@@ -3,11 +3,11 @@ import { getToken, setToken, removeToken, setUserName, setPassword,setUserInfo, 
 import { resetRouter } from '@/router'
 
 const state = {
-  token: getToken('barrx'),
+  token: getToken('insrx'),
   name: '',
   avatar: '',
-  barper: '',
-  account: '',
+  insper: '',
+  username: '',
   password: '',
 }
 
@@ -18,14 +18,14 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
-  SET_PER: (state, barper) => {
-    state.barper = barper
+  SET_PER: (state, insper) => {
+    state.insper = insper
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_USERNAME: (state, account) => {
-    state.account = account
+  SET_USERNAME: (state, username) => {
+    state.username = username
   },
   SET_PASSWORD: (state, password) => {
     state.password = password
@@ -35,17 +35,16 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    console.log(userInfo)
-    const { account, password } = userInfo
+    const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ account: account.trim(), password: password }).then(response => {
+      login({ username: username.trim(), password: password }).then(response => {
        const { data } = response
-       /* commit('SET_TOKEN', data.fid)
-        setToken(data.fid)*/
-        commit('SET_USERNAME', account)
+        /* commit('SET_TOKEN', data.fid)
+         setToken(data.fid)*/
+        commit('SET_USERNAME', username)
         commit('SET_PASSWORD', password)
-        setUserInfo(response.data.userId)
-        setUserName(account)
+        /*setUserInfo(response.data.userId)*/
+        setUserName(username)
         setPassword(password)
         resolve(response)
       }).catch(error => {
@@ -98,7 +97,7 @@ const actions = {
             commit('SET_TOKEN', '')
             resolve(data)
           } else {
-            const { barper } = data
+            const { insper } = data
             // 转unicode
             let res = []
             let str = data[0]['permissionName']
@@ -107,7 +106,7 @@ const actions = {
             }
             let cot = "\\u" + res.join("\\u")
             setPer(cot)
-            //commit('SET_TOKEN', barper)
+            //commit('SET_TOKEN', insper)
             resolve(data)
           }
         }
@@ -123,10 +122,10 @@ const actions = {
       //logout({ fid: state.token }).then(() => {
       commit('SET_TOKEN', '')
       commit('SET_PER', '')
-      removeToken('barper')
-      removeToken('barrx')
-      removeToken('barps')
-      removeToken('barun')
+      removeToken('insper')
+      removeToken('insrx')
+      removeToken('insps')
+      removeToken('insun')
       removeToken('userInfo')
       resetRouter()
       resolve()
@@ -146,7 +145,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
-      removeToken('barrx')
+      removeToken('insrx')
       removeToken()
       resolve()
     })

@@ -23,7 +23,7 @@
 <script>
 import { Tree, TabsBar,List } from "./components"
 import { Info } from "./form"
-import { delFrame } from "@/api/basic/index";
+import { delDepartment } from "@/api/basic/index";
 export default {
   components: {
     Tree,
@@ -64,7 +64,7 @@ export default {
     delList(val) {
       this.loading = true
       console.log(val)
-      delFrame(val).then(res => {
+      delDepartment(val).then(res => {
         this.loading = false
         this.list = res.data
         this.$refs.list.fetchData()

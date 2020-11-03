@@ -1,291 +1,206 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'userId'" style="display: none">
-            <el-input v-model="form.userId"></el-input>
+          <el-form-item :label="'uid'" style="display: none">
+            <el-input v-model="form.uid"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item :label="'用户账号'" prop="account">
-            <el-input v-model="form.account"></el-input>
+        <el-col :span="12">
+          <el-form-item :label="'用户编码'" prop="jobNum">
+            <el-input v-model="form.jobNum" readOnly></el-input>
           </el-form-item>
         </el-col>
-       <!-- <el-col :span="8">
-          <el-form-item :label-width="'0px'" >
-            <el-button @click="setRow">选择</el-button>
+        <el-col :span="12">
+          <el-form-item :label="'登录账号'" prop="username">
+            <el-input v-model="form.username" :readOnly="visible"></el-input>
           </el-form-item>
-        </el-col>-->
+        </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'类型'" prop="type">
-            <el-select v-model="form.type" class="width-full" placeholder="请选择类型">
-              <el-option :label="t.label" :value="t.value" v-for="(t,i) in options" :key="i"></el-option>
+          <el-form-item :label="'对应职员'" prop="eid">
+            <el-select v-model="form.eid" filterable  class="width-full" placeholder="请选择职员" @change="changeCheck">
+              <el-option :label="t.name" :value="t.eid" v-for="(t,i) in levelFormat" :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'用户名称'" prop="username">
-            <el-input v-model="form.username" :readonly="read"></el-input>
+          <el-form-item :label="'说明'" >
+            <el-input v-model="form.description"></el-input>
           </el-form-item>
         </el-col>
-      </el-row><el-row :gutter="20">
+      </el-row>
+      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'密码'" prop="password">
-            <el-input type="password" v-model="form.password"></el-input>
+          <el-form-item :label="'超级管理员'" >
+            <el-switch
+              v-model="value"
+              >
+            </el-switch>
           </el-form-item>
         </el-col>
-      <el-col :span="12">
-        <el-form-item :label="'是否启用'">
-          <el-switch v-model="form.status" active-value='1' inactive-value='0'></el-switch>
-        </el-form-item>
-      </el-col>
       </el-row>
-      <el-row  style="height: 250px;overflow: auto;border: 1px solid #EBEEF5;">
-         <!-- <el-tree
-            ref="tree1"
-            :props="defaultProps"
-            :default-expand-all="false"
-            :data="data"
-            show-checkbox
-            :default-checked-keys="Checkeds"
-            node-key="processMenuId"
-            highlight-current
-            :expand-on-click-node="false"
-          />-->
-      </el-row>
+      <el-tabs  v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="所属用户组" name="first">
+          <el-row>
+            <el-table :data="list" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange" stripe size="mini" :highlight-current-row="true" >
+              <el-table-column align="center" type="selection"></el-table-column>
+              <el-table-column
+                v-for="(t,i) in columns"
+                :key="i"
+                align="center"
+                :prop="t.name"
+                :label="t.text"
+                :width="t.width?t.width:(selfAdaption?'':'120px')"
+                v-if="t.default!=undefined?t.default:true"
+              ></el-table-column>
+            </el-table>
+          </el-row>
+        </el-tab-pane>
+        <el-tab-pane label="用户权限" name="second">
+          <el-row  style="height: 250px;overflow: auto;border: 1px solid #EBEEF5;">
+            <el-tree
+              ref="tree1"
+              :props="defaultProps"
+              :default-expand-all="false"
+              :data="data"
+              show-checkbox
+              :default-checked-keys="Checkeds"
+              node-key="menuId"
+              highlight-current
+              :expand-on-click-node="false"
+            />
+          </el-row>
+        </el-tab-pane>
+      </el-tabs>
     </el-form>
-    <el-dialog
-      :visible.sync="visible"
-      title="用户信息"
-      v-if="visible"
-      :width="'60%'"
-      destroy-on-close
-      append-to-body
-    >
-      <el-form :model="form2" ref="form2" label-width="80px" :size="'mini'">
-        <el-row :gutter="20">
-          <el-col :span="10">
-            <el-form-item :label="'账号'">
-              <el-input v-model="form2.account" ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="10">
-            <el-form-item :label="'职员'">
-              <el-input v-model="form2.empName" ></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="4">
-            <el-button  :size="'mini'" type="success" @click="query" icon="el-icon-search">查询</el-button>
-          </el-col>
-        </el-row>
-
-      </el-form>
-      <div slot="footer" style="text-align:center;">
-        <el-button type="primary" @click="confirm">确认</el-button>
-      </div>
-    </el-dialog>
-    <div slot="footer" style="text-align:center">
+    <div slot="footer" style="text-align:center;padding-top: 15px">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
     </div>
   </div>
 </template>
-
 <script>
-  import List from "@/components/List"
-    import { getProcessMenuByUserId, sysUserUpdate, sysUserSave, getK3User, processMenuAdd} from "@/api/system/index";
+    import {addUsers, alterUsers, getUsersTree, getUsersInfo, getMenuList} from "@/api/system/index"
+    import { getClerkList } from "@/api/basic/index"
     export default {
-      components: {
-        List
-      },
         props: {
           listInfo: {
-            type: Object,
-            default: null
-          },
+                type: Object,
+                default: null
+            },
+            //是否自适应宽度，不自适应宽度默认为120px
+            selfAdaption: {
+                type: Boolean,
+                default: true
+            },
         },
         data() {
             return {
-              data: [,
-          ],
-              defaultProps: {
-                children: "menuList",
-                label: "name",
-                isLeaf: "leaf",
-                id: "processMenuId"
-              },
-              Checkeds: [],
-              loading: false,
-              visible: null,
-              form2: {
-                account: null,
-                empName: null
-              },
-              list: {},
-              columns: [
-                { text: "登录账号", name: "FAccount" },
-                { text: "职员编码", name: "FEmpNumber" },
-                { text: "职员名称", name: "FEmpName" },
-              ],
-              options: [{
-                value: 1,
-                label: '后台管理员'
-              }, {
-                value: 2,
-                label: 'APP'
-              }, {
-                value: 3,
-                label: '后台操作员'
-              }],
+                data: [],
+                defaultProps: {
+                    children: "children",
+                    label: "text",
+                    isLeaf: "leaf",
+                    id: "menuId"
+                },
+                value: false,
+                Checkeds: [],
                 form: {
-                    userId: null,
-                    account: null, // 账号
-                    username: null,// 名称
-                    status: '1',
-                    password: null,
-                    type: null,
+                  uid: null,
+                  username: null, // 名称
+                  eid: null,
+                  jobNum: null,
+                  description: null
                 },
-              read: null,
-              checkObj: {},
+                columns: [
+                  {text: "用户组", name: "gpName"},
+                  {text: "gpLevel", name: "gpLevel", default:false},
+                  {text: "isDel", name: "isDel", default:false},
+                  {text:'gpId', name:'gpId', default:false}
+                ],
+                activeName: 'first',
+                pidS: [],
+                list: [],
+                 visible: false,
                 rules: {
-                    account: [
-                        {required: true, message: '请输入账号', trigger: 'blur'},
-                    ],
-                    username: [
+                  username: [
                         {required: true, message: '请输入名稱', trigger: 'blur'},
-                    ], password: [
-                        {required: true, message: '请输入密码', trigger: 'blur'},
-                    ],type: [
-                        {required: true, message: '请选择类型', trigger: 'change'},
                     ],
+                  jobNum: [
+                        {required: true, message: '请输入编码', trigger: 'blur'},
+                    ],
+                  eid: [
+                        {required: true, message: '请选择职员', trigger: 'change'},
+                    ],
+
                 },
+                multipleSelection: [],
+                levelFormat: []
             };
         },
         created() {
 
         },
         mounted() {
-          if(this.listInfo) {
-            this.form = this.listInfo
-            this.form.status = this.listInfo.status + ''
-            this.fetchMenu(this.listInfo.id)
-          }
+          this.factchGroup()
+          this.fetchFormat()
+          this.fetchMenu()
         },
         methods: {
-          setName(datas){ //遍历树  获取id数组
-            for(var i in datas){
-              if(datas[i].checked){
-                this.Checkeds.push(datas[i].processMenuId)
-              }
-              if(datas[i].menuList){
-                this.setName(datas[i].menuList);
-              }
-            }
+          changeCheck(val) {
+            const levelFormat = this.levelFormat
+            levelFormat.forEach((item, index)=> {
+             if( val == item.eid ) {
+               this.form.jobNum = item.jobNum
+             }
+            })
           },
-          fetchMenu(val) {
-            getProcessMenuByUserId(val).then(res => {
-              this.data = res.data
-              this.setName(res.data)
-            });
+          handleSelectionChange(val) {
+            this.multipleSelection = val;
           },
-          confirm() {
-            if (this.checkObj.FUserID) {
-              this.form.account = obj.row.FAccount
-              this.form.userId = obj.row.FUserID
-              this.visible = false
-            } else {
-              this.$message({
-                message: "无选中数据",
-                type: "warning"
-              })
-            }
-          },
-          fetchList(val, data = {
-            pageNum: this.list.pageNum || 1,
-            pageSize: this.list.pageSize || 50
-          }) {
-            let obj = Object.assign(data,val)
-            this.loading = true;
-            getK3User(obj).then(res => {
-              this.loading = false;
-              this.list = {list: res.data};
-            });
+          handleClick(tab, event) {
+                console.log(tab, event)
           },
           getChecked() {
             let array = this.$refs.tree1.getCheckedKeys();
             return  array
           },
-          dblclick(obj, index) {
-            if (obj.row.FUserID) {
-              this.form.account = obj.row.FAccount
-              this.form.userId = obj.row.FUserID
-              this.visible = false
-            } else {
-              this.$message({
-                message: "无选中数据",
-                type: "warning"
-              })
-            }
-            //this.pwdChange(scope.row,scope.$index,true)
-          },
-          //监听单击某一行
-          rowClick(obj) {
-            this.checkObj = obj.row
-          },
-          // 查询条件过滤
-          qFilter() {
-            let obj = {}
-            this.form2.account != null && this.form2.account != '' ? obj.account = this.form2.account : null
-            this.form2.empName != null && this.form2.empName != '' ? obj.empName = this.form2.empName : null
-            return obj
-          },
-          setRow() {
-            this.visible = true
-          },
-          query() {
-            this.list.current = 1;
-            this.fetchList(this.qFilter());
-          },
-          //监听每页显示几条
-          handleSize(val) {
-            this.list.pageSize = val
-            this.fetchList({});
-          },
-          //监听当前页
-          handleCurrent(val) {
-            this.list.pageNum = val;
-            this.fetchList({});
-          },
             saveData(form) {
                 this.$refs[form].validate((valid) => {
                     //判断必填项
                     if (valid) {
-                      console.log(this.getChecked())
-                        if (typeof (this.form.id) != undefined && this.form.id != null) {
-                          sysUserUpdate(this.form).then(res => {
-                                if(res.success){
-                                  processMenuAdd({menuList: this.getChecked(),uid: res.data.id}).then(reso => {
-                                    if(reso.success){
-                                      this.$emit('hideDialog', false)
-                                      this.$emit('uploadList')
-                                    }
-                                  });
-                                }
+                      let obj = this.form
+                      let mids = []
+                      let gids = []
+                      this.multipleSelection.forEach(function(item, index) {
+                        gids.push(item.gpId)
+                      })
+                      if(obj.status = '正常状态') {
+                        obj.status = 0
+                      }else if(obj.status = '冻结') {
+                        obj.status = 1
+                      }else if(obj.status = '禁用') {
+                        obj.status = 2
+                      }else if(obj.status = '禁言') {
+                        obj.status = 3
+                      }else if(obj.status = '敏感用户') {
+                        obj.status = 4
+                      }
+                      obj.gids = gids
+                      obj.mids = this.getChecked()
+                        if (typeof (this.form.uid) != undefined && this.form.uid != null) {
+                          alterUsers(obj).then(res => {
+                                this.$emit('hideDialog', false)
+                                this.$emit('uploadList')
                             });
                         } else {
-                          sysUserSave(this.form).then(res => {
-                                if(res.success){
-                                  processMenuAdd({menuList: this.getChecked(),uid: res.data.id}).then(reso => {
-                                    if(reso.success){
-                                      this.$emit('hideDialog', false)
-                                      this.$emit('uploadList')
-                                    }
-                                  });
-                                }
+                          addUsers(obj).then(res => {
+                                this.$emit('hideDialog', false)
+                                this.$emit('uploadList')
                             });
                         }
                     } else {
@@ -294,6 +209,55 @@
                 })
 
             },
+          factchGroup() {
+            this.loading = true
+            getUsersTree().then(res => {
+              if(res.flag){
+                this.loading = false
+                this.list = res.data
+                if (this.listInfo) {
+                  this.visible = true
+                  this.fetchData(this.listInfo.uid)
+                }
+              }
+
+            })
+          },
+            fetchFormat() {
+              const data = {
+                pageNum: this.list.current || 1,
+                pageSize: this.list.size || 1500
+              };
+              getClerkList(data, { disable: false }).then(res => {
+                this.levelFormat = res.data.records
+              });
+            },
+            fetchMenu() {
+              getMenuList().then(res => {
+                this.data = res.data.treeVoList
+              });
+            },
+            fetchData(val) {
+              getUsersInfo(val).then(res => {
+                  if(res.flag) {
+                      this.form = res.data
+                      let rows = this.list
+                      let group = res.data.gids
+                      this.Checkeds = res.data.mids
+                      if (rows) {
+                          rows.forEach(row => {
+                              for(const i in group) {
+                                  if(row.gpId == group[i]) {
+                                      this.$refs.multipleTable.toggleRowSelection(row)
+                                  }
+                              }
+                          })
+                      } else {
+                          this.$refs.multipleTable.clearSelection()
+                      }
+                  }
+                });
+            }
         }
     };
 </script>

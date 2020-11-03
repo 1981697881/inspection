@@ -11,7 +11,7 @@ export function getRouter(userId) {
     url: '/processMenu/getProcessMenu',
     method: 'get',
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
     },
   })
 }
@@ -20,7 +20,7 @@ export function getProcessMenuByParent(userId) {
     url: '/processMenu/getProcessMenuByParent/'+userId,
     method: 'get',
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
     },
   })
 }

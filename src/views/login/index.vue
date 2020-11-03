@@ -4,15 +4,15 @@
       <div class="title-container">
         <h3 class="title">巡检系统</h3>
       </div>
-      <el-form-item prop="account">
+      <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="account"
-          v-model="loginForm.account"
+          ref="username"
+          v-model="loginForm.username"
           placeholder="账号"
-          name="account"
+          name="username"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -71,11 +71,11 @@ export default {
     }
     return {
       loginForm: {
-        account: null,
+        username: null,
         password: null,
       },
       loginRules: {
-        account: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
@@ -117,7 +117,8 @@ export default {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(res => {
-            if(res.success){
+            console.log(123)
+            if(res.flag){
               this.$router.push({ path: this.redirect || '/' })
             }
             this.loading = false

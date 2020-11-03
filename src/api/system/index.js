@@ -1,81 +1,198 @@
-import request from '@/utils/request'; // 引入封装好的axios请求
+import request from '@/utils/request'
 import {
   getToken
-} from '@/utils/auth' // get token from cookie
-// 查询用户列表
-export function getSysUserAll(val) {
-  // 查询分页数据
-  const url = '/sysUser/getSysUserAll'
+} from '@/utils/auth'
+
+// 用户权限管理-获取用户组
+export function getUsersTree(params) {
+  var url = '/Admin/group/list/'
   return request({
-    headers: {
-      'authorization': getToken('barrx')
-    },
     url: url,
+    headers: {
+      'authorization': getToken('insrx')
+    },
+    method: 'get'
+  })
+}
+// 用户管理-用户组新增
+export function groupAdd(params) {
+  const url = '/Admin/group/add'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+// 用户管理-用户组修改
+export function groupAlter(params) {
+  const url = '/Admin/group/update'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: {
+      goods: params
+    }
+  })
+}
+// 用户管理-用户组删除
+export function delGroup(params) {
+  const url = '/Admin/group/delete/' + params
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx')
+    },
+    method: 'delete'
+  })
+}
+// 用户权限管理-获取列表
+export function getUsersList(data) {
+  const url = '/Admin/user/list/' + data.pageNum + '/' + data.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  })
+}
+// 用户权限管理-新增
+export function addUsers(params) {
+  const url = '/Admin/user/add/'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'post',
+    data: params
+  })
+}
+// 用户权限管理-修改
+export function alterUsers(params) {
+  const url = '/Admin/user/update/'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: params
+  })
+}
+// 用户权限管理-删除
+export function delUsers(params) {
+  const url = '/Admin/user/delete/' + params
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST'
+  })
+}
+// 用户权限管理-禁用
+export function disableUsers(params) {
+  return request({
+    url: '/table/list',
+    headers: {
+      'authorization': getToken('insrx')
+    },
     method: 'get',
-    params: val
+    params
   })
-}// 查询用户权限
-export function getProcessMenuByUserId(val) {
-  // 查询分页数据
-  const url = '/processMenu/getProcessMenuByUserId/'+ val
+}
+// 用户权限管理-启用
+export function enableUsers(params) {
   return request({
+    url: '/table/list',
     headers: {
-      'authorization': getToken('barrx')
+      'authorization': getToken('insrx')
     },
-    url: url,
     method: 'get',
+    params
   })
 }
-// 获取用户
-export function getK3User(val) {
-  // 查询分页数据
-  const url = '/api/basic/getK3User'
+// 用户管理-获取详情信息
+export function getUsersInfo(params) {
+  const url = '/Admin/user/' + params
   return request({
+    url: url,
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
-    url: url,
-    method: 'post',
-    data: val
+    method: 'POST'
   })
 }
-//保存用户
-export function sysUserSave(data) {
-  const url = '/sysUser/add'
+// 用户权限管理-职员下拉
+export function getClerk(params) {
   return request({
+    url: '/table/list',
     headers: {
-      'authorization': getToken('barrx'),
-      'Content-Type': 'application/json'
+      'authorization': getToken('insrx')
     },
-    url: url,
-    method: 'post',
-    data: data
+    method: 'get',
+    params
   })
 }
-//修改用户
-export function sysUserUpdate(data) {
-  const url = '/sysUser/update'
+// 用户权限管理-获取菜单树
+export function getMenuList(params) {
   return request({
+    url: '/sys-menu/getSysMenuTree',
     headers: {
-      'authorization': getToken('barrx'),
-      'Content-Type': 'application/json'
+      'authorization': getToken('insrx')
     },
-    url: url,
-    method: 'post',
-    data: data
-  })
-}//保存用户权限
-export function processMenuAdd(data) {
-  const url = '/processMenu/add'
-  return request({
-    headers: {
-      'authorization': getToken('barrx'),
-    },
-    url: url,
-    method: 'post',
-    data: data
+    method: 'get',
   })
 }
 
+// 日志管理-获取列表
+export function journalList(data, query) {
+  const url = '/operation-log/list/' + data.pageNum + '/' + data.pageSize
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    method: 'POST',
+    data: query
+  })
+}
+// 日志管理-清除
+export function journalClean(params) {
+  return request({
+    url: '/table/list',
+    headers: {
+      'authorization': getToken('insrx')
+    },
+    method: 'get',
+    params
+  })
+}
 
+// 日志管理-添加日志
+export function addOperationLog(data) {
+  const url = '/operation-log/add'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    method: 'get',
+    params: data
+  })
+}

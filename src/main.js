@@ -51,17 +51,17 @@ new Vue({
   render: h => h(App),
    created(){
      const data = {
-      account: Cookies.get('barun'),
-      password: Cookies.get('barps'),
+      username: Cookies.get('insun'),
+      password: Cookies.get('insps'),
      }
-    if(data.account && data.password){
-     var rs=Cookies.get('barrx')
-      // if(Cookies.get('barrx') =="undefined"){
+    if(data.username && data.password){
+     var rs=Cookies.get('insrx')
+      // if(Cookies.get('insrx') =="undefined"){
       //   this.$router.push(`/login?redirect=${this.$route.fullPath}`)
       //   store.dispatch('user/resetToken')
       // }else{
         login(data).then(res => {
-          if(!res.success){
+          if(!res.flag){
             this.$router.push(`/login?redirect=${this.$route.fullPath}`)
             store.dispatch('user/resetToken')
           }

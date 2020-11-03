@@ -24,7 +24,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import { alterClerk } from '@/api/basic/index';
+import { updateEmployee } from '@/api/basic/index';
 export default {
   components: {},
   computed: {
@@ -75,7 +75,7 @@ export default {
     disable() {
       if (this.clickData.eid) {
         this.clickData.disable = true
-        alterClerk(this.clickData).then(res => {
+        updateEmployee(this.clickData).then(res => {
           if(res.flag) {
             this.$emit('uploadList')
           }
@@ -90,7 +90,7 @@ export default {
     enable() {
       if (this.clickData.eid) {
         this.clickData.disable = false
-        alterClerk(this.clickData).then(res => {
+        updateEmployee(this.clickData).then(res => {
           if(res.flag){
             this.$emit('uploadList')
           }

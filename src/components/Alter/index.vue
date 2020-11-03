@@ -34,8 +34,8 @@
     export default {
         data() {
             const validateOld = (rule, value, callback) => {
-                var barps=Cookies.get('barps');
-                if (value == barps) {
+                var insps=Cookies.get('insps');
+                if (value == insps) {
                     callback()
                 } else {
                     callback(new Error('原密码不对'))

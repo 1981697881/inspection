@@ -1,49 +1,69 @@
 <template>
   <div class="app-list">
-    <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
-    <div class="list-containerOther">
+    <Tree ref="tree" class="list-tree" />
+    <div class="list-container">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delList" @delGroup="delGroup" @uploadAll="uploadAll" @queryBtn="query" @showGroupDialog="groupDialog"  />
       </div>
-      <list  ref="list"  @showDialog="handlerDialog"/>
+      <list ref="list" @showDialog="handlerDialog"  />
     </div>
     <el-dialog
       :visible.sync="visible"
-      title="基本信息"
+      title="用户信息"
       v-if="visible"
+      v-dialogDrag
       :width="'40%'"
       destroy-on-close
     >
-      <customer-info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></customer-info>
+      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
+
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible2"
+      title="用户组信息"
+      v-if="visible2"
+      v-dialogDrag
+      :width="'40%'"
+      destroy-on-close
+    >
+      <group @hideGroupDialog="hideGroupWindow" @uploadGroup="uploadGroup" :gpInfo="gpInfo"></group>
+
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { TabsBar, List } from "./components";
-import { CustomerInfo } from "./form";
-
+import { Tree, TabsBar, List } from "./components";
+import { Info, Group } from "./form";
 export default {
   components: {
+    Tree,
     TabsBar,
     List,
-    CustomerInfo
+    Group,
+    Info
   },
   data() {
     return {
       visible: null,
+      gpInfo: null,
       listInfo: null,
-    };
+      visible2: null,
+      floorId: null
+    }
   },
-    mounted() {
-        this.$refs.list.fetchData()
-    },
+  mounted() {
+    this.$refs.list.fetchData()
+    this.$refs.tree.fetchData()
+  },
   methods: {
-      hideWindow(val){
-          this.visible = val
-      },
-    handlerDialog(obj){
-      console.log(obj)
+    hideWindow(val) {
+      this.visible = val
+    },
+    hideGroupWindow(val) {
+      this.visible2 = val
+    },
+    handlerDialog(obj) {
       this.listInfo = null
       if(obj) {
         const info = JSON.parse(JSON.stringify(obj))
@@ -51,19 +71,43 @@ export default {
       }
       this.visible = true
     },
-    handlerNode(node) {
-      this.$refs.list.fetchData(node.data.fid,node.data.type)
+    groupDialog(obj) {
+      this.gpInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.gpInfo = info
+      }
+      this.visible2 = true
     },
     // 更新列表
     upload() {
+      this.$refs.list.uploadPr()
+    },
+    // 更新列表
+    uploadAll() {
+      this.$refs.list.uploadPr()
+      this.$refs.tree.fetchData()
+    },
+    // 更新列表
+    uploadGroup() {
+      this.$refs.tree.fetchData()
+    },
+    delList(val) {
+      if(val) {
+        this.$refs.list.Delivery(val)
+      }
+    },// 查询
+    query() {
       this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
     },
-    // 查询
-    query(val) {
-      this.$refs.list.uploadPr(this.$refs.tabs.qFilter())
+    delGroup(val) {
+      if(val) {
+        this.$refs.tree.Delivery(val)
+      }
     }
+
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

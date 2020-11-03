@@ -10,11 +10,10 @@ import {
 } from '@/utils/auth'
 import querystring from 'querystring'
 // create an axios instance
-
 const service = axios.create({
-  baseURL: (process.env.NODE_ENV === 'production'?'http://61.146.130.53:50431':'')+process.env.VUE_APP_BASE_API, // url = base url + request url
+  baseURL: (process.env.NODE_ENV === 'production'?'http://xyy.gzfzdev.com:8082':'') + process.env.VUE_APP_BASE_API, // url = base url + request url
   withCredentials: true, // send cookies when cross-domain requests
-  timeout: 20000 // request timeout
+  timeout: 900000 // request timeout
 })
 window.apiUrl = service.defaults.baseURL
 // request interceptor
@@ -23,6 +22,7 @@ service.interceptors.request.use(
     // do something before request is sent
     /* console.log('process.env.VUE_APP_BASE_API',process.env.VUE_APP_BASE_API)
     console.log('process.env.NODE_ENV',process.env.NODE_ENV) */
+
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
@@ -60,14 +60,12 @@ service.interceptors.response.use(
     const res = response.data;
     // if the custom code is not 20000, it is judged as an error.
     if (response.status !== 200) {
-
       Message({
         message: res.msg || '操作失败',
         type: 'error',
         duration: 5 * 1000
       })
-
-      if(res.status === 20010){//需要重新登录
+       if(res.status === 20010){//需要重新登录
         store.dispatch('user/resetToken').then(() => {
           //location.reload()
           MessageBox('登录出错, 是否重试?', '提示', {
@@ -100,14 +98,14 @@ service.interceptors.response.use(
       }
       return Promise.reject(new Error(res.msg || 'Error'))
     } else {
-      if(res.msg!="登陆成功" && res.msg!=null){
-        if(res.code==0){
+      if(res.msg!="登陆成功" && res.msg!=null) {
+        if(res.status == 20000){
           Message({
             message:res.msg,
             type:'success',
             duration: 5 * 1000
           })
-        }else{
+        } else {
           Message({
             message:res.msg,
             type:'error',
@@ -118,7 +116,7 @@ service.interceptors.response.use(
       store.dispatch('user/resetToken').then(() => {
 
       })
-      store.dispatch('user/addToken',response.headers.authorization).then(() => {
+      store.dispatch('user/addToken', response.headers.authorization).then(() => {
 
       })
       if(typeof(response.headers['content-disposition']) !='undefined'){

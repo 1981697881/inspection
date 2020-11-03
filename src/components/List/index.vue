@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table
-      :data="list.list"
+      :data="list.records"
       border
       :stripe="timeColor?false : true"
       size="mini"
@@ -39,7 +39,6 @@
       </el-table-column>-->
       <slot name="after"></slot>
     </el-table>
-
     <div class="text-center pages" v-if="list.total && list.total!=0">
       <el-pagination
         @size-change="handleSize"

@@ -59,14 +59,14 @@ export default {
       'sidebar',
       'avatar',
       /*'name',
-        'account'*/
+        'username'*/
     ])
   },
     data() {
         return {
             visible: null,
             fid: null,
-            name: getToken('barun')
+            name: getToken('insun')
         };
     },
   methods: {

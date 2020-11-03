@@ -5,6 +5,7 @@ import {
 export function login(data) {
   return request({
     headers: {
+      'Content-Type': 'application/json',
       'Accept': '*/*'
     },
     url: '/user/login',
@@ -34,7 +35,7 @@ export function changePassword(data) {
   return request({
     headers: {
       'Content-Type': 'application/json',
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
     },
     url: '/user/changePassword',
     method: 'put',

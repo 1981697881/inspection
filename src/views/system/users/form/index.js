@@ -1,1 +1,3 @@
-export { default as CustomerInfo } from './Detail'
+export { default as Info } from './Detail'
+export { default as Group } from './groupDetail'
+

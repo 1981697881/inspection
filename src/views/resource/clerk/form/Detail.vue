@@ -54,7 +54,7 @@
 </template>
 
 <script>
-import {addClerk, alterClerk, clerkInfo,getFrameList} from "@/api/basic/index";
+import {addEmployee, updateEmployee,getDepartmentList} from "@/api/basic/index";
 export default {
   props: {
       listInfo: {
@@ -104,12 +104,12 @@ export default {
         // 判断必填项
         if (valid) {
           if (typeof (this.form.eid) != undefined && this.form.eid != null) {
-            alterClerk(this.form).then(res => {
+            updateEmployee(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
           }else{
-            addClerk(this.form).then(res => {
+            addEmployee(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
@@ -132,15 +132,10 @@ export default {
         pageNum: 1,
         pageSize: 50,
       };
-      getFrameList(data,{ disable: false }).then(res => {
+      getDepartmentList(data,{ disable: false }).then(res => {
         this.pArray = res.data.records
       });
       },
-    fetchData(val) {
-      clerkInfo(val).then(res => {
-        this.form = res.data;
-      });
-    }
   }
 };
 </script>

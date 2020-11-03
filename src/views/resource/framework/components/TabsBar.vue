@@ -16,7 +16,7 @@
 <script>
 
 import { mapGetters } from 'vuex';
-import { FrameAlter } from '@/api/basic/index';
+import { updateDepartment } from '@/api/basic/index';
 export default {
   data() {
     return {
@@ -81,7 +81,7 @@ export default {
     },
     disable() {
       if (this.clickData.deptId) {
-        FrameAlter({deptId: this.clickData.deptId, disable: true}).then(res => {
+        updateDepartment({deptId: this.clickData.deptId, disable: true}).then(res => {
           if(res.flag) {
             this.$emit('uploadList')
           }
@@ -95,7 +95,7 @@ export default {
     },
     enable() {
       if (this.clickData.deptId) {
-        FrameAlter({deptId: this.clickData.deptId, disable: false}).then(res => {
+        updateDepartment({deptId: this.clickData.deptId, disable: false}).then(res => {
           if(res.flag){
             this.$emit('uploadList')
           }

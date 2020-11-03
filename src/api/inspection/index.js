@@ -8,7 +8,7 @@ export function processList() {
   const url = '/process/format'
   return request({
     headers: {
-      'authorization': getToken('barrx')
+      'authorization': getToken('insrx')
     },
     url: url,
     method: 'get',
@@ -20,7 +20,7 @@ export function getItemList(data) {
   const url = '/barcodePrint/getItemList'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -34,7 +34,7 @@ export function controlList(data) {
   const url = '/control/format'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
     },
     url: url,
     method: 'get',
@@ -45,7 +45,7 @@ export function routeListInfo(data) {
   const url = '/route/listByProcessRouteId'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
     },
     url: url,
     method: 'get',
@@ -57,7 +57,7 @@ export function teamList(data) {
   const url = '/team/format'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -70,7 +70,7 @@ export function processRouteAdd(data) {
   const url = '/route/add'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -83,7 +83,7 @@ export function processRouteUpdate(data) {
   const url = '/route/update'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -96,7 +96,7 @@ export function getRouteList(data, query) {
   const url = '/route/list/' + data.pageNum + '/' + data.pageSize
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -110,7 +110,7 @@ export function getItemsList(data, query) {
   const url = '/item/itemList/' + data.pageNum + '/' + data.pageSize
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -124,7 +124,7 @@ export function listByProductWorkDetailId(data) {
   const url = '/productWorkDispatch/listByProductWorkDetailId/' + data
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -138,7 +138,7 @@ export function getEmpList(data) {
   const url = '/api/basic/empList'
   return request({
     headers: {
-      'authorization': getToken('barrx'),
+      'authorization': getToken('insrx'),
       'Content-Type': 'application/json'
     },
     url: url,
@@ -152,7 +152,7 @@ export function processAgainstAudit(data) {
   const url = '/route/againstAudit/' + data
   return request({
     headers: {
-      'authorization': getToken('barrx')
+      'authorization': getToken('insrx')
     },
     url: url,
     method: 'get',
@@ -163,7 +163,7 @@ export function processAudit(data) {
   const url = '/route/audit/' + data
   return request({
     headers: {
-      'authorization': getToken('barrx')
+      'authorization': getToken('insrx')
     },
     url: url,
     method: 'get',

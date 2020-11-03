@@ -16,9 +16,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import {getFrameList} from "@/api/basic/index";
-import List from "@/components/List";
+import { mapGetters } from "vuex"
+import { getDepartmentList } from "@/api/basic/index"
+import List from "@/components/List"
 
 export default {
   components: {
@@ -67,15 +67,15 @@ export default {
       this.$store.dispatch("list/setClickData", obj.row)
     },
     fetchData(fid, type) {
-      //this.loading = true;
+      this.loading = true;
       const data = {
         pageNum: this.list.current || 1,
         pageSize: this.list.size || 50
       }
-     /* getFrameList(data).then(res => {
+      getDepartmentList(data).then(res => {
         this.loading = false
         this.list = res.data
-      })*/
+      })
     }
   }
 };

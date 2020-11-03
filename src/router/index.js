@@ -154,14 +154,6 @@ export const StaticRouterMap = [{
       meta: {
         title: '用户管理'
       },
-    },
-      {
-      path: 'permissions',
-      component: () => import('@/views/system/permissions/index'),
-      name: 'Permissions',
-      meta: {
-        title: '权限管理'
-      },
     }
     ]
   },

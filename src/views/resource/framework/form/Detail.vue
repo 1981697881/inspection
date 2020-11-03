@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import {FrameAdd,FrameAlter,getFrameList} from "@/api/basic/index";
+import {addDepartment,updateDepartment,getDepartmentList} from "@/api/basic/index";
 
 export default {
   props: {
@@ -101,13 +101,13 @@ export default {
             if (valid) {
                 //修改
                 if (typeof (this.form.deptId) != undefined && this.form.deptId != null) {
-                  FrameAlter(this.form).then(res => {
+                  updateDepartment(this.form).then(res => {
                         this.$emit('hideDialog', false)
                         this.$emit('uploadList')
                     });
                     //保存
                 }else{
-                    FrameAdd(this.form).then(res => {
+                    addDepartment(this.form).then(res => {
                         this.$emit('hideDialog', false)
                         this.$emit('uploadList')
                     });
@@ -124,7 +124,7 @@ export default {
           pageSize: 1000,
         }
         //获取上级下拉
-        getFrameList(data, { disable: false }).then(res => {
+        getDepartmentList(data, { disable: false }).then(res => {
           console.log(res)
               this.pArray = res.data.records;
           });

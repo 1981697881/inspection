@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { alterSupplier, addSupplier } from "@/api/basic/index";
+import { updateProjectType } from "@/api/basic/index";
 
 export default {
   props: {
@@ -71,17 +71,10 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
-            alterSupplier(this.form).then(res => {
+          updateProjectType(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
-          }else{
-            addSupplier(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
-          }
         }else {
           return false;
         }
