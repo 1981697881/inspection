@@ -132,7 +132,7 @@ export function updateProject(data) {
       'Content-Type': 'application/json'
     },
     url: url,
-    method: 'put',
+    method: 'post',
     data: data
   })
 }
@@ -172,7 +172,7 @@ export function updateConcerns(data) {
       'Content-Type': 'application/json'
     },
     url: url,
-    method: 'put',
+    method: 'post',
     data: data
   })
 }
@@ -212,7 +212,7 @@ export function updateProjectType(data) {
       'Content-Type': 'application/json'
     },
     url: url,
-    method: 'put',
+    method: 'post',
     data: data
   })
 }
@@ -228,3 +228,45 @@ export function delProjectType(data) {
     method: 'delete',
   })
 }
+/*
+// 项目信息列表
+export function getProjectTypeList(data, query) {
+  // 查询分页数据
+  const url = '/project/list/' + data.pageNum + '/' + data.pageSize
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: query
+  })
+}
+// 项目信息新增&修改
+export function updateProjectType(data) {
+  // 查询分页数据
+  const url = '/project-type/saveOrUpdate'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: data
+  })
+}
+// 项目信息删除
+export function delProjectType(data) {
+  // 查询分页数据
+  const url = '/project-type/del/'+data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'delete',
+  })
+}
+*/
