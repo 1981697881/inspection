@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getPollingPlanList, delSupplier} from "@/api/inspection/index";
 import List from "@/components/List";
 
 export default {
@@ -38,7 +38,6 @@ export default {
         { text: "检查项目", name: "" },
         { text: "项目类别", name: "" },
         { text: "检查地址", name: "" },
-        { text: "检查人员", name: "" },
         { text: "计划检查时间", name: "" },
         { text: "计划状态", name: "" },
       ]
@@ -86,11 +85,12 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+      getPollingPlanList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+        console.log(res)
+      });
     }
   }
 };

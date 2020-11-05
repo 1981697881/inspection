@@ -36,7 +36,7 @@
 
         <div class="list-main">
           <el-table
-            :data="list.list"
+            :data="list.records"
             border
             size="mini"
             :highlight-current-row="true"

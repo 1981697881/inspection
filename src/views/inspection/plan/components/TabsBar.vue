@@ -132,6 +132,7 @@ export default {
           }
         }]
       },
+      pArray: [],
       search: {
         loPrName: null
       }
@@ -139,6 +140,9 @@ export default {
   },
 
   methods: {
+    changeItem(){
+
+    },
     // 查询条件过滤
     qFilter() {
       let obj = {}
