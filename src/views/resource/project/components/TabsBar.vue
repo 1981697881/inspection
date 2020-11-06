@@ -45,6 +45,7 @@ export default {
   },
   data() {
     return {
+      pArray: [],
       search: {
         loPrName: null
       }
@@ -52,6 +53,9 @@ export default {
   },
 
   methods: {
+    changeItem(){
+
+    },
     // 查询条件过滤
     qFilter() {
       let obj = {}
@@ -64,13 +68,13 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
+      if (this.clickData.proId) {
+        this.$confirm('是否删除(' + this.clickData.proName + ')，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
+          this.$emit('delList', this.clickData.proId)
         }).catch(() => {
           this.$message({
             type: 'info',

@@ -32,10 +32,10 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "所属检查项目", name: "" },
-        { text: "隐患问题", name: "" },
-        { text: "对应整改意见", name: "" },
-        { text: "说明", name: "" },
+        { text: "所属检查项目", name: "checkId" },
+        { text: "隐患问题", name: "concerns" },
+        { text: "对应整改意见", name: "opinion" },
+        { text: "说明", name: "remark" },
       ]
     };
   },

@@ -195,4 +195,14 @@ export function addOperationLog(data) {
     method: 'get',
     params: data
   })
+}// 用户下拉
+export function userFormat() {
+  const url = '/user/format'
+  return request({
+    url: url,
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    method: 'get',
+  })
 }

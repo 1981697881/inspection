@@ -3,25 +3,32 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'项目编码'" prop="loPrCode">
-            <el-input v-model="form.loPrCode"></el-input>
+          <el-form-item :label="'项目编码'" prop="proCode">
+            <el-input v-model="form.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'项目名称'" prop="loPrName">
-            <el-input v-model="form.loPrName"></el-input>
+          <el-form-item :label="'项目名称'" prop="proName">
+            <el-input v-model="form.proName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'所属公司'" >
-            <el-input v-model="form.contact"></el-input>
+          <el-form-item :label="'所属公司'" prop="deptId">
+            <el-select v-model="form.deptId" filterable placeholder="所属公司">
+              <el-option
+                v-for="(t,i) in pArray"
+                :key="i"
+                :label="t.deptName"
+                :value="t.deptId">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'负责人'" >
-            <el-input v-model="form.addr"></el-input>
+          <el-form-item :label="'负责人'" prop="principal">
+            <el-input v-model="form.principal"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -33,13 +40,13 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'联系邮箱'" >
-            <el-input v-model="form.description"></el-input>
+            <el-input v-model="form.email"></el-input>
           </el-form-item>
         </el-col>
       </el-row> <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item :label="'详细地址'" >
-            <el-input v-model="form.tel"></el-input>
+            <el-input v-model="form.address"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -51,7 +58,7 @@
 </template>
 
 <script>
-import { alterSupplier, addSupplier } from "@/api/basic/index";
+import { updateProject, departmentList } from "@/api/basic/index";
 
 export default {
   props: {
@@ -63,22 +70,27 @@ export default {
   data() {
     return {
       form: {
-        loPrId: null,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
+        proCode: null,
+        proName: null, // 名称
+        deptId: null,
+        principal: null,
+        email: null,
         tel: null,
-        description: null,
+        remark: null,
+        address: null
       },
       pidS:[],
       pArray:[],
       rules: {
-        loPrName: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
+        proCode: [
+          {required: true, message: '请输入编码', trigger: 'blur'},
         ],
-        loPrCode: [
+        proName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
+        ], deptId: [
+          {required: true, message: '请选择', trigger: 'change'},
+        ], principal: [
+          {required: true, message: '请输入', trigger: 'blur'},
         ],
       },
     };
@@ -94,23 +106,21 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
-            alterSupplier(this.form).then(res => {
+            updateProject(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')
             });
-          }else{
-            addSupplier(this.form).then(res => {
-              this.$emit('hideDialog', false)
-              this.$emit('uploadList')
-            });
-          }
         }else {
           return false;
         }
       })
     },
     fetchFormat() {
+      departmentList().then(res => {
+        if(res.flag){
+          this.pArray = res.data
+        }
+      });
     },
   }
 };

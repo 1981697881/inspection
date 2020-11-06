@@ -32,9 +32,9 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "类别编码", name: "" },
-        { text: "类别名称", name: "" },
-        { text: "说明", name: "" },
+        { text: "类别编码", name: "proCode" },
+        { text: "类别名称", name: "proName" },
+        { text: "说明", name: "remark" },
       ]
     };
   },

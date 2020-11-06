@@ -17,7 +17,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getProjectList, delProject} from "@/api/basic/index";
+import { getProjectCheckList, delProjectCheck} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -32,9 +32,9 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "项目类别", name: "description" },
-        { text: "项目编码", name: "proCode" },
-        { text: "项目名称", name: "proName" },
+        { text: "项目类别", name: "checkId" },
+        { text: "项目编码", name: "checkCode" },
+        { text: "项目名称", name: "checkName" },
         { text: "说明", name: "remark" },
       ]
     };
@@ -54,7 +54,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delProject(val).then(res => {
+      delProjectCheck(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
           this.fetchData();
@@ -82,7 +82,7 @@ export default {
       pageSize: this.list.size || 50
     }) {
       this.loading = true;
-        getProjectList(data, val).then(res => {
+      getProjectCheckList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
       });

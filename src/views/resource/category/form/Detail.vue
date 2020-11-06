@@ -3,20 +3,20 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'类别编码'" prop="loPrCode">
-            <el-input v-model="form.loPrCode"></el-input>
+          <el-form-item :label="'类别编码'" prop="proCode">
+            <el-input v-model="form.proCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'类别名称'" prop="loPrName">
-            <el-input v-model="form.loPrName"></el-input>
+          <el-form-item :label="'类别名称'" prop="proName">
+            <el-input v-model="form.proName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'说明'" >
-            <el-input v-model="form.description"></el-input>
+            <el-input v-model="form.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -40,21 +40,17 @@ export default {
   data() {
     return {
       form: {
-        loPrId: null,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
-        tel: null,
-        description: null,
+        proCode: null,
+        proName: null, // 名称
+        remark: null,
       },
       pidS:[],
       pArray:[],
       rules: {
-        loPrName: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
+        proCode: [
+          {required: true, message: '请输入编码', trigger: 'blur'},
         ],
-        loPrCode: [
+        proName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ],
       },

@@ -85,7 +85,7 @@
 </template>
 <script>
     import {addUsers, alterUsers, getUsersTree, getUsersInfo, getMenuList} from "@/api/system/index"
-    import { getClerkList } from "@/api/basic/index"
+    import { getEmployeeList } from "@/api/basic/index"
     export default {
         props: {
           listInfo: {
@@ -225,10 +225,10 @@
           },
             fetchFormat() {
               const data = {
-                pageNum: this.list.current || 1,
-                pageSize: this.list.size || 1500
+                pageNum: 1,
+                pageSize: 1500
               };
-              getClerkList(data, { disable: false }).then(res => {
+              getEmployeeList(data, { disable: false }).then(res => {
                 this.levelFormat = res.data.records
               });
             },

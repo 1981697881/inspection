@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { supplierList, delSupplier} from "@/api/basic/index";
+import { getProjectList, delProject} from "@/api/basic/index";
 import List from "@/components/List";
 
 export default {
@@ -33,13 +33,13 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "所属公司", name: "" },
-        { text: "项目编号", name: "" },
-        { text: "项目名称", name: "" },
-        { text: "负责人", name: "" },
-        { text: "联系电话", name: "" },
-        { text: "详细地址", name: "" },
-        { text: "联系邮箱", name: "" },
+        { text: "所属公司", name: "deptId" },
+        { text: "项目编号", name: "proCode" },
+        { text: "项目名称", name: "proName" },
+        { text: "负责人", name: "principal" },
+        { text: "联系电话", name: "tel" },
+        { text: "详细地址", name: "address" },
+        { text: "联系邮箱", name: "email" },
       ]
     };
   },
@@ -58,7 +58,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      delProject(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
           this.fetchData();
@@ -85,11 +85,11 @@ export default {
       pageNum: this.list.current || 1,
       pageSize: this.list.size || 50
     }) {
-      /*this.loading = true;
-        supplierList(data, val).then(res => {
+      this.loading = true;
+      getProjectList(data, val).then(res => {
         this.loading = false;
         this.list = res.data;
-      });*/
+      });
     }
   }
 };

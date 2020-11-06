@@ -42,6 +42,28 @@ export function updateDepartment(data) {
     method: 'put',
     data: data
   })
+}// 组织下拉
+export function departmentList() {
+  // 查询分页数据
+  const url = '/department/list'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
+}// 检查项目下拉
+export function projectCheckFormat() {
+  // 查询分页数据
+  const url = '/project-check/format'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
 }
 // 组织删除
 export function delDepartment(data) {
@@ -109,9 +131,9 @@ export function delEmployee(data) {
   })
 }
 // 检查项目列表
-export function getProjectList(data, query) {
+export function getProjectCheckList(data, query) {
   // 查询分页数据
-  const url = '/project/list/' + data.pageNum + '/' + data.pageSize
+  const url = '/project-check/list/' + data.pageNum + '/' + data.pageSize
   return request({
     headers: {
       'authorization': getToken('insrx'),
@@ -123,9 +145,9 @@ export function getProjectList(data, query) {
   })
 }
 // 检查项目新增&修改
-export function updateProject(data) {
+export function updateProjectCheck(data) {
   // 查询分页数据
-  const url = '/project/saveOrUpdate'
+  const url = '/project-check/saveOrUpdate'
   return request({
     headers: {
       'authorization': getToken('insrx'),
@@ -137,9 +159,9 @@ export function updateProject(data) {
   })
 }
 // 检查项目删除
-export function delProject(data) {
+export function delProjectCheck(data) {
   // 查询分页数据
-  const url = '/project/del/'+data
+  const url = '/project-check/del/'+data
   return request({
     headers: {
       'authorization': getToken('insrx'),
@@ -228,9 +250,20 @@ export function delProjectType(data) {
     method: 'delete',
   })
 }
-/*
+// 项目类别下拉
+export function dProjectTypeFormat() {
+  // 查询分页数据
+  const url = '/project-type/format'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
+}
 // 项目信息列表
-export function getProjectTypeList(data, query) {
+export function getProjectList(data, query) {
   // 查询分页数据
   const url = '/project/list/' + data.pageNum + '/' + data.pageSize
   return request({
@@ -244,9 +277,9 @@ export function getProjectTypeList(data, query) {
   })
 }
 // 项目信息新增&修改
-export function updateProjectType(data) {
+export function updateProject(data) {
   // 查询分页数据
-  const url = '/project-type/saveOrUpdate'
+  const url = '/project/saveOrUpdate'
   return request({
     headers: {
       'authorization': getToken('insrx'),
@@ -258,9 +291,9 @@ export function updateProjectType(data) {
   })
 }
 // 项目信息删除
-export function delProjectType(data) {
+export function delProject(data) {
   // 查询分页数据
-  const url = '/project-type/del/'+data
+  const url = '/project/del/'+data
   return request({
     headers: {
       'authorization': getToken('insrx'),
@@ -269,4 +302,3 @@ export function delProjectType(data) {
     method: 'delete',
   })
 }
-*/

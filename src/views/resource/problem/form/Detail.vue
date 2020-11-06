@@ -3,33 +3,32 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'项目类别'">
-            <el-select v-model="form.loPrName" filterable placeholder="项目类别" style="width: 100%" @change="changeItem">
+          <el-form-item :label="'检查项目'" prop="checkId">
+            <el-select v-model="form.checkId" filterable placeholder="检查项目">
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
+                :label="t.checkName"
+                :value="t.checkId">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'隐患问题'" prop="loPrName">
-            <el-input v-model="form.loPrName"></el-input>
+          <el-form-item :label="'隐患问题'" prop="concerns">
+            <el-input v-model="form.concerns"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'对应整改意见'" >
-            <el-input v-model="form.addr"></el-input>
+          <el-form-item :label="'对应整改意见'" prop="opinion">
+            <el-input v-model="form.opinion"></el-input>
           </el-form-item>
-        </el-col>
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'说明'" >
-            <el-input v-model="form.addr"></el-input>
+            <el-input v-model="form.remark"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -41,7 +40,7 @@
 </template>
 
 <script>
-import { updateConcerns } from "@/api/basic/index";
+import { updateConcerns, getProjectCheckList } from "@/api/basic/index";
 
 export default {
   props: {
@@ -53,22 +52,21 @@ export default {
   data() {
     return {
       form: {
-        loPrId: null,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
-        tel: null,
-        description: null,
+        opinion: null,
+        checkId: null,
+        concerns: null,
+        remark: null,
       },
       pidS:[],
       pArray:[],
       rules: {
-        loPrName: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
+        checkId: [
+          {required: true, message: '请选择', trigger: 'change'},
         ],
-        loPrCode: [
-          {required: true, message: '请输入名稱', trigger: 'blur'},
+        concerns: [
+          {required: true, message: '请输入', trigger: 'blur'},
+        ],opinion: [
+          {required: true, message: '请输入', trigger: 'blur'},
         ],
       },
     };
@@ -94,6 +92,14 @@ export default {
       })
     },
     fetchFormat() {
+      getProjectCheckList({
+        pageNum: 1,
+        pageSize:  1000
+      }).then(res => {
+        if(res.flag){
+          this.pArray = res.data.records
+        }
+      });
     },
   }
 };
