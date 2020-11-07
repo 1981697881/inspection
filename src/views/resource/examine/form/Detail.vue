@@ -20,7 +20,7 @@
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.proName"
+                :label="t.typeName"
                 :value="t.typeId">
               </el-option>
             </el-select>

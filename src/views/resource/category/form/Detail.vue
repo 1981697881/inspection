@@ -3,13 +3,13 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'类别编码'" prop="proCode">
-            <el-input v-model="form.proCode"></el-input>
+          <el-form-item :label="'类别编码'" prop="typeCode">
+            <el-input v-model="form.typeCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'类别名称'" prop="proName">
-            <el-input v-model="form.proName"></el-input>
+          <el-form-item :label="'类别名称'" prop="typeName">
+            <el-input v-model="form.typeName"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -40,17 +40,17 @@ export default {
   data() {
     return {
       form: {
-        proCode: null,
-        proName: null, // 名称
+        typeCode: null,
+        typeName: null, // 名称
         remark: null,
       },
       pidS:[],
       pArray:[],
       rules: {
-        proCode: [
+        typeCode: [
           {required: true, message: '请输入编码', trigger: 'blur'},
         ],
-        proName: [
+        typeName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ],
       },

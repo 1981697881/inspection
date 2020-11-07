@@ -32,8 +32,8 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "类别编码", name: "proCode" },
-        { text: "类别名称", name: "proName" },
+        { text: "类别编码", name: "typeCode" },
+        { text: "类别名称", name: "typeName" },
         { text: "说明", name: "remark" },
       ]
     };

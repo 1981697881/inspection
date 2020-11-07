@@ -15,7 +15,7 @@
               <el-option
                 v-for="(t,i) in cArray"
                 :key="i"
-                :label="t.proName"
+                :label="t.typeName"
                 :value="t.typeId">
               </el-option>
             </el-select>
@@ -23,12 +23,12 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'检查项目'" prop="checkId">
-            <el-select v-model="form.checkId" filterable placeholder="检查项目" @change="changeCheck">
+            <el-select v-model="form.proId" filterable placeholder="检查项目" @change="changeCheck">
               <el-option
                 v-for="(t,i) in bArray"
                 :key="i"
-                :label="t.checkName"
-                :value="t.checkId">
+                :label="t.proName"
+                :value="t.proId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -36,7 +36,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'被检公司'" prop="proId">
+          <el-form-item :label="'被检公司'" prop="deptId">
            <!-- <el-select v-model="form.deptId" filterable placeholder="公司" >
               <el-option
                 v-for="(t,i) in aArray"
@@ -45,7 +45,7 @@
                 :value="t.FItemID">
               </el-option>
             </el-select>-->
-            <el-input v-model="form.proId"></el-input>
+            <el-input v-model="form.deptId"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import { dProjectTypeFormat, projectCheckFormat} from "@/api/basic/index";
+import { dProjectTypeFormat, getProjectList} from "@/api/basic/index";
 import { userFormat } from "@/api/system/index";
 import { updatePollingPlan, addPollingPlan } from "@/api/inspection/index";
 
@@ -106,7 +106,6 @@ export default {
         deptId: null,
         proId: null,
         typeId: null,
-        checkId: null,
         planTime: null,
         uid: null,
       },
@@ -116,12 +115,12 @@ export default {
       cArray:[],
       dArray:[],
       rules: {
-        proId: [
+        deptId: [
           {required: true, message: '请选择', trigger: 'blur'},
         ],  typeId: [
           {required: true, message: '请选择', trigger: 'change'},
         ],
-        checkId: [
+        proId: [
           {required: true, message: '请选择', trigger: 'change'},
         ], planTime: [
           {required: true, message: '请选择', trigger: 'change'},
@@ -139,7 +138,14 @@ export default {
   },
   methods: {
     changeCheck(val){
-      console.log(val)
+      let me = this
+      let data = me.bArray
+      data.forEach((item,index) =>{
+        if(item.proId == val){
+          me.form.address = item.address
+          me.form.deptId = item.deptId
+        }
+      })
     },
     saveData(form) {
       this.$refs[form].validate((valid) => {
@@ -172,9 +178,12 @@ export default {
           this.cArray = res.data
         }
       });
-      projectCheckFormat().then(res => {
+      getProjectList({
+        pageNum: 1,
+        pageSize:  1000
+      }).then(res => {
         if(res.flag){
-          this.bArray = res.data
+          this.bArray = res.data.records
         }
       });
     },
