@@ -14,7 +14,8 @@
          <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">打卡记录</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerInfo">检查登记</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-sort-up" @click="audit">审核</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
@@ -73,6 +74,9 @@ export default {
     },
     handlerAdd() {
       this.$emit('showDialog')
+    },
+    handlerInfo() {
+      this.$emit('showInfo')
     },
     upload() {
       this.$emit('uploadList')

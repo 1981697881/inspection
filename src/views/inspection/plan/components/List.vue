@@ -33,13 +33,13 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "计划单号", name: "" },
-        { text: "检查单位", name: "" },
-        { text: "检查项目", name: "" },
-        { text: "项目类别", name: "" },
-        { text: "检查地址", name: "" },
-        { text: "计划检查时间", name: "" },
-        { text: "计划状态", name: "" },
+        { text: "计划单号", name: "planNo" },
+        { text: "被检公司", name: "deptName" },
+        { text: "检查项目", name: "proName" },
+        { text: "项目类别", name: "typeName" },
+        { text: "检查地址", name: "address" },
+        { text: "计划检查时间", name: "planTime" },
+        { text: "计划状态", name: "status" },
       ]
     };
   },
