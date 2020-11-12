@@ -32,7 +32,7 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "项目类别", name: "checkId" },
+        { text: "项目类别", name: "checkName" },
         { text: "项目编码", name: "checkCode" },
         { text: "项目名称", name: "checkName" },
         { text: "说明", name: "remark" },

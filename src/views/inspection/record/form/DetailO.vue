@@ -481,7 +481,7 @@
         });
         this.$emit('uploadList')
       },
-      //上传成功事件
+      // 上传成功事件
       uploadSuccess(res, file, fileList) {
         file.name = res.data;
         this.images.push(res.data)
@@ -492,7 +492,7 @@
         console.log(this.images)
         this.$emit('uploadList')
       },
-      //删除图片
+      // 删除图片
       handleRemove(file, fileList) {
         console.log(file)
         console.log(this.images)
@@ -517,15 +517,15 @@
         this.dialogImageUrl = file.url;
         this.dialogVisible = true;
       },
-      //读取表格数据
+      // 读取表格数据
       readMasterUser() {
         //根据实际情况，自己改下啊
         this.list.map(i => {
-          i.isSet = false; //给后台返回数据添加`isSet`标识
+          i.isSet = false; // 给后台返回数据添加`isSet`标识
           return i;
         });
       },
-      //添加
+      // 添加
       addMaster() {
         for (let i of this.list) {
           if (i.isSet) return this.$message.warning("请先保存当前编辑项");

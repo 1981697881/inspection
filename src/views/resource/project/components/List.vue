@@ -33,7 +33,7 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "所属公司", name: "deptId" },
+        { text: "所属公司", name: "deptName" },
         { text: "项目编号", name: "proCode" },
         { text: "项目名称", name: "proName" },
         { text: "负责人", name: "principal" },

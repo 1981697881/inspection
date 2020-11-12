@@ -15,6 +15,24 @@
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
+          <el-upload
+            name="file"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            accept="xlsx,xls"
+            ref="upload"
+            :headers="headers"
+            :show-file-list="false"
+            action="web/excel/import/projectCheck"
+            class="upload-demo"
+            multiple
+            :auto-upload="false"
+            :on-change="handleUpload"
+            :limit="1"
+          >
+            <el-button  size="mini" type="primary" icon="el-icon-upload2" >导入</el-button>
+            <el-button style="margin-left: 10px;display: none" size="mini" type="success" @click="submitUpload">上传到服务器</el-button>
+          </el-upload>
         </el-button-group>
       </el-row>
     </el-form>
@@ -22,6 +40,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import {getToken} from '@/utils/auth'
 export default {
   components: {},
   computed: {
@@ -29,6 +48,9 @@ export default {
   },
   data() {
     return {
+      headers: {
+        'authorization': getToken('insrx'),
+      },
       search: {
         loPrName: null
       }
@@ -68,6 +90,36 @@ export default {
         })
       }
     },
+    submitUpload() {
+      this.$refs.upload.submit()
+    },
+    uploadError(res) {
+      this.$message({
+        message: res.msg,
+        type: 'warning'
+      });
+      this.$emit('uploadList')
+    },
+    uploadSuccess(res) {
+      if(res.flag){
+        this.$message({
+          message: res.msg,
+          type: 'success'
+        });
+        this.$emit('uploadList')
+      }else{
+        this.$message({
+          message: res.msg,
+          type: 'warning'
+        });
+      }
+    },
+    handleUpload(file, fileList){
+      if(file.status=='ready'){
+        this.submitUpload()
+      }
+
+    },
     handlerAdd() {
       this.$emit('showDialog')
     },
@@ -88,5 +140,10 @@ export default {
 };
 </script>
 
+
 <style>
+  .upload-demo{
+    float: right;
+  }
 </style>
+

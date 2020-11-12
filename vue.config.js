@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'barcodev.1' // page title
+const name = defaultSettings.title || 'inspectionv.1' // page title
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -42,8 +42,8 @@ module.exports = {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://xyy.gzfzdev.com:8082`, // 修改后台接口地址
-        //target: `http://61.146.130.53:50431/process`,
+        //target: `http://xyy.gzfzdev.com:8082`, // 修改后台接口地址
+        target: `http://139.159.136.187:50080/web`,
         changeOrigin: true, // 必须加上跨域
         ws: false,
         secure: false,
