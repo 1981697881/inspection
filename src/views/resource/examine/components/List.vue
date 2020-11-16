@@ -32,7 +32,7 @@ export default {
       loading: false,
       list: {},
       columns: [
-        { text: "项目类别", name: "checkName" },
+        { text: "项目类别", name: "typeName" },
         { text: "项目编码", name: "checkCode" },
         { text: "项目名称", name: "checkName" },
         { text: "说明", name: "remark" },
@@ -50,43 +50,43 @@ export default {
           this.list.current = val
         this.$emit('uploadList')
       },
-    dblclick(obj) {
-      this.$emit('showDialog', obj.row)
-    },
-    Delivery(val) {
-      delProjectCheck(val).then(res => {
-        if(res.flag){
-          this.$store.dispatch("list/setClickData", '');
-          this.fetchData();
-        }
-      });
-    },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
+      dblclick(obj) {
+        this.$emit('showDialog', obj.row)
+      },
+      Delivery(val) {
+        delProjectCheck(val).then(res => {
+          if(res.flag){
+            this.$store.dispatch("list/setClickData", '');
+            this.fetchData();
+          }
+        });
+      },
+      uploadPr(val) {
+        this.fetchData(val, {
+          pageNum: 1,
+          pageSize: this.list.size || 50
+        })
+      },
+      //监听单击某一行
+      rowClick(obj) {
+        this.$store.dispatch("list/setClickData", obj.row);
+      },
+      uploadPr(val) {
+        this.fetchData(val,{
+          pageNum: 1,
+          pageSize: this.list.size || 50
+        })
+      },
+      fetchData(val, data = {
+        pageNum: this.list.current || 1,
         pageSize: this.list.size || 50
-      })
-    },
-    //监听单击某一行
-    rowClick(obj) {
-      this.$store.dispatch("list/setClickData", obj.row);
-    },
-    uploadPr(val) {
-      this.fetchData(val,{
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
-    fetchData(val, data = {
-      pageNum: this.list.current || 1,
-      pageSize: this.list.size || 50
-    }) {
-      this.loading = true;
-      getProjectCheckList(data, val).then(res => {
-        this.loading = false;
-        this.list = res.data;
-      });
-    }
+      }) {
+        this.loading = true;
+        getProjectCheckList(data, val).then(res => {
+          this.loading = false;
+          this.list = res.data;
+        });
+      }
   }
 };
 </script>

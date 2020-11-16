@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.list-main {
-  height: calc(100vh - 250px);
-}
+  .list-main {
+    height: calc(100vh /3);
+  }
 </style>

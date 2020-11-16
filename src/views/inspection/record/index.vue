@@ -1,12 +1,17 @@
 <template>
   <div class="app-list">
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
-    <div class="list-containerOther">
-      <div>
+    <el-container class="list-containerOther">
+      <el-header style="padding: 0;height: auto">
         <tabs-bar ref="tabs" @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
-      </div>
-      <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
-    </div>
+      </el-header>
+      <el-main style="padding: 0;flex: none">
+        <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
+      </el-main>
+      <el-footer style="padding: 0">
+        <d-list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
+      </el-footer>
+    </el-container>
     <el-dialog
       :visible.sync="visible"
       title="打卡记录"
@@ -31,13 +36,14 @@
 </template>
 
 <script>
-import { TabsBar, List } from "./components";
+import { TabsBar, List, DList } from "./components";
 import { Info, InfoO } from "./form";
 
 export default {
   components: {
     TabsBar,
     List,
+    DList,
     Info,
     InfoO,
   },
