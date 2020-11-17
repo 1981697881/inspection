@@ -9,12 +9,13 @@
         <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
+        <tabs-detail ref="tabs" @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
         <d-list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-footer>
     </el-container>
     <el-dialog
       :visible.sync="visible"
-      title="打卡记录"
+      title="检查登记"
       v-if="visible"
       v-dialogDrag
       :width="'70%'"
@@ -24,7 +25,7 @@
     </el-dialog>
     <el-dialog
       :visible.sync="visible2"
-      title="检查登记"
+      title="整改反馈"
       v-if="visible2"
       v-dialogDrag
       :width="'70%'"
@@ -36,8 +37,8 @@
 </template>
 
 <script>
-import { TabsBar, List, DList } from "./components";
-import { Info, InfoO } from "./form";
+import { TabsBar, List, DList,TabsDetail } from "./components";
+import { Info, InfoO, InfoT } from "./form";
 
 export default {
   components: {
@@ -45,7 +46,9 @@ export default {
     List,
     DList,
     Info,
+    TabsDetail,
     InfoO,
+    InfoT,
   },
   data() {
     return {

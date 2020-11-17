@@ -19,7 +19,6 @@
   import { mapGetters } from "vuex";
   import { supplierList, delSupplier} from "@/api/basic/index";
   import List from "@/components/List";
-
   export default {
     components: {
       List
@@ -32,6 +31,10 @@
         loading: false,
         list: {},
         columns: [
+          { text: "打卡人", name: "" },
+          { text: "位置信息", name: "" },
+          { text: "检查人员", name: "" },
+          { text: "打卡时间", name: "" },
           { text: "通知单号", name: "" },
           { text: "登记日期", name: "orderNo" },
           { text: "隐患问题", name: "planNum" },
