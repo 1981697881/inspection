@@ -43,3 +43,26 @@ export function updatePollingPlan(data) {
     data: data
   })
 }
+// 巡检计划-反审核
+export function pollingPlanAgainstAudit(data) {
+  // 查询分页数据
+  const url = '/polling-plan/againstAudit/' + data
+  return request({
+    headers: {
+      'authorization': getToken('insrx')
+    },
+    url: url,
+    method: 'get',
+  })
+}// 巡检计划-审核
+export function pollingPlanAudit(data) {
+  // 查询分页数据
+  const url = '/polling-plan/audit/' + data
+  return request({
+    headers: {
+      'authorization': getToken('insrx')
+    },
+    url: url,
+    method: 'get',
+  })
+}

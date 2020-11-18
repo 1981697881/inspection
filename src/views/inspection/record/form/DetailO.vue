@@ -2,14 +2,19 @@
   <div>
     <el-form label-width="100px" :size="'mini'">
       <el-row :gutter="20">
-        <el-col :span="12">
+        <el-col :span="10">
           <el-form-item :label="'通知单号'">
             <el-input v-model="form.reason"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10">
           <el-form-item :label="'整改情况'">
             <el-input v-model="form.reason"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-form-item :label="''" label-width="0px">
+            <el-button type="primary" size="small" @click.native="feedback">延期申请</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -169,8 +174,6 @@
         imgData: {},
         visible: null,
         visible2: null,
-        visible3: null,
-        visible4: null,
         fileList: [],
         dialogImageUrl: '',
         dialogVisible: false,
@@ -187,25 +190,6 @@
           tel: null,
           description: null,
         },
-        list: [],
-        list2: [],
-        columns: [
-          {text: "检查日期", name: "orderNo"},
-          {text: "检查情况", name: "processName"},
-          {text: "检查项目", name: "planNum"},
-        ],
-        columns2: [
-          {text: "通知单号", name: ""},
-          {text: "登记日期", name: "orderNo"},
-          {text: "隐患问题", name: "planNum"},
-          {text: "整改内容", name: "planNum"},
-          {text: "隐患图片", name: ""},
-          {text: "要求整改完成日期", name: "orderNo"},
-          {text: "整改情况", name: ""},
-          {text: "整改完成图片", name: ""},
-          {text: "整改跟踪人", name: ""},
-          {text: "完成时间", name: ""},
-        ],
         pidS: [],
         pArray: [],
         plArray: [],
@@ -226,6 +210,9 @@
       }
     },
     methods: {
+      feedback(){
+        this.visible2 = true
+      },
       handleChange(file, fileList) {
         this.hideUpload = fileList.length >= this.limitCount;
       },

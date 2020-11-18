@@ -97,6 +97,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { pollingPlanAgainstAudit, pollingPlanAudit} from "@/api/inspection/index"
 export default {
   components: {},
   computed: {
@@ -179,8 +180,8 @@ export default {
       this.$emit('showDialog')
     },
     audit() {
-      if (this.clickData.processRouteId) {
-        processAudit(this.clickData.processRouteId).then(res => {
+      if (this.clickData.planId) {
+        pollingPlanAudit(this.clickData.planId).then(res => {
           this.$emit('uploadList')
         });
       } else {
@@ -191,8 +192,8 @@ export default {
       }
     },
     unAudit() {
-      if (this.clickData.processRouteId) {
-        processAgainstAudit(this.clickData.processRouteId).then(res => {
+      if (this.clickData.planId) {
+        pollingPlanAgainstAudit(this.clickData.planId).then(res => {
           this.$emit('uploadList')
         });
       } else {

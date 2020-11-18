@@ -9,8 +9,8 @@
         <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
-        <tabs-detail ref="tabs" @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
-        <d-list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
+        <tabs-detail @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <d-list @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-footer>
     </el-container>
     <el-dialog
