@@ -6,7 +6,6 @@
       :loading="loading"
       :list="list"
       index
-      type
       @handle-size="handleSize"
       @handle-current="handleCurrent"
       @dblclick="dblclick"
@@ -79,6 +78,7 @@ export default {
     //监听单击某一行
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);
+      this.$emit('handlerClick', obj.row)
     },
     uploadPr(val) {
       this.fetchData(val,{

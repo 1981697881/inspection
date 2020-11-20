@@ -16,6 +16,20 @@ export function getPollingPlanList(data, query) {
     data: query
   })
 }
+// 查询巡检记录
+export function getPollingRecordList(data, query) {
+  // 查询分页数据
+  const url = '/polling-record/list/' + data.pageNum + '/' + data.pageSize
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: query
+  })
+}
 // 巡检计划新增
 export function addPollingPlan(data) {
   // 查询分页数据

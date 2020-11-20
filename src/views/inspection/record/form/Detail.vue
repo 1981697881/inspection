@@ -1,9 +1,66 @@
 <template>
   <div>
     <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
-      <el-button type="primary" size="small" @click.native="registration">检查登记</el-button>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item :label="'打卡人'">
+            <el-select v-model="form.clockUid" filterable placeholder="打卡人" style="width: 100%">
+              <el-option
+                v-for="(t,i) in pArray"
+                :key="i"
+                :label="t.FName"
+                :value="t.FItemID">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="'位置信息'">
+            <el-input v-model="form.clockLocation"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+        <el-form-item :label="'打卡时间'">
+          <div class="block">
+            <el-date-picker
+              v-model="form.clockTime"
+              type="datetime"
+              style="width:auto"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="8">
+          <el-form-item :label="'被检人员'">
+            <el-input v-model="form.checkStaff"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="'陪同人员'">
+            <el-input v-model="form.escort"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+        <el-form-item :label="'检查日期'">
+          <div class="block">
+            <el-date-picker
+              v-model="form.checkTime"
+              type="date"
+              style="width:auto"
+              value-format="yyyy-MM-dd"
+              placeholder="选择日期">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+        </el-col>
+      </el-row>
       <el-row  style="overflow: auto;border: 1px solid #EBEEF5;">
-        <el-table el-table :height="'calc(100vh/2)'" :data="list" border size="mini" :highlight-current-row="true">
+        <el-table el-table :height="'calc(100vh/3)'" :data="list" border size="mini" :highlight-current-row="true">
+          <el-table-column prop="date"  label="序号" fixed type="index" align="center"></el-table-column>
           <el-table-column
             v-for="(t,i) in columns"
             :key="i"
@@ -17,16 +74,16 @@
                 <span v-if="scope.row.isSet">
                    <div class="block"  v-if="t.name == 'orderNo'">
                   <el-date-picker
-                    v-model="sel2[t.name]"
+                    v-model="sel[t.name]"
                     type="date"
                     size="mini"
                     value-format="yyyy-MM-dd"
                     placeholder="选择日期">
                   </el-date-picker>
                 </div>
-                  <el-input size="mini" v-else-if="t.name == 'processName'" placeholder="请输入内容" v-model="sel2[t.name]">
+                  <el-input size="mini" v-else-if="t.name == 'processName'" placeholder="请输入内容" v-model="sel[t.name]">
                   </el-input>
-                  <el-select size="mini" v-else-if="t.name == 'planNum'" v-model="sel2[t.name]" placeholder="请选择" @change="changeProcessId($event, sel2)">
+                  <el-select size="mini" v-else-if="t.name == 'planNum'" v-model="sel[t.name]" placeholder="请选择" @change="changeProcessId($event, sel)">
                     <el-option
                       v-for="(t,i) in plArray"
                       :key="i"
@@ -34,20 +91,20 @@
                       :value="t.FName">
                     </el-option>
                   </el-select>
-                   <span v-else>{{sel2[t.name]}}</span>
+                   <span v-else>{{sel[t.name]}}</span>
                 </span>
               <span v-else>{{scope.row[t.name]}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" width="230" align="center">
             <template slot-scope="scope">
-                  <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="pwdChange2(scope.row,scope.$index,true)">
+                  <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="pwdChange(scope.row,scope.$index,true)">
                     {{scope.row.isSet?'确定':"修改"}}
                   </span>
-              <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini" @click="deleteRow2(scope.row,scope.$index,list2)" style="cursor: pointer;">
+              <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini" @click="deleteRow(scope.row,scope.$index,list2)" style="cursor: pointer;">
                     删除
                   </span>
-              <span v-else class="el-tag  el-tag--mini" style="cursor: pointer;" @click="pwdChange2(scope.row,scope.$index,false)">
+              <span v-else class="el-tag  el-tag--mini" style="cursor: pointer;" @click="pwdChange(scope.row,scope.$index,false)">
                     取消
                   </span>
               <span class="el-tag el-tag--warning el-tag--mini" style="cursor: pointer;" @click="opinion(scope.row,scope.$index,false)">
@@ -60,7 +117,84 @@
           </el-table-column>
         </el-table>
         <el-col :span="24">
-          <div class="el-table-add-row" style="width: 99.2%;" @click="addMaster2()"><span>+ 添加</span></div>
+          <div class="el-table-add-row" style="width: 99.2%;" @click="addMaster()"><span>+ 添加</span></div>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20" style="padding-top: 20px">
+        <span style="font-size: 20px;">整改信息-整改意见</span>
+      </el-row>
+      <el-row :gutter="20" style="padding-top: 20px">
+        <el-col :span="8">
+          <el-form-item :label="'通知单号'" >
+            <el-input v-model="form.orderNo"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item :label="'登记日期'">
+            <div class="block" >
+              <el-date-picker
+                v-model="form.recordDate"
+                type="date"
+                style="width:auto"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label-width="125px" :label="'要求整改完成日期'">
+            <div class="block" >
+              <el-date-picker
+                v-model="form.rectifyPlanDate"
+                type="date"
+                style="width:auto"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'隐患问题'" >
+            <el-input type="textarea" v-model="form.concerns"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'整改内容'" >
+            <el-input type="textarea" v-model="form.opinion"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24" style="text-align: center">
+          <el-form-item :label="'隐患图片'" >
+            <el-upload
+              action="web/file/returnOrder/imgUpload"
+              list-type="picture-card"
+              accept="image/jpeg,image/jpg,image/png,image/gif"
+              :headers="headers"
+              :data="imgData"
+              :limit="3"
+              name="imgS"
+              :on-success="uploadSuccess"
+              :on-error="uploadError"
+              :class="{hide:hideUpload}"
+              :on-preview="handlePictureCardPreview"
+              :on-change="handleChange"
+              :file-list="fileList"
+              ref="upload"
+              :on-remove="handleRemove">
+              <i class="el-icon-plus"></i>
+            </el-upload>
+            <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+              <img width="100%" :src="dialogImageUrl" alt="">
+            </el-dialog>
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -85,34 +219,40 @@ export default {
   data() {
     return {
       headers: {
-        'authorization': getToken('clrx'),
+        'authorization': getToken('insrx'),
       },
       list: [],
+      sel: null,
       columns: [
-        { text: "通知单号", name: "" },
-        { text: "登记日期", name: "orderNo" },
-        { text: "隐患问题", name: "planNum" },
-        { text: "整改内容", name: "planNum" },
-        { text: "隐患图片", name: "" },
-        { text: "要求整改完成日期", name: "orderNo" },
-        { text: "整改情况", name: "" },
-        { text: "整改完成图片", name: "" },
-        { text: "整改跟踪人", name: "" },
-        { text: "完成时间", name: "" },
+        { text: "检查情况", name: "" },
+        { text: "检查项目", name: "" },
       ],
-      visible: null,
-      form: {
-        loPrId: null,
-        loPrName: null, // 名称
-        loPrCode: null,
-        contact: null,
-        addr: null,
-        tel: null,
-        description: null,
+      imgData: {
       },
-      pidS:[],
+      images: [],
+      hideUpload: false,
+      dialogImageUrl: '',
+      dialogVisible: false,
+      fileList: [],
+      limitCount: 3,
+      nowImg: [],
+      form: {
+        clockUid: null,
+        orderNo: null,
+        clockLocation: null,
+        clockTime: null,
+        checkStaff: null,
+        escort: null,
+        checkTime: null,
+        recordDate: null,
+        rectifyPlanDate: null,
+        concerns: null,
+        opinion: null,
+        concernsImg1: null,
+        concernsImg2: null,
+        concernsImg3: null,
+      },
       pArray:[],
-      plArray:[],
       rules: {
         loPrName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
@@ -130,27 +270,68 @@ export default {
     }
   },
   methods: {
+    //上传失败事件
+    uploadError(res) {
+      console.log(res)
+      this.$message({
+        message: res.msg,
+        type: "warning"
+      });
+      this.$emit('uploadList')
+    },
+    //上传成功事件
+    uploadSuccess(res, file, fileList) {
+      file.name = res.data;
+      this.images.push(res.data)
+      this.$message({
+        message: res.msg,
+        type: "success"
+      });
+      console.log(this.images)
+      this.$emit('uploadList')
+    },
+    //删除图片
+    handleRemove(file, fileList) {
+      let array = this.images;
+      for (let i in array) {
+        if (file.name == array[i]) {
+          array.splice(i, 1);
+        }
+
+      }
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount;
+    },
     //添加
-    addMaster2() {
-      for (let i of this.list2) {
+    addMaster() {
+      for (let i of this.list) {
         if (i.isSet) return this.$message.warning("请先保存当前编辑项");
       }
-      this.cIndex += 10
-      let j = {isSet: true, orderNo: this.cIndex, orderNo: '', planNum: ''};
-      this.list2.push(j);
-      this.sel2 = JSON.parse(JSON.stringify(j));
+      this.cIndex += 1
+      let j = {isSet: true, orderNo: '', planNum: ''};
+      this.list.push(j);
+      this.sel = JSON.parse(JSON.stringify(j));
     },
     //删除带确认区 单行删除
-    deleteRow2(row, index, rows) {
-      this.result.forEach((item, index2) =>{
-        if(row.processRouteDetailId == item){
-          this.result.splice(index2,1);
-        }
-      })
-      rows.splice(index, 1);
+    deleteRow(row, index, rows) {
+      if(rows[index].processRouteDetailId != null && rows[index].processRouteDetailId != undefined){
+        delProcessRouteDetail(rows[index].processRouteDetailId).then(res => {
+          if(res.success){
+            rows.splice(index, 1);
+            this.$emit('uploadList')
+          }
+        });
+      }else {
+        rows.splice(index, 1);
+      }
     },
     //修改
-    pwdChange2(row, index, cg) {
+    pwdChange(row, index, cg) {
       //点击修改 判断是否已经保存所有操作
       for (let i of this.list2) {
         if (i.isSet && i.userId != row.userId) {
@@ -160,19 +341,19 @@ export default {
       }
       //是否是取消操作
       if (!cg) {
-        if (!this.sel2.processId) this.list2.splice(index, 1);
+        if (!this.sel.processId) this.list2.splice(index, 1);
         return row.isSet = !row.isSet;
       }
       //提交数据
       if (row.isSet) {
-        const sel = this.sel2
+        const sel = this.sel
         if((sel.processId == null || sel.processId === '') || (sel.orderNo == null || sel.orderNo === '') || (sel.planNum == null || sel.planNum === '')){
           return this.$message({
             type: 'error',
             message: "请输入必填项!"
           });
         }else {
-          let data = JSON.parse(JSON.stringify(this.sel2));
+          let data = JSON.parse(JSON.stringify(this.sel));
           for (let k in data) row[k] = data[k]
           this.$message({
             type: 'success',
@@ -183,7 +364,7 @@ export default {
           row.isSet = false;
         }
       } else {
-        this.sel2 = JSON.parse(JSON.stringify(row));
+        this.sel = JSON.parse(JSON.stringify(row));
         row.isSet = true;
       }
     },

@@ -17,7 +17,7 @@
 
 <script>
   import { mapGetters } from "vuex";
-  import { supplierList, delSupplier} from "@/api/basic/index";
+  import { getPollingRecordList, delSupplier} from "@/api/inspection/index";
   import List from "@/components/List";
   export default {
     components: {
@@ -31,19 +31,19 @@
         loading: false,
         list: {},
         columns: [
-          { text: "打卡人", name: "" },
-          { text: "位置信息", name: "" },
-          { text: "检查人员", name: "" },
-          { text: "打卡时间", name: "" },
-          { text: "通知单号", name: "" },
-          { text: "登记日期", name: "orderNo" },
-          { text: "隐患问题", name: "planNum" },
-          { text: "整改内容", name: "planNum" },
-          { text: "隐患图片", name: "" },
+          { text: "打卡人", name: "clockUid" },
+          { text: "位置信息", name: "clockLocation" },
+          { text: "检查人员", name: "checkStaff" },
+          { text: "打卡时间", name: "clockTime" },
+          { text: "通知单号", name: "orderNo" },
+          { text: "登记日期", name: "recordDate" },
+          { text: "隐患问题", name: "concerns" },
+          { text: "整改内容", name: "opinion" },
+          { text: "隐患图片", name: "concernsImg" },
           { text: "要求整改完成日期", name: "orderNo" },
           { text: "整改情况", name: "" },
-          { text: "整改完成图片", name: "" },
-          { text: "整改跟踪人", name: "" },
+          { text: "整改完成图片", name: "rectifyImg" },
+          { text: "整改跟踪人", name: "rectifyUid" },
           { text: "完成时间", name: "" },
         ]
       };
@@ -90,11 +90,11 @@
         pageNum: this.list.current || 1,
         pageSize: this.list.size || 50
       }) {
-        /* this.loading = true;
-           supplierList(data, val).then(res => {
+         this.loading = true;
+           getPollingRecordList(data, val).then(res => {
            this.loading = false;
            this.list = res.data;
-         });*/
+         });
       }
     }
   };

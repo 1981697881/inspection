@@ -5,12 +5,12 @@
       <el-header style="padding: 0;height: auto">
         <tabs-bar ref="tabs" @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </el-header>
-      <el-main style="padding: 0;flex: none">
-        <list ref="list"  @uploadList="upload"  @showDialog="handlerDialog"/>
+      <el-main style="padding: 0;flex: 0.1">
+        <list ref="list" @handlerClick="clickT" @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
         <tabs-detail @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
-        <d-list @uploadList="upload"  @showDialog="handlerDialog"/>
+        <d-list ref="dlist" @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-footer>
     </el-container>
     <el-dialog
@@ -64,6 +64,9 @@ export default {
     this.$refs.list.fetchData(this.$refs.tabs.qFilter())
   },
   methods: {
+    clickT(val){
+      this.$refs.dlist.fetchData({planId: val.planId})
+    },
     delivery(obj) {
       if(obj) {
         this.$refs.list.Delivery(obj)

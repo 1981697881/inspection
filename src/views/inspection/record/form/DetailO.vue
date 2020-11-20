@@ -34,7 +34,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item :label="'整改跟踪人'">
-            <el-select v-model="form.loPrName" filterable placeholder="整改内容" style="width: 100%" @change="changeItem">
+            <el-select v-model="form.loPrName" filterable placeholder="整改跟踪人" style="width: 100%" @change="changeItem">
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
