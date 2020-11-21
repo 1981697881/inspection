@@ -96,29 +96,29 @@
               <span v-else>{{scope.row[t.name]}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="230" align="center">
+          <!--<el-table-column label="操作" width="230" align="center">
             <template slot-scope="scope">
-                  <span class="el-tag el-tag--info el-tag--mini" style="cursor: pointer;" @click="pwdChange(scope.row,scope.$index,true)">
+                  <span class="el-tag el-tag&#45;&#45;info el-tag&#45;&#45;mini" style="cursor: pointer;" @click="pwdChange(scope.row,scope.$index,true)">
                     {{scope.row.isSet?'确定':"修改"}}
                   </span>
-              <span v-if="!scope.row.isSet" class="el-tag el-tag--danger el-tag--mini" @click="deleteRow(scope.row,scope.$index,list2)" style="cursor: pointer;">
+              <span v-if="!scope.row.isSet" class="el-tag el-tag&#45;&#45;danger el-tag&#45;&#45;mini" @click="deleteRow(scope.row,scope.$index,list2)" style="cursor: pointer;">
                     删除
                   </span>
-              <span v-else class="el-tag  el-tag--mini" style="cursor: pointer;" @click="pwdChange(scope.row,scope.$index,false)">
+              <span v-else class="el-tag  el-tag&#45;&#45;mini" style="cursor: pointer;" @click="pwdChange(scope.row,scope.$index,false)">
                     取消
                   </span>
-              <span class="el-tag el-tag--warning el-tag--mini" style="cursor: pointer;" @click="opinion(scope.row,scope.$index,false)">
+              <span class="el-tag el-tag&#45;&#45;warning el-tag&#45;&#45;mini" style="cursor: pointer;" @click="opinion(scope.row,scope.$index,false)">
                     整改意见
                   </span>
-              <span class="el-tag el-tag--success el-tag--mini" style="cursor: pointer;" @click="feedback(scope.row,scope.$index,false)">
+              <span class="el-tag el-tag&#45;&#45;success el-tag&#45;&#45;mini" style="cursor: pointer;" @click="feedback(scope.row,scope.$index,false)">
                     整改反馈
                   </span>
             </template>
-          </el-table-column>
+          </el-table-column>-->
         </el-table>
-        <el-col :span="24">
+       <!-- <el-col :span="24">
           <div class="el-table-add-row" style="width: 99.2%;" @click="addMaster()"><span>+ 添加</span></div>
-        </el-col>
+        </el-col>-->
       </el-row>
       <el-row :gutter="20" style="padding-top: 20px">
         <span style="font-size: 20px;">整改信息-整改意见</span>
@@ -198,9 +198,9 @@
         </el-col>
       </el-row>
     </el-form>
-    <div slot="footer" style="text-align:center">
+    <!--<div slot="footer" style="text-align:center">
         <el-button type="primary" @click="saveData('form')">保存</el-button>
-      </div>
+      </div>-->
   </div>
 </template>
 

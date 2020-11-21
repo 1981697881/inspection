@@ -3,8 +3,8 @@
     <el-form v-model="search" :size="'mini'" :label-width="'80px'">
       <el-row :gutter="10">
         <el-button-group style="float:right">
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerRegister">整改登记</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerFeedback">整改反馈</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerRegister">反馈登记</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerFeedback">完成反馈</el-button>
         </el-button-group>
       </el-row>
     </el-form>
