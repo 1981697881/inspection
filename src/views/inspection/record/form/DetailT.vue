@@ -1,14 +1,9 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" label-width="90px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'通知单号'" >
-            <el-input v-model="form.loPrCode"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'登记日期'">
+          <el-form-item :label="'完成时间'">
             <div class="block" >
               <el-date-picker
                 v-model="form.reportDate"
@@ -19,23 +14,9 @@
             </div>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'隐患问题'">
-            <el-select v-model="form.loPrName" filterable placeholder="隐患问题" style="width: 100%" >
-              <el-option
-                v-for="(t,i) in pArray"
-                :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="12">
-          <el-form-item :label="'整改内容'">
-            <el-select v-model="form.loPrName" filterable placeholder="整改内容" style="width: 100%" >
+          <el-form-item :label="'整改跟踪人'">
+            <el-select v-model="form.loPrName" filterable placeholder="请选择" style="width: 100%" >
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
@@ -69,20 +50,6 @@
           <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="12">
-          <el-form-item :label="'要求整改完成日期'">
-            <div class="block" >
-              <el-date-picker
-                v-model="form.reportDate"
-                type="date"
-                value-format="yyyy-MM-dd"
-                placeholder="选择日期">
-              </el-date-picker>
-            </div>
-          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -143,6 +110,7 @@
       };
     },
     mounted() {
+      console.log(this.listInfo)
       this.fetchFormat();
       if (this.listInfo) {
         this.form = this.listInfo

@@ -24,10 +24,24 @@
     },
     methods: {
       handlerRegister() {
-        this.$emit('showDialog')
+        if (this.clickData.recordId) {
+         this.$emit('showInfo', this.clickData)
+       } else {
+         this.$message({
+           message: "无选中行",
+           type: "warning"
+         });
+       }
       },
       handlerFeedback() {
-        this.$emit('showInfo')
+        if (this.clickData.recordId) {
+          this.$emit('showDetail', this.clickData)
+        } else {
+          this.$message({
+            message: "无选中行",
+            type: "warning"
+          });
+        }
         /*if (this.clickData.loPrId) {
           this.$emit('showDialog', this.clickData)
         } else {

@@ -9,7 +9,7 @@
         <list ref="list" @handlerClick="clickT" @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
-        <tabs-detail @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-detail @showDialog="handlerDialog" @showDetail="handlerDetail" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
         <d-list ref="dlist" @uploadList="upload"  @showDialog="handlerDialog"/>
       </el-footer>
     </el-container>
@@ -17,7 +17,6 @@
       :visible.sync="visible"
       title="检查登记"
       v-if="visible"
-      v-dialogDrag
       :width="'70%'"
       destroy-on-close
     >
@@ -27,11 +26,19 @@
       :visible.sync="visible2"
       title="整改反馈"
       v-if="visible2"
-      v-dialogDrag
       :width="'70%'"
       destroy-on-close
     >
-      <info-o @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info-o>
+      <info-o @hideDialog="hideWindowT" @uploadList="upload" :listInfo="listInfo"></info-o>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible3"
+      title="完成反馈"
+      v-if="visible3"
+      :width="'70%'"
+      destroy-on-close
+    >
+      <info-t @hideDialog="hideWindowTh" @uploadList="upload" :listInfo="listInfo"></info-t>
     </el-dialog>
   </div>
 </template>
@@ -54,6 +61,7 @@ export default {
     return {
       visible: null,
       visible2: null,
+      visible3: null,
       oid: null,
       listInfo: null,
       treeId: null, // null
@@ -78,6 +86,9 @@ export default {
     hideWindowT(val) {
       this.visible2 = val
     },
+    hideWindowTh(val) {
+      this.visible3 = val
+    },
     handlerDialog(obj) {
       this.listInfo = null
       if(obj) {
@@ -93,6 +104,14 @@ export default {
         this.listInfo = info
       }
       this.visible2 = true
+    },
+    handlerDetail(obj) {
+      this.listInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.listInfo = info
+      }
+      this.visible3 = true
     },
     // 查询
     query(val) {

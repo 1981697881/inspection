@@ -74,9 +74,22 @@ export function pollingPlanAudit(data) {
   const url = '/polling-plan/audit/' + data
   return request({
     headers: {
-      'authorization': getToken('insrx')
+      'authorization': getToken('insrx'),
     },
     url: url,
     method: 'get',
+  })
+}//  反馈登记
+export function recordRectifyAdd(data) {
+  // 查询分页数据
+  const url = '/record-rectify/add'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: data
   })
 }

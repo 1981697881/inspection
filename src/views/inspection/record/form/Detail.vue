@@ -206,6 +206,7 @@
 
 <script>
 import { alterSupplier, addSupplier } from "@/api/basic/index";
+import { userFormat } from "@/api/system/index";
 import {
   getToken
 } from '@/utils/auth'
@@ -265,6 +266,7 @@ export default {
   },
   mounted() {
     this.fetchFormat();
+    console.log(this.listInfo)
     if (this.listInfo) {
       this.form = this.listInfo
     }
@@ -392,6 +394,11 @@ export default {
       })
     },
     fetchFormat() {
+      userFormat().then(res => {
+        if(res.flag){
+          this.pArray = res.data
+        }
+      });
     },
   }
 };
