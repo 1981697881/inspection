@@ -6,11 +6,11 @@
         <tabs-bar ref="tabs" @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </el-header>
       <el-main style="padding: 0;flex: 0.1">
-        <list ref="list" @handlerClick="clickT" @uploadList="upload"  @showDialog="handlerDialog"/>
+        <list ref="list" @handlerClick="clickT" @uploadList="upload" @exportData="exportData"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
         <tabs-detail @showDialog="handlerDialog" @showDetail="handlerDetail" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
-        <d-list ref="dlist" @uploadList="upload"  @showDialog="handlerDialog"/>
+        <d-list ref="dlist" @uploadList="upload"  @showDialog="showList"/>
       </el-footer>
     </el-container>
     <el-dialog
@@ -29,7 +29,7 @@
       :width="'70%'"
       destroy-on-close
     >
-      <info-o @hideDialog="hideWindowT" @uploadList="upload" :listInfo="listInfo"></info-o>
+      <info-o @hideDialog="hideWindowO" @uploadList="upload" :listInfo="listInfo"></info-o>
     </el-dialog>
     <el-dialog
       :visible.sync="visible3"
@@ -38,14 +38,23 @@
       :width="'70%'"
       destroy-on-close
     >
-      <info-t @hideDialog="hideWindowTh" @uploadList="upload" :listInfo="listInfo"></info-t>
+      <info-t @hideDialog="hideWindowT" @uploadList="upload" :listInfo="listInfo"></info-t>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible4"
+      title="检查记录"
+      v-if="visible4"
+      :width="'70%'"
+      destroy-on-close
+    >
+      <info-th @hideDialog="hideWindowTh" @uploadList="upload" :listInfo="listInfo"></info-th>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { TabsBar, List, DList,TabsDetail } from "./components";
-import { Info, InfoO, InfoT } from "./form";
+import { Info, InfoO, InfoT, InfoTh } from "./form";
 
 export default {
   components: {
@@ -56,12 +65,14 @@ export default {
     TabsDetail,
     InfoO,
     InfoT,
+    InfoTh,
   },
   data() {
     return {
       visible: null,
       visible2: null,
       visible3: null,
+      visible4: null,
       oid: null,
       listInfo: null,
       treeId: null, // null
@@ -72,6 +83,9 @@ export default {
     this.$refs.list.fetchData(this.$refs.tabs.qFilter())
   },
   methods: {
+    exportData() {
+      this.$refs.list.ExportData()
+    },
     clickT(val){
       this.$refs.dlist.fetchData({planId: val.planId})
     },
@@ -83,11 +97,14 @@ export default {
     hideWindow(val) {
       this.visible = val
     },
-    hideWindowT(val) {
+    hideWindowO(val) {
       this.visible2 = val
     },
-    hideWindowTh(val) {
+    hideWindowT(val) {
       this.visible3 = val
+    },
+    hideWindowTh(val) {
+      this.visible4 = val
     },
     handlerDialog(obj) {
       this.listInfo = null
@@ -112,6 +129,14 @@ export default {
         this.listInfo = info
       }
       this.visible3 = true
+    },
+    showList(obj) {
+      this.listInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.listInfo = info
+      }
+      this.visible4 = true
     },
     // 查询
     query(val) {

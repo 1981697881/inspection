@@ -182,6 +182,7 @@
         },
         imgData: {},
         fileList: [],
+        images: [],
         dialogImageUrl: '',
         dialogVisible: false,
         hideUpload: false,
@@ -219,6 +220,33 @@
       this.fetchFormat();
       if (this.listInfo) {
         this.form = this.listInfo
+        delete this.form.recordCheckList
+      }
+      this.fileList = []
+      if (this.img != '' && this.img != null) {
+        let imgArray = this.img.split(',');
+        //判断当前行是否有img
+        if (imgArray.length > 0) {
+          //到图片数量大于5或等于5时添加按钮隐藏
+          if (imgArray.length >= 5) {
+            this.hideUpload = true;
+          } else {
+            this.hideUpload = false;
+          }
+          this.fileList = []
+          //从table获取img展示到窗口
+          for (let i in imgArray) {
+            //添加已有图片到数组
+            this.images.push(imgArray[i].split('/returnOrder/img/')[1])
+            //展示已有图片到窗口
+            this.fileList.push({
+              url: 'http://120.78.168.141:8090/web' + imgArray[i],
+              name: imgArray[i].split('/web/returnOrder/img/')[1]
+            })
+          }
+        } else {
+          this.fileList = [];
+        }
       }
     },
     methods: {
@@ -251,9 +279,8 @@
         })*/
       },
       handleChange(file, fileList) {
-
         this.hideUpload = fileList.length >= this.limitCount;
-        console.log(this.hideUpload)
+
       },
       //上传失败事件
       uploadError(res) {
@@ -265,13 +292,16 @@
       },
       // 上传成功事件
       uploadSuccess(res, file, fileList) {
-        file.name = res.data;
-        this.images.push(res.data)
-        this.$message({
-          message: res.msg,
-          type: "success"
-        });
-        this.$emit('uploadList')
+        if(res.flag){
+          file.name = res.data;
+          this.images.push(res.data)
+          this.$message({
+            message: res.msg,
+            type: "success"
+          });
+          this.$emit('uploadList')
+          this.$emit('hideDialog')
+        }
       },
       // 删除图片
       handleRemove(file, fileList) {

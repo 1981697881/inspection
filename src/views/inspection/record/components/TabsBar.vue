@@ -16,7 +16,7 @@
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
          <!-- <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAdd">检查登记</el-button>-->
           <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-refresh"   @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
     </el-form>
@@ -38,6 +38,11 @@ export default {
   },
 
   methods: {
+    // 导出
+    exportData() {
+      this.$emit('exportData')
+      let qFilter = this.qFilter()
+    },
     // 查询条件过滤
     qFilter() {
       let obj = {}

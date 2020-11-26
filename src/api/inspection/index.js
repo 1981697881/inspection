@@ -92,4 +92,30 @@ export function recordRectifyAdd(data) {
     method: 'post',
     data: data
   })
+}//  反馈历史
+export function recordRectifyFindList(data) {
+  // 查询分页数据
+  const url = '/record-rectify/findList'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: data
+  })
+}//  反馈完成
+export function completeRectify(data) {
+  // 查询分页数据
+  const url = '/record-rectify/completeRectify'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: data
+  })
 }

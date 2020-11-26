@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-form :model="form" :rules="rules" ref="form" label-width="90px" :size="'mini'">
+    <el-form :model="form" :rules="rules" ref="form" label-width="100px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'完成时间'">
+          <el-form-item :label="'完成时间'" prop="rectifyFinishDate">
             <div class="block" >
               <el-date-picker
-                v-model="form.reportDate"
+                v-model="form.rectifyFinishDate"
                 type="date"
                 value-format="yyyy-MM-dd"
                 placeholder="选择日期">
@@ -15,52 +15,52 @@
           </el-form-item>
         </el-col>
         <el-col :span="12">
-          <el-form-item :label="'整改跟踪人'">
-            <el-select v-model="form.loPrName" filterable placeholder="请选择" style="width: 100%" >
+          <el-form-item :label="'整改跟踪人'" prop="rectifyUid">
+            <el-select v-model="form.rectifyUid" filterable placeholder="请选择" style="width: 100%" >
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
+                :label="t.username"
+                :value="t.uid">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="20">
-        <el-col :span="24" style="text-align: center">
-          <el-upload
-            action="web/file/returnOrder/imgUpload"
-            list-type="picture-card"
-            accept="image/jpeg,image/jpg,image/png,image/gif"
-            :headers="headers"
-            :data="imgData"
-            :limit="5"
-            name="imgS"
-            :on-success="uploadSuccess"
-            :on-error="uploadError"
-            :class="{hide:hideUpload}"
-            :on-preview="handlePictureCardPreview"
-            :on-change="handleChange"
-            :file-list="fileList"
-            ref="upload"
-            :on-remove="handleRemove">
-            <i class="el-icon-plus"></i>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
-            <img width="100%" :src="dialogImageUrl" alt="">
-          </el-dialog>
-        </el-col>
+      <el-row :gutter="20"  type="flex" justify="center">
+        <el-upload
+          action="web/file/imgUpload"
+          list-type="picture-card"
+          accept="image/jpeg,image/jpg,image/png,image/gif"
+          :headers="headers"
+          :data="imgData"
+          :limit="3"
+          name="rectifyImg"
+          :auto-upload="false"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
+          :class="{hide:hideUpload}"
+          :on-preview="handlePictureCardPreview"
+          :on-change="handleChange"
+          :file-list="fileList"
+          ref="upload"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </el-row>
     </el-form>
-    <div slot="footer" style="text-align:center">
+    <div slot="footer" style="text-align:center;padding-top: 10px">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
     </div>
   </div>
 </template>
 
 <script>
-  import { alterSupplier, addSupplier } from "@/api/basic/index";
+  import { completeRectify } from "@/api/inspection/index";
+  import { userFormat } from "@/api/system/index";
   import {
     getToken
   } from '@/utils/auth'
@@ -74,49 +74,70 @@
     data() {
       return {
         headers: {
-          'authorization': getToken('clrx'),
+          'authorization': getToken('insrx'),
         },
         imgData: {
         },
-        visible: null,
-        activeName: 'first',
         form: {
-          loPrId: null,
-          loPrName: null, // 名称
-          loPrCode: null,
-          contact: null,
-          addr: null,
-          tel: null,
-          description: null,
+          rectifyFinishDate: null,
+          rectifyUid: null,
         },
         images: [],
         hideUpload: false,
         dialogImageUrl: '',
         dialogVisible: false,
         fileList: [],
-        limitCount: 5,
+        limitCount: 3,
         nowImg: [],
-        pidS:[],
         pArray:[],
-        plArray:[],
         rules: {
-          loPrName: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+          rectifyFinishDate: [
+            {required: true, message: '请选择', trigger: 'change'},
           ],
-          loPrCode: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+          rectifyUid: [
+            {required: true, message: '请选择', trigger: 'change'},
           ],
         },
       };
     },
     mounted() {
-      console.log(this.listInfo)
       this.fetchFormat();
       if (this.listInfo) {
-        this.form = this.listInfo
+        this.form.recordId = this.listInfo.recordId
+      }
+      this.fileList = []
+      if (this.img != '' && this.img != null) {
+        let imgArray = this.img.split(',');
+        //判断当前行是否有img
+        if (imgArray.length > 0) {
+          //到图片数量大于5或等于5时添加按钮隐藏
+          if (imgArray.length >= 5) {
+            this.hideUpload = true;
+          } else {
+            this.hideUpload = false;
+          }
+          this.fileList = []
+          //从table获取img展示到窗口
+          for (let i in imgArray) {
+            //添加已有图片到数组
+            this.images.push(imgArray[i].split('/returnOrder/img/')[1])
+            //展示已有图片到窗口
+            this.fileList.push({
+              url: 'http://120.78.168.141:8090/web' + imgArray[i],
+              name: imgArray[i].split('/web/returnOrder/img/')[1]
+            })
+          }
+        } else {
+          this.fileList = [];
+        }
       }
     },
     methods: {
+      //批量上传图片
+      submitUpload(val) {
+        this.formDate = new FormData();
+        this.$refs.upload.submit();
+      },
       //上传失败事件
       uploadError(res) {
         console.log(res)
@@ -128,14 +149,16 @@
       },
       //上传成功事件
       uploadSuccess(res, file, fileList) {
-        file.name = res.data;
-        this.images.push(res.data)
-        this.$message({
-          message: res.msg,
-          type: "success"
-        });
-        console.log(this.images)
-        this.$emit('uploadList')
+        if(res.flag){
+          file.name = res.data;
+          this.images.push(res.data)
+          this.$message({
+            message: res.msg,
+            type: "success"
+          });
+          this.$emit('uploadList')
+          this.$emit('hideDialog')
+        }
       },
       //删除图片
       handleRemove(file, fileList) {
@@ -144,7 +167,6 @@
           if (file.name == array[i]) {
             array.splice(i, 1);
           }
-
         }
       },
       handlePictureCardPreview(file) {
@@ -161,23 +183,22 @@
         this.$refs[form].validate((valid) => {
           // 判断必填项
           if (valid) {
-            if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
-              alterSupplier(this.form).then(res => {
-                this.$emit('hideDialog', false)
-                this.$emit('uploadList')
-              });
-            }else{
-              addSupplier(this.form).then(res => {
-                this.$emit('hideDialog', false)
-                this.$emit('uploadList')
-              });
-            }
-          }else {
+            completeRectify(this.form).then(res => {
+              if(res.flag){
+                this.submitUpload()
+              }
+            });
+          } else {
             return false;
           }
         })
       },
       fetchFormat() {
+        userFormat().then(res => {
+          if(res.flag){
+            this.pArray = res.data
+          }
+        });
       },
     }
   };
@@ -194,5 +215,10 @@
     justify-content: center;
     display: flex;
     line-height: 34px;
+  }
+</style>
+<style lang="scss">
+  .hide .el-upload--picture-card {
+    display: none;
   }
 </style>
