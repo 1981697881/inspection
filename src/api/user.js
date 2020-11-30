@@ -38,7 +38,7 @@ export function changePassword(data) {
       'authorization': getToken('insrx'),
     },
     url: '/user/changePassword',
-    method: 'put',
+    method: 'post',
     data
   })
 }

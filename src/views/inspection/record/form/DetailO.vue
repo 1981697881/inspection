@@ -92,7 +92,16 @@
       <el-row :gutter="20" style="padding-top: 10px">
         <el-col :span="8">
           <el-form-item :label="'延期期限'">
-            <el-input-number v-model="form.delayTimeLimit"></el-input-number>
+            <div class="block">
+              <el-date-picker
+                v-model="form.delayTimeLimit"
+                type="date"
+                style="width:auto"
+                value-format="yyyy-MM-dd"
+                placeholder="选择日期">
+              </el-date-picker>
+            </div>
+           <!-- <el-input-number v-model="form.delayTimeLimit"></el-input-number>-->
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -193,7 +202,7 @@
           clockTime: null,
           escort: null,
           checkTime: null,
-          delayTimeLimit: 0,
+          delayTimeLimit: null,
           proposer: null,
           applicationDate: null,
           ratify: null,

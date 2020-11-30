@@ -5,6 +5,7 @@
         <el-button-group style="float:right">
           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerRegister">反馈登记</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerFeedback">完成反馈</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerDel">删除</el-button>
         </el-button-group>
       </el-row>
     </el-form>
@@ -12,6 +13,7 @@
 </template>
 <script>
   import { mapGetters } from "vuex";
+  import { delPollingrecord } from "@/api/inspection/index";
   export default {
     components: {},
     computed: {
@@ -26,6 +28,21 @@
       handlerRegister() {
         if (this.clickData.recordId) {
          this.$emit('showInfo', this.clickData)
+       } else {
+         this.$message({
+           message: "无选中行",
+           type: "warning"
+         });
+       }
+      },
+      handlerDel() {
+        if (this.clickData.recordId) {
+          delPollingrecord(this.clickData.recordId).then(res => {
+            if(res.flag){
+              this.$store.dispatch("list/setClickData", '');
+              this.$emit('uploadList')
+            }
+          });
        } else {
          this.$message({
            message: "无选中行",
