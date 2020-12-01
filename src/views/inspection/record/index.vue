@@ -9,8 +9,8 @@
         <list ref="list" @handlerClick="clickT" @uploadList="upload" @exportData="exportData"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
-        <tabs-detail @showDialog="handlerDialog" @showDetail="handlerDetail" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
-        <d-list ref="dlist" @uploadList="upload"  @showDialog="showList"/>
+        <tabs-detail @showDialog="handlerDialog" @uploadList="uploadDlist" @showDetail="handlerDetail" @showInfo="handlerInfo" @delList="delivery" @queryBtn="query"/>
+        <d-list ref="dlist" @uploadList="uploadDlist"  @showDialog="showList"/>
       </el-footer>
     </el-container>
     <el-dialog
@@ -76,6 +76,7 @@ export default {
       oid: null,
       listInfo: null,
       treeId: null, // null
+      planId: null,
       floorId: null
     };
   },
@@ -87,6 +88,7 @@ export default {
       this.$refs.list.ExportData()
     },
     clickT(val){
+      this.planId = val.planId
       this.$refs.dlist.fetchData({planId: val.planId})
     },
     delivery(obj) {
@@ -145,6 +147,9 @@ export default {
     // 更新列表
     upload() {
       this.$refs.list.fetchData(this.$refs.tabs.qFilter())
+    },// 更新列表
+    uploadDlist() {
+      this.$refs.dlist.fetchData({planId: this.planId})
     }
   }
 };
