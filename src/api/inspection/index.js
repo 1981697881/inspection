@@ -131,3 +131,15 @@ export function delPollingrecord(data) {
     method: 'delete',
   })
 }
+//查询巡检登记
+export function pollingRecordByPlanId(data) {
+  // 查询分页数据
+  const url = '/app/pollingRecordByPlanId/'+data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
+}

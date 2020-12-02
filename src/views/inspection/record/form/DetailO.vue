@@ -196,6 +196,7 @@
         dialogVisible: false,
         hideUpload: false,
         limitCount: 3,
+        count: 0,
         form: {
           clockUid: null,
           clockLocation: null,
@@ -228,34 +229,28 @@
     mounted() {
       this.fetchFormat();
       if (this.listInfo) {
-        this.form = this.listInfo
+        this.form.recordId = this.listInfo.recordId
+        /*this.form = this.listInfo
         delete this.form.recordCheckList
-      }
-      this.fileList = []
-      if (this.img != '' && this.img != null) {
-        let imgArray = this.img.split(',');
-        //判断当前行是否有img
-        if (imgArray.length > 0) {
-          //到图片数量大于5或等于5时添加按钮隐藏
-          if (imgArray.length >= 5) {
-            this.hideUpload = true;
+        let imgArray = res.data.rectifyImg.split(',');
+        if (this.img != '') {
+          if (imgArray.length > 0) {
+            //到图片数量大于3或等于3时添加按钮隐藏
+            if (imgArray.length >= 3) {
+              this.hideUpload = true;
+            } else {
+              this.hideUpload = false;
+            }
+            this.fileList = []
+            for (let i in imgArray) {
+              this.fileList.push({
+                url: this.$store.state.user.url+'/uploadFiles/image/' + imgArray[i]
+              })
+            }
           } else {
-            this.hideUpload = false;
+            this.fileList = [];
           }
-          this.fileList = []
-          //从table获取img展示到窗口
-          for (let i in imgArray) {
-            //添加已有图片到数组
-            this.images.push(imgArray[i].split('/returnOrder/img/')[1])
-            //展示已有图片到窗口
-            this.fileList.push({
-              url: 'http://120.78.168.141:8090/web' + imgArray[i],
-              name: imgArray[i].split('/web/returnOrder/img/')[1]
-            })
-          }
-        } else {
-          this.fileList = [];
-        }
+        }*/
       }
     },
     methods: {
@@ -301,15 +296,32 @@
       },
       // 上传成功事件
       uploadSuccess(res, file, fileList) {
+        let me = this
         if(res.flag){
+          me.count ++
           file.name = res.data;
-          this.images.push(res.data)
-          this.$message({
-            message: res.msg,
-            type: "success"
-          });
-          this.$emit('uploadList')
-          this.$emit('hideDialog')
+          me.images.push(res.data)
+          if(me.count == fileList.length){
+            me.$refs['form'].validate((valid) => {
+              // 判断必填项
+              if (valid) {
+                me.form.rectifyImg = me.images.toString()
+                recordRectifyAdd(me.form).then(res => {
+                  if(res.flag){
+                    me.$message({
+                      message: res.msg,
+                      type: "success"
+                    });
+                    me.$emit('uploadList')
+                    me.$emit('hideDialog')
+                  }
+                  });
+              } else {
+                return false;
+              }
+            })
+          }
+
         }
       },
       // 删除图片
@@ -327,18 +339,9 @@
         this.dialogVisible = true;
       },
       saveData(form) {
-        this.$refs[form].validate((valid) => {
-          // 判断必填项
-          if (valid) {
-            recordRectifyAdd(this.form).then(res => {
-              if(res.flag){
-                this.submitUpload()
-              }
-              });
-          } else {
-            return false;
-          }
-        })
+        this.count = 0
+        this.submitUpload()
+
       },
       fetchFormat() {
         userFormat().then(res => {

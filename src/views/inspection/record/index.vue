@@ -20,7 +20,7 @@
       :width="'70%'"
       destroy-on-close
     >
-      <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
+      <info  @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
     </el-dialog>
     <el-dialog
       :visible.sync="visible2"
@@ -44,7 +44,7 @@
       :visible.sync="visible4"
       title="检查记录"
       v-if="visible4"
-      :width="'70%'"
+      :width="'80%'"
       destroy-on-close
     >
       <info-th @hideDialog="hideWindowTh" @uploadList="upload" :listInfo="listInfo"></info-th>

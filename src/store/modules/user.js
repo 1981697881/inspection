@@ -5,6 +5,7 @@ import { resetRouter } from '@/router'
 const state = {
   token: getToken('insrx'),
   name: '',
+  url: 'http://xyy.gzfzdev.com:8082',
   avatar: '',
   insper: '',
   username: '',

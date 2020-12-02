@@ -8,8 +8,8 @@
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
+                :label="t.username"
+                :value="t.uid">
               </el-option>
             </el-select>
           </el-form-item>
@@ -26,7 +26,7 @@
               v-model="form.clockTime"
               type="datetime"
               style="width:auto"
-              value-format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd HH:mm:ss"
               placeholder="选择日期">
             </el-date-picker>
           </div>
@@ -59,7 +59,7 @@
         </el-col>
       </el-row>
       <el-row  style="overflow: auto;border: 1px solid #EBEEF5;">
-        <el-table el-table :height="'calc(100vh/3)'" :data="list" border size="mini" :highlight-current-row="true">
+        <el-table el-table :height="'calc(100vh/4)'" :data="list" border size="mini" :highlight-current-row="true">
           <el-table-column prop="date"  label="序号" fixed type="index" align="center"></el-table-column>
           <el-table-column
             v-for="(t,i) in columns"
@@ -205,7 +205,7 @@
 </template>
 
 <script>
-import { alterSupplier, addSupplier } from "@/api/basic/index";
+import { pollingRecordByPlanId } from "@/api/inspection/index";
 import { userFormat } from "@/api/system/index";
 import {
   getToken
@@ -226,7 +226,7 @@ export default {
       sel: null,
       columns: [
         { text: "检查情况", name: "" },
-        { text: "检查项目", name: "" },
+        { text: "检查项目", name: "checkName" },
       ],
       imgData: {
       },
@@ -268,10 +268,13 @@ export default {
     this.fetchFormat();
     console.log(this.listInfo)
     if (this.listInfo) {
-      this.form = this.listInfo
+      this.fetchData(this.listInfo.planId);
     }
   },
   methods: {
+    handleChange(file, fileList) {
+      this.hideUpload = fileList.length >= this.limitCount;
+    },
     //上传失败事件
     uploadError(res) {
       console.log(res)
@@ -399,6 +402,37 @@ export default {
           this.pArray = res.data
         }
       });
+    },fetchData(val) {
+      console.log()
+      pollingRecordByPlanId(val).then(res => {
+        console.log(res)
+        if(res.flag){
+          this.form = res.data
+          this.form.clockUid = res.data.clockUid.toString()
+          this.list = res.data.recordCheckList
+          let imgArray = res.data.concernsImg.split(',');
+          const path = require('path')
+          console.log(path)
+          if (this.img != '') {
+            if (imgArray.length > 0) {
+              //到图片数量大于3或等于3时添加按钮隐藏
+              if (imgArray.length >= 3) {
+                this.hideUpload = true;
+              } else {
+                this.hideUpload = false;
+              }
+              this.fileList = []
+              for (let i in imgArray) {
+                this.fileList.push({
+                  url: this.$store.state.user.url+'/uploadFiles/image/' + imgArray[i]
+                })
+              }
+            } else {
+              this.fileList = [];
+            }
+          }
+        }
+      });
     },
   }
 };
@@ -415,5 +449,11 @@ export default {
     justify-content: center;
     display: flex;
     line-height: 34px;
+  }
+
+</style>
+<style lang="scss">
+  .hide .el-upload--picture-card {
+    display: none;
   }
 </style>
