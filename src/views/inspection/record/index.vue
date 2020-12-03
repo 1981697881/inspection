@@ -9,7 +9,7 @@
         <list ref="list" @handlerClick="clickT" @uploadList="upload" @exportData="exportData"  @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
-        <tabs-detail @showDialog="handlerDialog" @uploadList="uploadDlist" @showDetail="handlerDetail" @showInfo="handlerInfo" @delList="delivery" @queryBtn="query"/>
+        <tabs-detail @showDialog="handlerDialog" @uploadList="uploadDlist" @showDetail="handlerDetail" @showPrint="handlerPrint" @showInfo="handlerInfo" @delList="delivery" @queryBtn="query"/>
         <d-list ref="dlist" @uploadList="uploadDlist"  @showDialog="showList"/>
       </el-footer>
     </el-container>
@@ -49,12 +49,21 @@
     >
       <info-th @hideDialog="hideWindowTh" @uploadList="upload" :listInfo="listInfo"></info-th>
     </el-dialog>
+    <el-dialog
+      :visible.sync="visible5"
+      title="记录"
+      v-if="visible5"
+      :width="'80%'"
+      destroy-on-close
+    >
+      <print @hideDialog="hidePrint" :listInfo="listInfo"></print>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { TabsBar, List, DList,TabsDetail } from "./components";
-import { Info, InfoO, InfoT, InfoTh } from "./form";
+import { Info, InfoO, InfoT, InfoTh, Print } from "./form";
 
 export default {
   components: {
@@ -65,6 +74,7 @@ export default {
     TabsDetail,
     InfoO,
     InfoT,
+    Print,
     InfoTh,
   },
   data() {
@@ -73,6 +83,7 @@ export default {
       visible2: null,
       visible3: null,
       visible4: null,
+      visible5: null,
       oid: null,
       listInfo: null,
       treeId: null, // null
@@ -107,6 +118,8 @@ export default {
     },
     hideWindowTh(val) {
       this.visible4 = val
+    }, hidePrint(val) {
+      this.visible5 = val
     },
     handlerDialog(obj) {
       this.listInfo = null
@@ -115,6 +128,13 @@ export default {
         this.listInfo = info
       }
       this.visible = true
+    },handlerPrint(obj) {
+      this.listInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.listInfo = info
+      }
+      this.visible5 = true
     },
     handlerInfo(obj) {
       this.listInfo = null

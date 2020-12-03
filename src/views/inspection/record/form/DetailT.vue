@@ -35,7 +35,7 @@
           :headers="headers"
           :data="imgData"
           :limit="3"
-          name="rectifyImg"
+          name="imgS"
           :auto-upload="false"
           :on-success="uploadSuccess"
           :on-error="uploadError"
@@ -144,14 +144,31 @@
       },
       //上传成功事件
       uploadSuccess(res, file, fileList) {
-        console.log(res)
+        let me = this
         if(res.flag){
+          me.count ++
           file.name = res.data;
           this.images.push(res.data)
-          this.$message({
-            message: res.msg,
-            type: "success"
-          });
+          if(me.count == fileList.length){
+            me.$refs['form'].validate((valid) => {
+              // 判断必填项
+              if (valid) {
+                me.form.rectifyImg = me.images.toString()
+                completeRectify(me.form).then(res => {
+                  if(res.flag){
+                    me.$message({
+                      message: res.msg,
+                      type: "success"
+                    });
+                    me.$emit('uploadList')
+                    me.$emit('hideDialog')
+                  }
+                });
+              } else {
+                return false;
+              }
+            })
+          }
         }
       },
       //删除图片
@@ -175,20 +192,7 @@
       },
       saveData(form) {
         this.count = 0
-        this.$refs[form].validate((valid) => {
-          // 判断必填项
-          if (valid) {
-            completeRectify(this.form).then(res => {
-              if(res.flag){
-                this.submitUpload()
-                this.$emit('uploadList')
-                this.$emit('hideDialog')
-              }
-            });
-          } else {
-            return false;
-          }
-        })
+        this.submitUpload()
       },
       fetchFormat() {
         userFormat().then(res => {

@@ -126,6 +126,181 @@
               </el-form-item>
             </el-col>
           </el-row>
+          <el-row :gutter="20">
+            <el-col :span="24">
+              <el-form-item>
+                <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint">检查记录表</el-button>
+                <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint">检查反馈记录表</el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-dialog
+            :visible.sync="visible2"
+            title="记录"
+            v-if="visible2"
+            :width="'80%'"
+            destroy-on-close
+            append-to-body
+          >
+            <el-form :size="'mini'" :label-width="'80px'">
+              <el-row :gutter="20" id="all1">
+                <div class="block text-center" style="margin-top:15px;">
+                  <span class="demonstration">广州市番盈新投资有限公司安全生产检查记录表</span>
+                </div>
+                <table class="order_table"  border="1px" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <th class="order_title">被检公司</th>
+                    <th></th>
+                    <th class="order_title">被检项目</th>
+                    <th></th>
+                    <th class="order_title">项目类别</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">检查人员</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">检查时间</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">被检人员</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">检查单号</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">存在隐患</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">隐患图片</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改意见</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">备注</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">整改期限</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">被检公司代表签名</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th colspan="6">隐患整改反馈</th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改内容</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改图片</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改情况</th>
+                    <th></th>
+                    <th class="order_title">整改跟踪人</th>
+                    <th></th>
+                    <th class="order_title">完成时间</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th colspan="6">整改延期反馈</th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">延期原因</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改完成情况</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">延期期限</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">申请人</th>
+                    <th></th>
+                  </tr>
+                </table>
+              </el-row>
+              <el-row :gutter="20" id="all2">
+                <div class="block text-center" style="margin-top:15px;">
+                  <span class="demonstration" >广州市番盈新投资有限公司安全生产检查反馈记录表</span>
+                </div>
+                <table class="order_table"  border="1px" cellspacing="0" cellpadding="0">
+                  <tr>
+                    <th class="order_title">被检公司</th>
+                    <th></th>
+                    <th class="order_title">被检项目</th>
+                    <th></th>
+                    <th class="order_title">项目类别</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">检查地址</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">检查人员</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">检查时间</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">被检人员</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">检查单号</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">存在隐患</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">隐患图片</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改意见</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">备注</th>
+                    <th colspan="3"></th>
+                    <th class="order_title">整改期限</th>
+                    <th></th>
+                  </tr>
+                  <tr>
+                    <th colspan="6">隐患整改反馈</th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改内容</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改图片</th>
+                    <th colspan="5"></th>
+                  </tr>
+                  <tr>
+                    <th class="order_title">整改情况</th>
+                    <th></th>
+                    <th class="order_title">整改跟踪人</th>
+                    <th></th>
+                    <th class="order_title">完成时间</th>
+                    <th></th>
+                  </tr>
+                </table>
+              </el-row>
+            </el-form>
+            <div slot="footer" style="text-align:center;padding-top: 10px">
+              <el-button type="primary" @click="downPdf">导出</el-button>
+            </div>
+          </el-dialog>
         </el-form>
       </el-dialog>
   </div>
@@ -134,6 +309,8 @@
 <script>
   import { recordRectifyFindList } from "@/api/inspection/index";
   import List from "@/components/List";
+  import html2canvas from 'html2canvas';
+  import jspdf from 'jspdf';
   export default {
     components: {
       List
@@ -157,6 +334,7 @@
         nowImg: [],
         loading: false,
         visible: false,
+        visible2: false,
         list: {},
         form: {
           clockName: null,
@@ -195,6 +373,49 @@
       }
     },
     methods: {
+      downPdf() {
+        window.scrollTo(0, 0) //注意这里必须设置为顶部不然会出现图片不全
+        let that = this;
+        html2canvas(document.querySelector('#all1'), {//对应的dom元素id
+          allowTaint: true
+        }).then(function (canvas) {
+          var contentWidth = canvas.width;
+          var contentHeight = canvas.height;
+
+          //一页pdf显示html页面生成的canvas高度;
+          var pageHeight = contentWidth / 595.28 * 841.89;
+          //未生成pdf的html页面高度
+          var leftHeight = contentHeight;
+          //pdf页面偏移
+          var position = 0;
+          //a4纸的尺寸[595.28,841.89]，html页面生成的canvas在pdf中图片的宽高
+          var imgWidth = 555.28;
+          var imgHeight = 555.28 / contentWidth * contentHeight;
+
+          var pageData = canvas.toDataURL('image/jpeg', 1.0);
+
+          var pdf = new jspdf('', 'pt', 'a4');
+          //有两个高度需要区分，一个是html页面的实际高度，和生成pdf的页面高度(841.89)
+          //当内容未超过pdf一页显示的范围，无需分页
+          if (leftHeight < pageHeight) {
+            pdf.addImage(pageData, 'JPEG', 20, 0, imgWidth, imgHeight);
+          } else {
+            while (leftHeight > 0) {
+              pdf.addImage(pageData, 'JPEG', 20, position, imgWidth, imgHeight)
+              leftHeight -= pageHeight;
+              position -= 841.89;
+              //避免添加空白页
+              if (leftHeight > 0) {
+                pdf.addPage();
+              }
+            }
+          }
+          pdf.save('巡查记录表.pdf');
+        })
+      },
+      handlePrint(){
+        this.visible2 = true
+      },
       dblclick(obj) {
         this.visible = true
         this.form = obj.row
@@ -259,4 +480,17 @@
                     .hide .el-upload--picture-card {
                       display: none;
                     }
+  .demonstration{
+    font-size: 25px;
+  }
+  .order_title{
+    width: 10%;
+  }
+  .order_table{
+    width: 99%;
+  }
+  .order_table tr th{
+    height: 30px;
+    line-height: 30px;
+  }
 </style>

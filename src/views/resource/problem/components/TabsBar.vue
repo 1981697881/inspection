@@ -127,7 +127,7 @@ export default {
       this.$emit('uploadList')
     },
     handlerAlter() {
-      if (this.clickData.loPrId) {
+      if (this.clickData.conId) {
         this.$emit('showDialog', this.clickData)
       } else {
         this.$message({

@@ -95,7 +95,7 @@ export default {
       this.$emit('uploadList')
     },
     handlerAlter() {
-      if (this.clickData.loPrId) {
+      if (this.clickData.proId) {
         this.$emit('showDialog', this.clickData)
       } else {
         this.$message({

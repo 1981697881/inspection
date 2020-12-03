@@ -15,10 +15,13 @@
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>-->
          <!-- <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAdd">检查登记</el-button>-->
+
+
           <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"   @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
+
     </el-form>
   </div>
 </template>
@@ -99,5 +102,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+  .order_title{
+    width: 10%;
+  }
+  .order_table{
+    width: 99%;
+  }
+  .order_table tr th{
+    height: 30px;
+    line-height: 30px;
+  }
 </style>
