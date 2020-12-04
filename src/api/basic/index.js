@@ -301,4 +301,15 @@ export function delProject(data) {
     url: url,
     method: 'delete',
   })
+}// 查询打卡记录
+export function clockList(data) {
+  // 查询分页数据
+  const url = '/user/clockList/'+data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
 }

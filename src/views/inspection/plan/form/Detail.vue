@@ -36,7 +36,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'被检公司'" prop="deptId">
+          <el-form-item :label="'被检公司'" prop="deptName">
            <!-- <el-select v-model="form.deptId" filterable placeholder="公司" >
               <el-option
                 v-for="(t,i) in aArray"
@@ -45,7 +45,7 @@
                 :value="t.FItemID">
               </el-option>
             </el-select>-->
-            <el-input v-model="form.deptId"></el-input>
+            <el-input v-model="form.deptName"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -56,8 +56,8 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'检查人员'" prop="uid">
-            <el-select v-model="form.uid" filterable placeholder="检查人员" >
+          <el-form-item :label="'检查人员'" prop="inspectorUid">
+            <el-select v-model="form.inspectorUid" filterable placeholder="检查人员" >
               <el-option
                 v-for="(t,i) in dArray"
                 :key="i"
@@ -107,7 +107,8 @@ export default {
         proId: null,
         typeId: null,
         planTime: null,
-        uid: null,
+        deptName: null,
+        inspectorUid: null,
       },
       pidS:[],
       aArray:[],
@@ -115,7 +116,7 @@ export default {
       cArray:[],
       dArray:[],
       rules: {
-        deptId: [
+        deptName: [
           {required: true, message: '请选择', trigger: 'blur'},
         ],  typeId: [
           {required: true, message: '请选择', trigger: 'change'},
@@ -124,7 +125,7 @@ export default {
           {required: true, message: '请选择', trigger: 'change'},
         ], planTime: [
           {required: true, message: '请选择', trigger: 'change'},
-        ],uid: [
+        ],inspectorUid: [
           {required: true, message: '请选择', trigger: 'change'},
         ],
       },
@@ -134,6 +135,7 @@ export default {
     this.fetchFormat();
     if (this.listInfo) {
       this.form = this.listInfo
+      this.form.inspectorUid = this.listInfo.inspectorUid.toString()
     }
   },
   methods: {

@@ -3,7 +3,7 @@
     <Tree ref="tree" class="list-tree" />
     <div class="list-container">
       <div>
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @delList="delList" @delGroup="delGroup" @uploadAll="uploadAll" @queryBtn="query" @showGroupDialog="groupDialog"  />
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showClockIn="handlerClockIn" @delList="delList" @delGroup="delGroup" @uploadAll="uploadAll" @queryBtn="query" @showGroupDialog="groupDialog"  />
       </div>
       <list ref="list" @showDialog="handlerDialog"  />
     </div>
@@ -11,7 +11,6 @@
       :visible.sync="visible"
       title="用户信息"
       v-if="visible"
-      v-dialogDrag
       :width="'40%'"
       destroy-on-close
     >
@@ -22,25 +21,33 @@
       :visible.sync="visible2"
       title="用户组信息"
       v-if="visible2"
-      v-dialogDrag
       :width="'40%'"
       destroy-on-close
     >
       <group @hideGroupDialog="hideGroupWindow" @uploadGroup="uploadGroup" :gpInfo="gpInfo"></group>
-
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible3"
+      title="打卡信息"
+      v-if="visible3"
+      :width="'50%'"
+      destroy-on-close
+    >
+      <detail-t @hideGroupDialog="hideGroupWindow" @uploadGroup="uploadGroup" :listInfo="listInfo"></detail-t>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import { Tree, TabsBar, List } from "./components";
-import { Info, Group } from "./form";
+import { Info, Group, DetailT } from "./form";
 export default {
   components: {
     Tree,
     TabsBar,
     List,
     Group,
+    DetailT,
     Info
   },
   data() {
@@ -49,6 +56,7 @@ export default {
       gpInfo: null,
       listInfo: null,
       visible2: null,
+      visible3: null,
       floorId: null
     }
   },
@@ -70,6 +78,14 @@ export default {
         this.listInfo = info
       }
       this.visible = true
+    },
+    handlerClockIn(obj) {
+      this.listInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.listInfo = info
+      }
+      this.visible3 = true
     },
     groupDialog(obj) {
       this.gpInfo = null

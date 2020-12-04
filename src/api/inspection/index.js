@@ -143,3 +143,40 @@ export function pollingRecordByPlanId(data) {
     method: 'get',
   })
 }
+//查询导出PDF数据
+export function printRecordRectify(data) {
+  // 查询分页数据
+  const url = '/print/printRecordRectify/'+data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
+}//查询导出PDF数据
+export function printPollingPlanReport(data) {
+  // 查询分页数据
+  const url = '/print/printPollingPlanReport/'+data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
+}
+  // 查询巡检统计表
+export function pollingPlanReport(data, query) {
+  // 查询分页数据
+  const url = '/report-form/pollingPlanReport/' + data.pageNum + '/' + data.pageSize
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: query
+  })
+}

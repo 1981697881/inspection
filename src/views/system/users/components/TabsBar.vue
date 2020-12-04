@@ -38,9 +38,10 @@
             <el-dropdown-item command="2">用户</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >禁用</el-button>
-        <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>
+      <!--  <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >禁用</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>-->
        <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="showClockIn">打卡信息</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
       </el-button-group>
     </el-form>
@@ -51,7 +52,7 @@
 
 import { mapGetters } from 'vuex'
 import { alterUsers } from '@/api/system/index'
-import { getByUserAndPrId } from '@/api/system/index'
+/*import { getByUserAndPrId } from '@/api/system/index'*/
 export default {
   data() {
     return {
@@ -66,10 +67,10 @@ export default {
   },
   mounted() {
     let path = this.$route.meta.id
-    getByUserAndPrId(path).then(res => {
+   /* getByUserAndPrId(path).then(res => {
       this.btnList = res.data
       this.$forceUpdate();
-    });
+    });*/
   },
   methods: {
     onFun(method, event){
@@ -106,6 +107,16 @@ export default {
     },
     upload() {
       this.$emit('uploadAll')
+    },
+    showClockIn() {
+      if (this.clickData.uid) {
+        this.$emit('showClockIn', this.clickData)
+      } else {
+        this.$message({
+          message: '无选中行',
+          type: 'warning'
+        });getByUserAndPrId
+      }
     },
     disable() {
       if (this.clickData.uid) {

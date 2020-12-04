@@ -40,7 +40,7 @@ export default {
         { text: "检查项目", name: "proName" },
         { text: "项目类别", name: "typeName" },
         { text: "检查地址", name: "address" },
-        { text: "检查人员", name: "username" },
+        { text: "检查人员", name: "inspector" },
         { text: "计划检查时间", name: "planTime" },
         { text: "计划状态", name: "status" },
         { text: "完成时间", name: "" },

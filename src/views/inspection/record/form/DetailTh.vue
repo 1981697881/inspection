@@ -1,316 +1,373 @@
 <template>
   <div>
-      <list
-        class="list-main box-shadow"
-        :columns="columns"
-        :loading="loading"
-        :list="list"
-        @dblclick="dblclick"
-        index
-      />
-      <el-dialog
-        :visible.sync="visible"
-        title="详情"
-        v-if="visible"
-        :width="'60%'"
-        destroy-on-close
-        append-to-body
-      >
-        <el-form :model="form" label-width="100px" :size="'mini'">
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-form-item :label="'延期原因'" >
-                <el-input v-model="form.delayReason"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item :label="'延期期限'">
-                <div class="block">
-                  <el-date-picker
-                    v-model="form.delayTimeLimit"
-                    type="date"
-                    style="width:auto"
-                    value-format="yyyy-MM-dd"
-                    placeholder="选择日期">
-                  </el-date-picker>
-                </div>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="'申请人'">
-                <el-input v-model="form.proposer"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="'申请日期'" >
-                <div class="block">
-                  <el-date-picker
-                    v-model="form.applicationDate"
-                    type="date"
-                    style="width:auto"
-                    value-format="yyyy-MM-dd"
-                    placeholder="选择日期">
-                  </el-date-picker>
-                </div>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="8">
-              <el-form-item :label="'批准人'">
-                <el-input v-model="form.ratify"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="'批准日期'">
-                <div class="block">
-                  <el-date-picker
-                    v-model="form.approvalTime"
-                    type="date"
-                    style="width:auto"
-                    value-format="yyyy-MM-dd"
-                    placeholder="选择日期">
-                  </el-date-picker>
-                </div>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
-              <el-form-item :label="'整改完成时间'">
-                <div class="block">
-                  <el-date-picker
-                    v-model="form.rectifyFinishDate"
-                    type="date"
-                    style="width:auto"
-                    value-format="yyyy-MM-dd"
-                    placeholder="选择日期">
-                  </el-date-picker>
-                </div>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-form-item :label="'隐患问题'" >
-                <el-input type="textarea" v-model="form.concerns"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-form-item :label="'整改内容'" >
-                <el-input type="textarea" v-model="form.opinion"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="24" style="text-align: center">
-              <el-form-item :label="'图片'" >
-                <el-upload
-                  action="#"
-                  list-type="picture-card"
-                  accept="image/jpeg,image/jpg,image/png,image/gif"
-                  :data="imgData"
-                  :limit="3"
-                  name="imgS"
-                  :class="{hide:hideUpload}"
-                  :file-list="fileList"
-                  ref="upload"
-                >
-                  <i class="el-icon-plus"></i>
-                </el-upload>
-                <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
-                  <img width="100%" :src="dialogImageUrl" alt="">
-                </el-dialog>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-form-item>
-                <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint">检查记录表</el-button>
-                <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint">检查反馈记录表</el-button>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-dialog
-            :visible.sync="visible2"
-            title="记录"
-            v-if="visible2"
-            :width="'80%'"
-            destroy-on-close
-            append-to-body
-          >
-            <el-form :size="'mini'" :label-width="'80px'">
-              <el-row :gutter="20" id="all1">
-                <div class="block text-center" style="margin-top:15px;">
-                  <span class="demonstration">广州市番盈新投资有限公司安全生产检查记录表</span>
-                </div>
-                <table class="order_table"  border="1px" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <th class="order_title">被检公司</th>
-                    <th></th>
-                    <th class="order_title">被检项目</th>
-                    <th></th>
-                    <th class="order_title">项目类别</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">检查人员</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">检查时间</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">被检人员</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">检查单号</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">存在隐患</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">隐患图片</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改意见</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">备注</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">整改期限</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">被检公司代表签名</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th colspan="6">隐患整改反馈</th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改内容</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改图片</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改情况</th>
-                    <th></th>
-                    <th class="order_title">整改跟踪人</th>
-                    <th></th>
-                    <th class="order_title">完成时间</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th colspan="6">整改延期反馈</th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">延期原因</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改完成情况</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">延期期限</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">申请人</th>
-                    <th></th>
-                  </tr>
-                </table>
-              </el-row>
-              <el-row :gutter="20" id="all2">
-                <div class="block text-center" style="margin-top:15px;">
-                  <span class="demonstration" >广州市番盈新投资有限公司安全生产检查反馈记录表</span>
-                </div>
-                <table class="order_table"  border="1px" cellspacing="0" cellpadding="0">
-                  <tr>
-                    <th class="order_title">被检公司</th>
-                    <th></th>
-                    <th class="order_title">被检项目</th>
-                    <th></th>
-                    <th class="order_title">项目类别</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">检查地址</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">检查人员</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">检查时间</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">被检人员</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">检查单号</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">存在隐患</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">隐患图片</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改意见</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">备注</th>
-                    <th colspan="3"></th>
-                    <th class="order_title">整改期限</th>
-                    <th></th>
-                  </tr>
-                  <tr>
-                    <th colspan="6">隐患整改反馈</th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改内容</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改图片</th>
-                    <th colspan="5"></th>
-                  </tr>
-                  <tr>
-                    <th class="order_title">整改情况</th>
-                    <th></th>
-                    <th class="order_title">整改跟踪人</th>
-                    <th></th>
-                    <th class="order_title">完成时间</th>
-                    <th></th>
-                  </tr>
-                </table>
-              </el-row>
-            </el-form>
-            <div slot="footer" style="text-align:center;padding-top: 10px">
-              <el-button type="primary" @click="downPdf">导出</el-button>
-            </div>
-          </el-dialog>
-        </el-form>
-      </el-dialog>
+    <list
+      class="list-main box-shadow"
+      :columns="columns"
+      :loading="loading"
+      :list="list"
+      @dblclick="dblclick"
+      index
+    />
+    <el-dialog
+      :visible.sync="visible"
+      title="详情"
+      v-if="visible"
+      :width="'60%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form :model="form" label-width="100px" :size="'mini'">
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item :label="'延期原因'">
+              <el-input v-model="form.delayReason" readOnly></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item :label="'延期期限'">
+              <div class="block">
+                <el-date-picker
+                  v-model="form.delayTimeLimit"
+                  type="date"
+                  style="width:auto"
+                  readOnly
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="'申请人'">
+              <el-input v-model="form.proposer" readOnly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="'申请日期'">
+              <div class="block">
+                <el-date-picker
+                  v-model="form.applicationDate"
+                  type="date"
+                  readOnly
+                  style="width:auto"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <el-form-item :label="'批准人'">
+              <el-input v-model="form.ratify" readOnly></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="'批准日期'">
+              <div class="block">
+                <el-date-picker
+                  v-model="form.approvalTime"
+                  type="date"
+                  readOnly
+                  style="width:auto"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="'整改完成时间'">
+              <div class="block">
+                <el-date-picker
+                  readOnly
+                  v-model="form.rectifyFinishDate"
+                  type="date"
+                  style="width:auto"
+                  value-format="yyyy-MM-dd"
+                  placeholder="选择日期">
+                </el-date-picker>
+              </div>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item :label="'隐患问题'">
+              <el-input type="textarea" readOnly v-model="form.concerns"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item :label="'整改内容'">
+              <el-input type="textarea" readOnly v-model="form.opinion"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24" style="text-align: center">
+            <el-form-item :label="'图片'">
+              <el-upload
+                action="#"
+                list-type="picture-card"
+                accept="image/jpeg,image/jpg,image/png,image/gif"
+                :data="imgData"
+                :limit="3"
+                name="imgS"
+                :class="{hide:hideUpload}"
+                :file-list="fileList"
+                ref="upload"
+              >
+                <i class="el-icon-plus"></i>
+              </el-upload>
+              <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
+                <img width="100%" :src="dialogImageUrl" alt="">
+              </el-dialog>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="24">
+            <el-form-item>
+              <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all1')">检查记录表
+              </el-button>
+              <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all2')">检查反馈记录表
+              </el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-dialog
+          :visible.sync="visible2"
+          title="记录"
+          v-if="visible2"
+          :width="'80%'"
+          destroy-on-close
+          append-to-body
+        >
+          <el-form :size="'mini'" :label-width="'80px'">
+            <el-row :gutter="20" v-if="isPrint1" id="all1">
+              <div class="block text-center" style="margin-top:15px;">
+                <span class="demonstration">{{printData.deptName}}安全生产检查记录表</span>
+              </div>
+              <table class="order_table" border="1px" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th class="order_title">被检公司</th>
+                  <th>{{printData.deptName}}</th>
+                  <th class="order_title">被检项目</th>
+                  <th>{{printData.proName}}</th>
+                  <th class="order_title">项目类别</th>
+                  <th>{{printData.typeName}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">检查人员</th>
+                  <th colspan="3">{{printData.inspector}}</th>
+                  <th class="order_title">检查时间</th>
+                  <th>{{printData.checkTime}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">被检人员</th>
+                  <th colspan="3">{{printData.checkStaff}}</th>
+                  <th class="order_title">检查单号</th>
+                  <th>{{printData.checkNo}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">存在隐患</th>
+                  <th colspan="5">
+                    <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.concerns" :key="i">
+                      {{i+1}}:{{t}}
+                    </p>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="order_title">隐患图片</th>
+                  <th colspan="5">
+                    <el-image
+                      v-for="(t,i) in printData.concernsImg" :key="i"
+                      style="width: 100px; height: 100px"
+                      :src="imageUrl+t"
+                      fit="fit">
+
+                    </el-image>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改意见</th>
+                  <th colspan="5">
+                    <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
+                      {{t}}
+                    </p>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="order_title">备注</th>
+                  <th colspan="3"></th>
+                  <th class="order_title">整改期限</th>
+                  <th>{{printData.rectifyPlanDate}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">被检公司代表签名</th>
+                  <th colspan="5">
+                    <el-image
+                      style="width: 100px; height: 100px"
+                      :src="imageUrl+printData.signature"
+                      fit="fit">
+
+                    </el-image>
+                  </th>
+                </tr>
+                <tr>
+                  <th colspan="6">隐患整改反馈</th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改内容</th>
+                  <th colspan="5">{{printData.checkContent}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改图片</th>
+                  <th colspan="5">
+                    <el-image
+                      v-for="(t,i) in printData.rectifyImg" :key="i"
+                      style="width: 100px; height: 100px"
+                      :src="imageUrl+t"
+                      fit="fit">
+
+                    </el-image>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改情况</th>
+                  <th>{{printData.rectifyContent}}</th>
+                  <th class="order_title">整改跟踪人</th>
+                  <th>{{printData.rectifyName}}</th>
+                  <th class="order_title">完成时间</th>
+                  <th>{{printData.rectifyFinishDate}}</th>
+                </tr>
+                <tr>
+                  <th colspan="6">整改延期反馈</th>
+                </tr>
+                <tr>
+                  <th class="order_title">延期原因</th>
+                  <th colspan="5">{{printData.delayReason}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改完成情况</th>
+                  <th colspan="5">{{printData.rectifyContent}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">延期期限</th>
+                  <th colspan="3">{{printData.delayTimeLimit}}</th>
+                  <th class="order_title">申请人</th>
+                  <th>{{printData.proposer}}</th>
+                </tr>
+              </table>
+            </el-row>
+            <el-row :gutter="20" v-if="isPrint2" id="all2">
+              <div class="block text-center" style="margin-top:15px;">
+                <span class="demonstration">{{printData.deptName}}安全生产检查反馈记录表</span>
+              </div>
+              <table class="order_table" border="1px" cellspacing="0" cellpadding="0">
+                <tr>
+                  <th class="order_title">被检公司</th>
+                  <th>{{printData.deptName}}</th>
+                  <th class="order_title">被检项目</th>
+                  <th>{{printData.proName}}</th>
+                  <th class="order_title">项目类别</th>
+                  <th>{{printData.typeName}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">检查地址</th>
+                  <th colspan="5">{{printData.typeName}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">检查人员</th>
+                  <th colspan="3">{{printData.inspector}}</th>
+                  <th class="order_title">检查时间</th>
+                  <th>{{printData.checkTime}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">被检人员</th>
+                  <th colspan="3">{{printData.checkStaff}}</th>
+                  <th class="order_title">检查单号</th>
+                  <th>{{printData.checkNo}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">存在隐患</th>
+                  <th colspan="5">
+                    <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.concerns" :key="i">
+                    {{i+1}}:{{t}}
+                  </p>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="order_title">隐患图片</th>
+                  <th colspan="5">
+                    <el-image
+                    v-for="(t,i) in printData.concernsImg" :key="i"
+                    style="width: 100px; height: 100px"
+                    :src="imageUrl+t"
+                    fit="fit">
+
+                  </el-image></th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改意见</th>
+                  <th colspan="5"> <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
+                    {{t}}
+                  </p></th>
+                </tr>
+                <tr>
+                  <th class="order_title">备注</th>
+                  <th colspan="3"></th>
+                  <th class="order_title">整改期限</th>
+                  <th>{{printData.rectifyPlanDate}}</th>
+                </tr>
+                <tr>
+                  <th colspan="6">隐患整改反馈</th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改内容</th>
+                  <th colspan="5">{{printData.checkContent}}</th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改图片</th>
+                  <th colspan="5"><el-image
+                    v-for="(t,i) in printData.rectifyImg" :key="i"
+                    style="width: 100px; height: 100px"
+                    :src="imageUrl+t"
+                    fit="fit">
+
+                  </el-image></th>
+                </tr>
+                <tr>
+                  <th class="order_title">整改情况</th>
+                  <th>{{printData.rectifyContent}}</th>
+                  <th class="order_title">整改跟踪人</th>
+                  <th>{{printData.rectifyName}}</th>
+                  <th class="order_title">完成时间</th>
+                  <th>{{printData.rectifyFinishDate}}</th>
+                </tr>
+              </table>
+            </el-row>
+          </el-form>
+          <div slot="footer" style="text-align:center;padding-top: 10px">
+            <el-button type="primary" @click="downPdf">导出</el-button>
+          </div>
+        </el-dialog>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { recordRectifyFindList } from "@/api/inspection/index";
+  import {recordRectifyFindList, printRecordRectify} from "@/api/inspection/index";
   import List from "@/components/List";
   import html2canvas from 'html2canvas';
   import jspdf from 'jspdf';
+
   export default {
     components: {
       List
@@ -323,10 +380,12 @@
     },
     data() {
       return {
-        imgData: {
-        },
+        imgData: {},
         images: [],
-        hideUpload: false,
+        imageUrl: this.$store.state.user.url+'/uploadFiles/image/',
+        hideUpload: true,
+        isPrint2: false,
+        isPrint1: false,
         dialogImageUrl: '',
         dialogVisible: false,
         fileList: [],
@@ -335,7 +394,10 @@
         loading: false,
         visible: false,
         visible2: false,
+        printName: '',
+        printId: '',
         list: {},
+        printData: {},
         form: {
           clockName: null,
           clockLocation: null,
@@ -350,33 +412,34 @@
           rectifyName: null,
         },
         columns: [
-          { text: "打卡人", name: "clockName" },
-          { text: "位置信息", name: "clockLocation" },
-          { text: "检查人员", name: "checkStaff" },
-          { text: "打卡时间", name: "clockTime" },
-          { text: "通知单号", name: "orderNo" },
-          { text: "登记日期", name: "recordDate" },
-          { text: "隐患问题", name: "concerns" },
-          { text: "整改内容", name: "opinion" },
-          { text: "隐患图片", name: "concernsImg" },
-          { text: "要求整改完成日期", name: "rectifyPlanDate" },
-          { text: "整改情况", name: "" },
-         /* { text: "整改完成图片", name: "rectifyImg" },*/
-          { text: "整改跟踪人", name: "rectifyUid" },
-          { text: "完成时间", name: "" },
+          {text: "打卡人", name: "clockName"},
+          {text: "位置信息", name: "clockLocation"},
+          {text: "检查人员", name: "checkStaff"},
+          {text: "打卡时间", name: "clockTime"},
+          {text: "通知单号", name: "orderNo"},
+          {text: "登记日期", name: "recordDate"},
+          {text: "隐患问题", name: "concerns"},
+          {text: "整改内容", name: "opinion"},
+          {text: "隐患图片", name: "concernsImg"},
+          {text: "要求整改完成日期", name: "rectifyPlanDate"},
+          {text: "整改情况", name: ""},
+          /* { text: "整改完成图片", name: "rectifyImg" },*/
+          {text: "整改跟踪人", name: "rectifyUid"},
+          {text: "完成时间", name: ""},
         ]
       };
     },
     mounted() {
       if (this.listInfo) {
         this.fetchFormat({recordId: this.listInfo.recordId})
+
       }
     },
     methods: {
       downPdf() {
         window.scrollTo(0, 0) //注意这里必须设置为顶部不然会出现图片不全
         let that = this;
-        html2canvas(document.querySelector('#all1'), {//对应的dom元素id
+        html2canvas(document.querySelector(that.printId), {//对应的dom元素id
           allowTaint: true
         }).then(function (canvas) {
           var contentWidth = canvas.width;
@@ -410,28 +473,41 @@
               }
             }
           }
-          pdf.save('巡查记录表.pdf');
+          pdf.save(that.printName+'.pdf');
         })
       },
-      handlePrint(){
+      handlePrint(val) {
+        this.printName = ''
+        if (val == 'all1') {
+          this.isPrint1 = true
+          this.isPrint2 = false
+          this.printId = '#all1'
+          this.printName = '检查记录表'
+        } else {
+          this.isPrint1 = false
+          this.isPrint2 = true
+          this.printId = '#all2'
+          this.printName = '检查反馈记录表'
+        }
         this.visible2 = true
       },
       dblclick(obj) {
         this.visible = true
         this.form = obj.row
+        this.fetchData(obj.row.rectifyId)
         let imgArray = obj.row.rectifyImg.split(',');
         if (this.img != '') {
           if (imgArray.length > 0) {
             //到图片数量大于3或等于3时添加按钮隐藏
-            if (imgArray.length >= 3) {
+          /*  if (imgArray.length >= 3) {
               this.hideUpload = true;
             } else {
               this.hideUpload = false;
-            }
+            }*/
             this.fileList = []
             for (let i in imgArray) {
               this.fileList.push({
-                url: this.$store.state.user.url+'/uploadFiles/image/' + imgArray[i]
+                url: this.$store.state.user.url + '/uploadFiles/image/' + imgArray[i]
               })
             }
           } else {
@@ -456,6 +532,15 @@
           this.list = {records: res.data}
         });
       },
+      fetchData(val) {
+        printRecordRectify(val).then(res => {
+          this.printData = res.data
+          this.printData.concerns = res.data.concerns.split(',')
+          this.printData.concernsImg = res.data.concernsImg.split(',')
+          this.printData.opinion = res.data.opinion.split('。')
+          this.printData.rectifyImg = res.data.rectifyImg.split(',')
+        });
+      },
     }
   };
 </script>
@@ -472,24 +557,27 @@
     display: flex;
     line-height: 34px;
   }
+  .hide .el-upload--picture-card {
+    display: none;
+  }
 </style>
 <style lang="scss" scoped>
   .list-main {
-    height: calc(100vh/3);
+    height: calc(100vh / 3);
   }
-                    .hide .el-upload--picture-card {
-                      display: none;
-                    }
-  .demonstration{
+  .demonstration {
     font-size: 25px;
   }
-  .order_title{
+
+  .order_title {
     width: 10%;
   }
-  .order_table{
+
+  .order_table {
     width: 99%;
   }
-  .order_table tr th{
+
+  .order_table tr th {
     height: 30px;
     line-height: 30px;
   }

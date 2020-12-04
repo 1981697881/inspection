@@ -33,7 +33,7 @@
         columns: [
           { text: "打卡人", name: "clockUid" },
           { text: "位置信息", name: "clockLocation" },
-          { text: "检查人员", name: "checkStaff" },
+          { text: "检查人员", name: "inspector" },
           { text: "打卡时间", name: "clockTime" },
           { text: "通知单号", name: "orderNo" },
           { text: "登记日期", name: "recordDate" },

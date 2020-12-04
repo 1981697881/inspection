@@ -21,26 +21,28 @@
         </el-col>
         <el-col :span="4">
           <el-form-item :label="'所属公司'">
-            <el-input v-model="search.loPrName" placeholder="所属公司"/>
+            <el-select v-model="search.plId" class="width-full" placeholder="所属公司" @change="selectDeptId">
+              <el-option :label="t.deptName" :value="t.deptId" v-for="(t,i) in pArray"  :key="i"></el-option>
+            </el-select>
           </el-form-item>
         </el-col><el-col :span="4">
           <el-form-item :label="'项目名称'">
-            <el-input v-model="search.loPrName" placeholder="项目名称"/>
+            <el-input v-model="search.proName" placeholder="项目名称"/>
           </el-form-item>
         </el-col><el-col :span="4">
           <el-form-item :label="'项目类别'">
-            <el-input v-model="search.loPrName" placeholder="项目类别"/>
+            <el-select v-model="search.typeId" class="width-full" placeholder="项目类别" @change="selectTypeId">
+              <el-option :label="t.typeName" :value="t.typeId" v-for="(t,i) in rArray"  :key="i"></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="2">
           <el-button :size="'mini'" type="primary" icon="el-icon-search" @click="query">查询</el-button>
         </el-col>
         <el-button-group style="float:right">
-         <!-- <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>-->
-          <el-button :size="'mini'" type="primary" icon="el-icon-printer" @click="confirmPrint" >打印</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-printer" @click="handlerAlter" >打印</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-refresh" @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
     </el-form>
@@ -48,6 +50,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { dProjectTypeFormat, departmentList } from "@/api/basic/index";
 export default {
   components: {},
   computed: {
@@ -83,17 +86,41 @@ export default {
           }
         }]
       },
+      rArray: [],
+      pArray: [],
       search: {
-        loPrName: null
+        deptId: null,
+        proName: null,
+        typeId: null
       }
     };
   },
-
+  mounted() {
+    this.fetchData()
+  },
   methods: {
+    // 导出
+    exportData() {
+      this.$emit('exportData')
+    },
+    // 下拉选择之后刷新页面
+    selectDeptId(val) {
+      this.search.deptId = val
+      this.$emit('uploadList')
+    },
+    // 下拉选择之后刷新页面
+    selectTypeId(val) {
+      this.search.typeId = val
+      this.$emit('uploadList')
+    },
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.loPrName != null && this.search.loPrName != '' ? obj.loPrName = this.search.loPrName : null
+      this.search.deptId != null && this.search.deptId != '' ? obj.deptId = this.search.deptId : null
+      this.search.proName != null && this.search.proName != '' ? obj.proName = this.search.proName : null
+      this.search.typeId != null && this.search.typeId != '' ? obj.typeId = this.search.typeId : null
+      this.value != null && this.value != undefined ? obj.endDate = this.value[1] : null
+      this.value != null && this.value != undefined ? obj.startDate = this.value[0] : null
       return obj
     },
     // 关键字查询
@@ -101,35 +128,31 @@ export default {
     query() {
       this.$emit('queryBtn', this.qFilter())
     },
-    Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      } else {
-        this.$message({
-          message: "无选中行",
-          type: "warning"
-        })
-      }
-    },
     handlerAdd() {
       this.$emit('showDialog')
     },
     upload() {
+      this.search.deptId = null
+      this.search.proName = null
+      this.search.typeId = null
+      this.value = []
       this.$emit('uploadList')
     },
+    // 获取下拉
+    fetchData() {
+      dProjectTypeFormat().then(res => {
+        if(res.flag){
+          this.rArray = res.data
+        }
+      });
+      departmentList().then(res => {
+        if(res.flag){
+          this.pArray = res.data
+        }
+      });
+    },
     handlerAlter() {
-      if (this.clickData.loPrId) {
+      if (this.clickData.orderNo) {
         this.$emit('showDialog', this.clickData)
       } else {
         this.$message({

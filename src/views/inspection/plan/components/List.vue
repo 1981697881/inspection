@@ -35,7 +35,7 @@ export default {
       columns: [
         { text: "计划单号", name: "planNo" },
         { text: "被检公司", name: "deptName" },
-        { text: "检查人员", name: "username" },
+        { text: "检查人员", name: "inspector" },
         { text: "检查项目", name: "proName" },
         { text: "项目类别", name: "typeName" },
         { text: "检查地址", name: "address" },
