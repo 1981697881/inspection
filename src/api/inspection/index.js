@@ -119,7 +119,18 @@ export function completeRectify(data) {
     data: data
   })
 }
-// 巡检记录删除
+// 巡检计划删除
+export function delPollingplan(data) {
+  // 查询分页数据
+  const url = '/polling-plan/del/'+data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'delete',
+  })
+}// 巡检记录删除
 export function delPollingrecord(data) {
   // 查询分页数据
   const url = '/polling-record/del/'+data

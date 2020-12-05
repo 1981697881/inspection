@@ -153,7 +153,7 @@ export default {
       this.$refs[form].validate((valid) => {
         // 判断必填项
         if (valid) {
-          if (typeof (this.form.loPrId) != undefined && this.form.loPrId != null) {
+          if (typeof (this.form.planId) != undefined && this.form.planId != null) {
             updatePollingPlan(this.form).then(res => {
               this.$emit('hideDialog', false)
               this.$emit('uploadList')

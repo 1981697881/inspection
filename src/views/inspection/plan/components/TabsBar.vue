@@ -86,7 +86,7 @@
           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerAdd">新增</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="Delivery">删除</el-button>
-          <el-button :size="'mini'" type="primary" icon="el-icon-news" @click="Delivery">停用</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-news" @click="">停用</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-sort-up" @click="audit">审核</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-sort-down" @click="unAudit">反审核</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
@@ -156,13 +156,13 @@ export default {
       this.$emit('queryBtn', this.qFilter())
     },
     Delivery() {
-      if (this.clickData.loPrId) {
-        this.$confirm('是否删除(' + this.clickData.loPrName + ')，删除后将无法恢复?', '提示', {
+      if (this.clickData.planId) {
+        this.$confirm('是否删除(' + this.clickData.planNo + ')，删除后将无法恢复?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$emit('delList', this.clickData.loPrId)
+          this.$emit('delList', this.clickData.planId)
         }).catch(() => {
           this.$message({
             type: 'info',

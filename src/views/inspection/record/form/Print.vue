@@ -8,11 +8,11 @@
         <table class="order_table"  border="1px" cellspacing="0" cellpadding="0">
           <tr>
             <th class="order_title">被检公司</th>
-            <th>{{print.recordDate}}</th>
+            <th>{{print.deptName}}</th>
             <th class="order_title">被检项目</th>
-            <th>{{print.recordDate}}</th>
+            <th>{{print.proName}}</th>
             <th class="order_title">项目类别</th>
-            <th>{{print.recordDate}}</th>
+            <th>{{print.typeName}}</th>
           </tr>
           <tr>
             <th class="order_title">检查地址</th>

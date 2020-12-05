@@ -18,7 +18,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getPollingPlanList, delSupplier} from "@/api/inspection/index";
+import { getPollingPlanList, delPollingplan} from "@/api/inspection/index";
 import List from "@/components/List";
 
 export default {
@@ -59,7 +59,7 @@ export default {
       this.$emit('showDialog', obj.row)
     },
     Delivery(val) {
-      delSupplier(val).then(res => {
+      delPollingplan(val).then(res => {
         if(res.flag){
           this.$store.dispatch("list/setClickData", '');
           this.fetchData();
