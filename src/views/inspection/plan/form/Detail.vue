@@ -45,7 +45,7 @@
                 :value="t.FItemID">
               </el-option>
             </el-select>-->
-            <el-input v-model="form.deptName"></el-input>
+            <el-input v-model="form.deptName" readOnly></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="12">
@@ -144,8 +144,10 @@ export default {
       let data = me.bArray
       data.forEach((item,index) =>{
         if(item.proId == val){
+          console.log(item)
           me.form.address = item.address
           me.form.deptId = item.deptId
+          me.form.deptName = item.deptName
         }
       })
     },

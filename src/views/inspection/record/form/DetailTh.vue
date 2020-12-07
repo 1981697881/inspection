@@ -1,13 +1,26 @@
 <template>
   <div>
+    <el-form :size="'mini'">
     <list
       class="list-main box-shadow"
       :columns="columns"
       :loading="loading"
       :list="list"
       @dblclick="dblclick"
+      @row-click="rowClick"
       index
     />
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item>
+            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all1')">检查记录表
+            </el-button>
+            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all2')">检查反馈记录表
+            </el-button>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
     <el-dialog
       :visible.sync="visible"
       title="详情"
@@ -130,234 +143,224 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="20">
-          <el-col :span="24">
-            <el-form-item>
-              <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all1')">检查记录表
-              </el-button>
-              <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all2')">检查反馈记录表
-              </el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-dialog
-          :visible.sync="visible2"
-          title="记录"
-          v-if="visible2"
-          :width="'80%'"
-          destroy-on-close
-          append-to-body
-        >
-          <el-form :size="'mini'" :label-width="'80px'">
-            <el-row :gutter="20" v-if="isPrint1" id="all1">
-              <div class="block text-center" style="margin-top:15px;">
-                <span class="demonstration">{{printData.deptName}}安全生产检查记录表</span>
-              </div>
-              <table class="order_table" border="1px" cellspacing="0" cellpadding="0">
-                <tr>
-                  <th class="order_title">被检公司</th>
-                  <th>{{printData.deptName}}</th>
-                  <th class="order_title">被检项目</th>
-                  <th>{{printData.proName}}</th>
-                  <th class="order_title">项目类别</th>
-                  <th>{{printData.typeName}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">检查人员</th>
-                  <th colspan="3">{{printData.inspector}}</th>
-                  <th class="order_title">检查时间</th>
-                  <th>{{printData.checkTime}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">被检人员</th>
-                  <th colspan="3">{{printData.checkStaff}}</th>
-                  <th class="order_title">检查单号</th>
-                  <th>{{printData.checkNo}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">存在隐患</th>
-                  <th colspan="5">
-                    <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.concerns" :key="i">
-                      {{i+1}}:{{t}}
-                    </p>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="order_title">隐患图片</th>
-                  <th colspan="5">
-                    <el-image
-                      v-for="(t,i) in printData.concernsImg" :key="i"
-                      style="width: 100px; height: 100px"
-                      :src="imageUrl+t"
-                      fit="fit">
-
-                    </el-image>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改意见</th>
-                  <th colspan="5">
-                    <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
-                      {{t}}
-                    </p>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="order_title">备注</th>
-                  <th colspan="3"></th>
-                  <th class="order_title">整改期限</th>
-                  <th>{{printData.rectifyPlanDate}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">被检公司代表签名</th>
-                  <th colspan="5">
-                    <el-image
-                      style="width: 100px; height: 100px"
-                      :src="imageUrl+printData.signature"
-                      fit="fit">
-
-                    </el-image>
-                  </th>
-                </tr>
-                <tr>
-                  <th colspan="6">隐患整改反馈</th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改内容</th>
-                  <th colspan="5">{{printData.checkContent}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改图片</th>
-                  <th colspan="5">
-                    <el-image
-                      v-for="(t,i) in printData.rectifyImg" :key="i"
-                      style="width: 100px; height: 100px"
-                      :src="imageUrl+t"
-                      fit="fit">
-
-                    </el-image>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改情况</th>
-                  <th>{{printData.rectifyContent}}</th>
-                  <th class="order_title">整改跟踪人</th>
-                  <th>{{printData.rectifyName}}</th>
-                  <th class="order_title">完成时间</th>
-                  <th>{{printData.rectifyFinishDate}}</th>
-                </tr>
-                <tr>
-                  <th colspan="6">整改延期反馈</th>
-                </tr>
-                <tr>
-                  <th class="order_title">延期原因</th>
-                  <th colspan="5">{{printData.delayReason}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改完成情况</th>
-                  <th colspan="5">{{printData.rectifyContent}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">延期期限</th>
-                  <th colspan="3">{{printData.delayTimeLimit}}</th>
-                  <th class="order_title">申请人</th>
-                  <th>{{printData.proposer}}</th>
-                </tr>
-              </table>
-            </el-row>
-            <el-row :gutter="20" v-if="isPrint2" id="all2">
-              <div class="block text-center" style="margin-top:15px;">
-                <span class="demonstration">{{printData.deptName}}安全生产检查反馈记录表</span>
-              </div>
-              <table class="order_table" border="1px" cellspacing="0" cellpadding="0">
-                <tr>
-                  <th class="order_title">被检公司</th>
-                  <th>{{printData.deptName}}</th>
-                  <th class="order_title">被检项目</th>
-                  <th>{{printData.proName}}</th>
-                  <th class="order_title">项目类别</th>
-                  <th>{{printData.typeName}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">检查地址</th>
-                  <th colspan="5">{{printData.typeName}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">检查人员</th>
-                  <th colspan="3">{{printData.inspector}}</th>
-                  <th class="order_title">检查时间</th>
-                  <th>{{printData.checkTime}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">被检人员</th>
-                  <th colspan="3">{{printData.checkStaff}}</th>
-                  <th class="order_title">检查单号</th>
-                  <th>{{printData.checkNo}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">存在隐患</th>
-                  <th colspan="5">
-                    <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.concerns" :key="i">
-                    {{i+1}}:{{t}}
-                  </p>
-                  </th>
-                </tr>
-                <tr>
-                  <th class="order_title">隐患图片</th>
-                  <th colspan="5">
-                    <el-image
-                    v-for="(t,i) in printData.concernsImg" :key="i"
-                    style="width: 100px; height: 100px"
-                    :src="imageUrl+t"
-                    fit="fit">
-
-                  </el-image></th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改意见</th>
-                  <th colspan="5"> <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
-                    {{t}}
-                  </p></th>
-                </tr>
-                <tr>
-                  <th class="order_title">备注</th>
-                  <th colspan="3"></th>
-                  <th class="order_title">整改期限</th>
-                  <th>{{printData.rectifyPlanDate}}</th>
-                </tr>
-                <tr>
-                  <th colspan="6">隐患整改反馈</th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改内容</th>
-                  <th colspan="5">{{printData.checkContent}}</th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改图片</th>
-                  <th colspan="5"><el-image
-                    v-for="(t,i) in printData.rectifyImg" :key="i"
-                    style="width: 100px; height: 100px"
-                    :src="imageUrl+t"
-                    fit="fit">
-
-                  </el-image></th>
-                </tr>
-                <tr>
-                  <th class="order_title">整改情况</th>
-                  <th>{{printData.rectifyContent}}</th>
-                  <th class="order_title">整改跟踪人</th>
-                  <th>{{printData.rectifyName}}</th>
-                  <th class="order_title">完成时间</th>
-                  <th>{{printData.rectifyFinishDate}}</th>
-                </tr>
-              </table>
-            </el-row>
-          </el-form>
-          <div slot="footer" style="text-align:center;padding-top: 10px">
-            <el-button type="primary" @click="downPdf">导出</el-button>
-          </div>
-        </el-dialog>
       </el-form>
+    </el-dialog>
+    <el-dialog
+      :visible.sync="visible2"
+      title="记录"
+      v-if="visible2"
+      :width="'80%'"
+      destroy-on-close
+      append-to-body
+    >
+      <el-form :size="'mini'" :label-width="'80px'">
+        <el-row :gutter="20" v-if="isPrint1" id="all1">
+          <div class="block text-center" style="margin-top:15px;">
+            <span class="demonstration">{{printData.deptName}}安全生产检查记录表</span>
+          </div>
+          <table class="order_table" border="1px" cellspacing="0" cellpadding="0">
+            <tr>
+              <th class="order_title">被检公司</th>
+              <th>{{printData.deptName}}</th>
+              <th class="order_title">被检项目</th>
+              <th>{{printData.proName}}</th>
+              <th class="order_title">项目类别</th>
+              <th>{{printData.typeName}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">检查人员</th>
+              <th colspan="3">{{printData.inspector}}</th>
+              <th class="order_title">检查时间</th>
+              <th>{{printData.checkTime}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">被检人员</th>
+              <th colspan="3">{{printData.checkStaff}}</th>
+              <th class="order_title">检查单号</th>
+              <th>{{printData.checkNo}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">存在隐患</th>
+              <th colspan="5">
+                <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.concerns" :key="i">
+                  {{i+1}}:{{t}}
+                </p>
+              </th>
+            </tr>
+            <tr>
+              <th class="order_title">隐患图片</th>
+              <th colspan="5">
+                <el-image
+                  v-for="(t,i) in printData.concernsImg" :key="i"
+                  style="width: 100px; height: 100px"
+                  :src="imageUrl+t"
+                  fit="fit">
+
+                </el-image>
+              </th>
+            </tr>
+            <tr>
+              <th class="order_title">整改意见</th>
+              <th colspan="5">
+                <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
+                  {{t}}
+                </p>
+              </th>
+            </tr>
+            <tr>
+              <th class="order_title">备注</th>
+              <th colspan="3"></th>
+              <th class="order_title">整改期限</th>
+              <th>{{printData.rectifyPlanDate}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">被检公司代表签名</th>
+              <th colspan="5">
+                <el-image
+                  style="width: 100px; height: 100px"
+                  :src="imageUrl+printData.signature"
+                  fit="fit">
+
+                </el-image>
+              </th>
+            </tr>
+            <tr>
+              <th colspan="6">隐患整改反馈</th>
+            </tr>
+            <tr>
+              <th class="order_title">整改内容</th>
+              <th colspan="5">{{printData.checkContent}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">整改图片</th>
+              <th colspan="5">
+                <el-image
+                  v-for="(t,i) in printData.rectifyImg" :key="i"
+                  style="width: 100px; height: 100px"
+                  :src="imageUrl+t"
+                  fit="fit">
+
+                </el-image>
+              </th>
+            </tr>
+            <tr>
+              <th class="order_title">整改情况</th>
+              <th>{{printData.rectifyContent}}</th>
+              <th class="order_title">整改跟踪人</th>
+              <th>{{printData.rectifyName}}</th>
+              <th class="order_title">完成时间</th>
+              <th>{{printData.rectifyFinishDate}}</th>
+            </tr>
+            <tr>
+              <th colspan="6">整改延期反馈</th>
+            </tr>
+            <tr>
+              <th class="order_title">延期原因</th>
+              <th colspan="5">{{printData.delayReason}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">整改完成情况</th>
+              <th colspan="5">{{printData.rectifyContent}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">延期期限</th>
+              <th colspan="3">{{printData.delayTimeLimit}}</th>
+              <th class="order_title">申请人</th>
+              <th>{{printData.proposer}}</th>
+            </tr>
+          </table>
+        </el-row>
+        <el-row :gutter="20" v-if="isPrint2" id="all2">
+          <div class="block text-center" style="margin-top:15px;">
+            <span class="demonstration">{{printData.deptName}}安全生产检查反馈记录表</span>
+          </div>
+          <table class="order_table" border="1px" cellspacing="0" cellpadding="0">
+            <tr>
+              <th class="order_title">被检公司</th>
+              <th>{{printData.deptName}}</th>
+              <th class="order_title">被检项目</th>
+              <th>{{printData.proName}}</th>
+              <th class="order_title">项目类别</th>
+              <th>{{printData.typeName}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">检查地址</th>
+              <th colspan="5">{{printData.typeName}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">检查人员</th>
+              <th colspan="3">{{printData.inspector}}</th>
+              <th class="order_title">检查时间</th>
+              <th>{{printData.checkTime}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">被检人员</th>
+              <th colspan="3">{{printData.checkStaff}}</th>
+              <th class="order_title">检查单号</th>
+              <th>{{printData.checkNo}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">存在隐患</th>
+              <th colspan="5">
+                <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.concerns" :key="i">
+                  {{i+1}}:{{t}}
+                </p>
+              </th>
+            </tr>
+            <tr>
+              <th class="order_title">隐患图片</th>
+              <th colspan="5">
+                <el-image
+                  v-for="(t,i) in printData.concernsImg" :key="i"
+                  style="width: 100px; height: 100px"
+                  :src="imageUrl+t"
+                  fit="fit">
+
+                </el-image></th>
+            </tr>
+            <tr>
+              <th class="order_title">整改意见</th>
+              <th colspan="5"> <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
+                {{t}}
+              </p></th>
+            </tr>
+            <tr>
+              <th class="order_title">备注</th>
+              <th colspan="3"></th>
+              <th class="order_title">整改期限</th>
+              <th>{{printData.rectifyPlanDate}}</th>
+            </tr>
+            <tr>
+              <th colspan="6">隐患整改反馈</th>
+            </tr>
+            <tr>
+              <th class="order_title">整改内容</th>
+              <th colspan="5">{{printData.checkContent}}</th>
+            </tr>
+            <tr>
+              <th class="order_title">整改图片</th>
+              <th colspan="5"><el-image
+                v-for="(t,i) in printData.rectifyImg" :key="i"
+                style="width: 100px; height: 100px"
+                :src="imageUrl+t"
+                fit="fit">
+
+              </el-image></th>
+            </tr>
+            <tr>
+              <th class="order_title">整改情况</th>
+              <th>{{printData.rectifyContent}}</th>
+              <th class="order_title">整改跟踪人</th>
+              <th>{{printData.rectifyName}}</th>
+              <th class="order_title">完成时间</th>
+              <th>{{printData.rectifyFinishDate}}</th>
+            </tr>
+          </table>
+        </el-row>
+      </el-form>
+      <div slot="footer" style="text-align:center;padding-top: 10px">
+        <el-button type="primary" @click="downPdf">导出</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -396,6 +399,7 @@
         visible2: false,
         printName: '',
         printId: '',
+        row: null,
         list: {},
         printData: {},
         form: {
@@ -432,10 +436,13 @@
     mounted() {
       if (this.listInfo) {
         this.fetchFormat({recordId: this.listInfo.recordId})
-
       }
     },
     methods: {
+      //监听单击某一行
+      rowClick(obj) {
+        this.row = obj.row
+      },
       downPdf() {
         window.scrollTo(0, 0) //注意这里必须设置为顶部不然会出现图片不全
         let that = this;
@@ -477,24 +484,33 @@
         })
       },
       handlePrint(val) {
-        this.printName = ''
-        if (val == 'all1') {
-          this.isPrint1 = true
-          this.isPrint2 = false
-          this.printId = '#all1'
-          this.printName = '检查记录表'
-        } else {
-          this.isPrint1 = false
-          this.isPrint2 = true
-          this.printId = '#all2'
-          this.printName = '检查反馈记录表'
+        if(this.row.rectifyId){
+          this.fetchData(this.row.rectifyId)
+          this.printName = ''
+          if (val == 'all1') {
+            this.isPrint1 = true
+            this.isPrint2 = false
+            this.printId = '#all1'
+            this.printName = '检查记录表'
+          } else {
+            this.isPrint1 = false
+            this.isPrint2 = true
+            this.printId = '#all2'
+            this.printName = '检查反馈记录表'
+          }
+          this.visible2 = true
+        }else{
+          this.$message({
+            message: "无选中行",
+            type: "warning"
+          });
         }
-        this.visible2 = true
+
       },
       dblclick(obj) {
         this.visible = true
         this.form = obj.row
-        this.fetchData(obj.row.rectifyId)
+
         let imgArray = obj.row.rectifyImg.split(',');
         if (this.img != '') {
           if (imgArray.length > 0) {
