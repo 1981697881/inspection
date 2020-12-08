@@ -190,4 +190,40 @@ export function pollingPlanReport(data, query) {
     method: 'post',
     data: query
   })
+}  // 查询整改记录
+export function recordRectifyList(data, query) {
+  // 查询分页数据
+  const url = '/record-rectify/list/' + data.pageNum + '/' + data.pageSize
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    method: 'post',
+    data: query
+  })
+}
+// 整改记录-反审核
+export function recordRectifyAgainstAudit(data) {
+  // 查询分页数据
+  const url = '/record-rectify/againstAudit/' + data
+  return request({
+    headers: {
+      'authorization': getToken('insrx')
+    },
+    url: url,
+    method: 'get',
+  })
+}// 整改记录-审核
+export function recordRectifyAudit(data) {
+  // 查询分页数据
+  const url = '/record-rectify/audit/' + data
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'get',
+  })
 }

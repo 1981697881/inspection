@@ -18,6 +18,7 @@ const map = {
 
   'plan': () => import('@/views/inspection/plan/index'),
   'record': () => import('@/views/inspection/record/index'),
+  'abarbeitung': () => import('@/views/inspection/abarbeitung/index'),
   'statement': () => import('@/views/inspection/statement/index'),
 
   'system': () => import('@/views/system/index'),

@@ -131,6 +131,13 @@ export const StaticRouterMap = [{
         title: '巡检记录'
       },
     },{
+      path: 'abarbeitung',
+      component: () => import('@/views/inspection/abarbeitung/index'),
+      name: 'Abarbeitung',
+      meta: {
+        title: '整改记录'
+      },
+    },{
       path: 'statement',
       component: () => import('@/views/inspection/statement/index'),
       name: 'Statement',
