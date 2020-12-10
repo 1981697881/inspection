@@ -4,23 +4,14 @@
       <el-row :gutter="10">
         <el-col :span="4">
           <el-form-item :label="'所属公司'">
-            <el-select v-model="search.loPrName" filterable placeholder="所属公司" style="width: 100%" @change="changeItem">
-              <el-option
-                v-for="(t,i) in pArray"
-                :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
-              </el-option>
+            <el-select v-model="search.deptId" filterable class="width-full" placeholder="所属公司" @change="selectDeptId">
+              <el-option :label="t.deptName" :value="t.deptId" v-for="(t,i) in rArray"  :key="i"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="4">
           <el-form-item :label-width="'100px'" :label="'项目编码/名称'">
-            <el-input v-model="search.loPrName" placeholder="项目编码/名称"/>
-          </el-form-item>
-        </el-col><el-col :span="4">
-          <el-form-item :label="'详细地址'">
-            <el-input v-model="search.loPrName" placeholder="名称"/>
+            <el-input v-model="search.keyword" placeholder="项目编码/名称"/>
           </el-form-item>
         </el-col>
         <el-col :span="2">
@@ -38,6 +29,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { departmentList } from "@/api/basic/index";
 export default {
   components: {},
   computed: {
@@ -45,21 +37,27 @@ export default {
   },
   data() {
     return {
-      pArray: [],
+      rArray: [],
       search: {
-        loPrName: null
+        keyword: null,
+        deptId: null,
       }
     };
   },
-
+  mounted() {
+    this.fetchData()
+  },
   methods: {
-    changeItem(){
-
+    // 下拉选择之后刷新页面
+    selectDeptId(val) {
+      this.search.deptId = val
+      this.$emit('uploadList')
     },
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.loPrName != null && this.search.loPrName != '' ? obj.loPrName = this.search.loPrName : null
+      this.search.deptId != null && this.search.deptId != '' ? obj.deptId = this.search.deptId : null
+      this.search.keyword != null && this.search.keyword != '' ? obj.keyword = this.search.keyword : null
       return obj
     },
     // 关键字查询
@@ -91,7 +89,17 @@ export default {
     handlerAdd() {
       this.$emit('showDialog')
     },
+    // 获取下拉
+    fetchData() {
+      departmentList().then(res => {
+        if(res.flag){
+          this.rArray = res.data
+        }
+      });
+    },
     upload() {
+      this.search.deptId = null
+      this.search.keyword = null
       this.$emit('uploadList')
     },
     handlerAlter() {

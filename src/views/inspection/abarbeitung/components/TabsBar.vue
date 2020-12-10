@@ -73,7 +73,6 @@ export default {
 
   methods: {
     changeItem(val){
-      console.log(val)
       this.search.auditStatus = val
       this.$emit('uploadList')
     },

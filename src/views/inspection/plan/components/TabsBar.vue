@@ -21,9 +21,10 @@
         </el-col>
         <el-col :span="3">
           <el-form-item :label="'单号'">
-            <el-input v-model="search.loPrName" placeholder="单号"/>
+            <el-input v-model="search.planNo" placeholder="单号"/>
           </el-form-item>
-        </el-col> <el-col :span="3">
+        </el-col>
+       <!-- <el-col :span="3">
           <el-form-item :label="'单位'">
             <el-select v-model="search.loPrName" filterable style="width: 100%" @change="changeItem">
               <el-option
@@ -34,7 +35,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col> <el-col :span="3">
+        </el-col>
+        <el-col :span="3">
           <el-form-item :label="'项目'">
             <el-select v-model="search.loPrName" filterable style="width: 100%" @change="changeItem">
               <el-option
@@ -45,36 +47,38 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col> <el-col :span="3">
+        </el-col>-->
+        <el-col :span="3">
           <el-form-item :label="'类别'">
-            <el-select v-model="search.loPrName" filterable style="width: 100%" @change="changeItem">
+            <el-select v-model="search.typeId" filterable style="width: 100%" @change="changeType">
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
+                :label="t.typeName"
+                :value="t.typeId">
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col> <el-col :span="3">
+        </el-col>
+        <el-col :span="3">
           <el-form-item :label="'人员'">
-            <el-select v-model="search.loPrName" filterable style="width: 100%" @change="changeItem">
+            <el-select v-model="search.uid" filterable style="width: 100%" @change="changeUser">
               <el-option
-                v-for="(t,i) in pArray"
+                v-for="(t,i) in rArray"
                 :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
+                :label="t.username"
+                :value="t.uid">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col><el-col :span="3">
           <el-form-item :label="'状态'">
-            <el-select v-model="search.loPrName" filterable style="width: 100%" @change="changeItem">
+            <el-select v-model="search.auditStatus" filterable style="width: 100%" @change="changeItem">
               <el-option
-                v-for="(t,i) in pArray"
+                v-for="(t,i) in option"
                 :key="i"
-                :label="t.FName"
-                :value="t.FItemID">
+                :label="t.label"
+                :value="t.value">
               </el-option>
             </el-select>
           </el-form-item>
@@ -97,6 +101,8 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
+import { dProjectTypeFormat} from "@/api/basic/index";
+import { userFormat } from "@/api/system/index";
 import { pollingPlanAgainstAudit, pollingPlanAudit} from "@/api/inspection/index"
 export default {
   components: {},
@@ -134,20 +140,41 @@ export default {
         }]
       },
       pArray: [],
+      rArray: [],
+      option: [
+        {value: 0, label:'未审核'},
+        {value: 1, label:'已审核'}],
       search: {
-        loPrName: null
+        planNo: null,
+        typeId: null,
+        uid: null,
+        auditStatus: 0,
       }
     };
   },
-
+  mounted() {
+  this.fetchFormat()
+  },
   methods: {
-    changeItem(){
-
+    changeItem(val){
+      this.search.auditStatus = val
+      this.$emit('uploadList')
+    }, changeType(val){
+      this.search.typeId = val
+      this.$emit('uploadList')
+    }, changeUser(val){
+      this.search.uid = val
+      this.$emit('uploadList')
     },
     // 查询条件过滤
     qFilter() {
       let obj = {}
-      this.search.loPrName != null && this.search.loPrName != '' ? obj.loPrName = this.search.loPrName : null
+      this.search.uid != null && this.search.uid != '' ? obj.uid = this.search.uid : null
+      this.search.typeId != null && this.search.typeId != '' ? obj.typeId = this.search.typeId : null
+      this.search.planNo != null && this.search.planNo != '' ? obj.planNo = this.search.planNo : null
+      obj.auditStatus = this.search.auditStatus
+      this.value != null && this.value != undefined ? obj.endDate = this.value[1] : null
+      this.value != null && this.value != undefined ? obj.startDate = this.value[0] : null
       return obj
     },
     // 关键字查询
@@ -204,6 +231,11 @@ export default {
       }
     },
     upload() {
+      this.search.uid = null
+      this.search.typeId = null
+      this.search.planNo = null
+      this.search.auditStatus = 0
+      this.value = []
       this.$emit('uploadList')
     },
     handlerAlter() {
@@ -215,6 +247,18 @@ export default {
           type: "warning"
         });
       }
+    },
+    fetchFormat() {
+      userFormat().then(res => {
+        if(res.flag){
+          this.rArray = res.data
+        }
+      });
+      dProjectTypeFormat().then(res => {
+        if(res.flag){
+          this.pArray = res.data
+        }
+      });
     },
   }
 };
