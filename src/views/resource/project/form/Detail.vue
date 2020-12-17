@@ -44,7 +44,19 @@
           </el-form-item>
         </el-col>
       </el-row> <el-row :gutter="20">
-        <el-col :span="24">
+      <el-col :span="12">
+        <el-form-item :label="'风险等级'">
+          <el-select v-model="form.riskLevel" filterable placeholder="风险等级">
+            <el-option
+              v-for="(t,i) in options"
+              :key="i"
+              :label="t.text"
+              :value="t.value">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+        <el-col :span="12">
           <el-form-item :label="'详细地址'" >
             <el-input v-model="form.address"></el-input>
           </el-form-item>
@@ -74,6 +86,7 @@ export default {
         proName: null, // 名称
         deptId: null,
         principal: null,
+        riskLevel: null,
         email: null,
         tel: null,
         remark: null,
@@ -81,6 +94,19 @@ export default {
       },
       pidS:[],
       pArray:[],
+      options:[{
+        text: '蓝色',
+        value: '0'
+      },{
+        text: '黄色',
+        value: '1'
+      },{
+        text: '橙色',
+        value: '2'
+      },{
+        text: '红色',
+        value: '3'
+      }],
       rules: {
         proCode: [
           {required: true, message: '请输入编码', trigger: 'blur'},

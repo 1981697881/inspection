@@ -36,6 +36,7 @@ export default {
         { text: "所属公司", name: "deptName" },
         { text: "项目编号", name: "proCode" },
         { text: "项目名称", name: "proName" },
+        { text: "风险等级", name: "riskLevel", formatt: 'formatLevel'},
         { text: "负责人", name: "principal" },
         { text: "联系电话", name: "tel" },
         { text: "详细地址", name: "address" },

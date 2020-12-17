@@ -24,7 +24,7 @@
         :prop="t.name"
         v-if="t.default!=undefined?t.default:true"
         :label="t.text"
-        :formatter="t.formatter!=undefined? (t.formatter == 'formatStatus'? formatStatus : null) : null"
+        :formatter="t.formatt!=undefined? (t.formatt == 'formatLevel'? formatLevel : null) : null"
         :width="t.width?t.width:(selfAdaption?'':'150px')"
         show-overflow-tooltip
         align="center"
@@ -102,8 +102,18 @@ export default {
     }
   },
   methods: {
-    formatStatus (row, column) {
-      return row.status == 0? '禁用' : row.status == 1 ? '正常' : '未知'
+    formatLevel (row, column) {
+      let status = ''
+      if(row.riskLevel == '0'){
+        status = '蓝色'
+      }else if(row.riskLevel == '1'){
+        status = '黄色'
+      }else if(row.riskLevel == '2'){
+        status = '橙色'
+      }else if(row.riskLevel == '3'){
+        status = '红色'
+      }
+      return status
     },
     tableRowClassName({row, rowIndex}) {
       if (row.totalPrice <= 0) {
