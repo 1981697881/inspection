@@ -11,9 +11,9 @@
             <el-dropdown-item command="2">用户</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>-->
-        <el-dropdown @command="handlerBtn" trigger="click">
+        <!--<el-dropdown @command="handlerBtn" trigger="click">
           <el-button :size="'mini'" type="primary">
-            新增<i class="el-icon-arrow-down el-icon--right"></i>
+            新增<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="1">用户组</el-dropdown-item>
@@ -22,7 +22,7 @@
         </el-dropdown>
         <el-dropdown @command="handlerAlter" trigger="click">
           <el-button :size="'mini'" type="primary">
-            修改<i class="el-icon-arrow-down el-icon--right"></i>
+            修改<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="1">用户组</el-dropdown-item>
@@ -31,13 +31,16 @@
         </el-dropdown>
         <el-dropdown @command="handlerDel" trigger="click">
           <el-button :size="'mini'" type="primary">
-            删除<i class="el-icon-arrow-down el-icon--right"></i>
+            删除<i class="el-icon-arrow-down el-icon&#45;&#45;right"></i>
           </el-button>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="1">用户组</el-dropdown-item>
             <el-dropdown-item command="2">用户</el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown>-->
+        <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerBtn">新增</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-edit" @click="handlerAlter">修改</el-button>
+        <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerDel">删除</el-button>
       <!--  <el-button :size="'mini'" type="primary" icon="el-icon-error" @click="disable" >禁用</el-button>
         <el-button :size="'mini'" type="primary" icon="el-icon-success" @click="enable" >启用</el-button>-->
        <!-- <el-button v-for="(t,i) in btnList" :key="i" v-if="t.category == 'default'" :size="'mini'" type="primary" :icon="t.cuicon" @click="onFun(t.path)">{{t.menuName}}</el-button>-->
@@ -77,14 +80,14 @@ export default {
       this[method](event)
     },
     handlerBtn(command) {
-      if(command=='1') {
+    /*  if(command=='1') {
         this.$emit('showGroupDialog')
-      }else if(command=='2') {
+      }else if(command=='2') {*/
         this.$emit('showDialog')
-      }
+      //}
     },
     handlerAlter(command) {
-      if(command=='1') {
+      /*if(command=='1') {
         if (this.clickData.gpId) {
           this.$emit('showGroupDialog', this.clickData)
         } else {
@@ -93,8 +96,7 @@ export default {
             type: 'warning'
           });
         }
-      }else if(command=='2') {
-        console.log(this.clickData)
+      }else if(command=='2') {*/
         if (this.clickData.uid) {
           this.$emit('showDialog', {uid: this.clickData.uid})
         } else {
@@ -103,7 +105,7 @@ export default {
             type: 'warning'
           });
         }
-      }
+      //}
     },
     upload() {
       this.$emit('uploadAll')
@@ -151,7 +153,7 @@ export default {
       }
     },
     handlerDel(command) {
-      if(command=='1') {
+      /*if(command=='1') {
         if (this.clickData.gpId) {
           this.$confirm('是否删除（' + this.clickData.gpName + '），删除后将无法恢复?', '提示', {
             confirmButtonText: '确定',
@@ -171,7 +173,7 @@ export default {
             type: 'warning'
           });
         }
-      }else if(command=='2') {
+      }else if(command=='2') {*/
         if (this.clickData.uid) {
           this.$confirm('是否删除（' + this.clickData.empName + '），删除后将无法恢复?', '提示', {
             confirmButtonText: '确定',
@@ -191,8 +193,7 @@ export default {
             type: 'warning'
           });
         }
-      }
-
+      //}
     }
   }
 };

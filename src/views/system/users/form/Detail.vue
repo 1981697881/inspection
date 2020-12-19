@@ -44,7 +44,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-tabs  v-model="activeName" @tab-click="handleClick">
+      <!--<el-tabs  v-model="activeName" @tab-click="handleClick">
         <el-tab-pane label="所属用户组" name="first">
           <el-row>
             <el-table :data="list" border height="250px" ref="multipleTable" @selection-change="handleSelectionChange" stripe size="mini" :highlight-current-row="true" >
@@ -76,7 +76,7 @@
             />
           </el-row>
         </el-tab-pane>
-      </el-tabs>
+      </el-tabs>-->
     </el-form>
     <div slot="footer" style="text-align:center;padding-top: 15px">
       <el-button type="primary" @click="saveData('form')">保存</el-button>
@@ -166,7 +166,8 @@
                 console.log(tab, event)
           },
           getChecked() {
-            let array = this.$refs.tree1.getCheckedKeys();
+           /* let array = this.$refs.tree1.getCheckedKeys();*/
+            let array = [];
             return  array
           },
             saveData(form) {
