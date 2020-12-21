@@ -91,7 +91,9 @@
 import { dProjectTypeFormat, getProjectList} from "@/api/basic/index";
 import { userFormat } from "@/api/system/index";
 import { updatePollingPlan, addPollingPlan } from "@/api/inspection/index";
-
+import {
+  getToken
+} from '@/utils/auth'
 export default {
   props: {
     listInfo: {
@@ -109,6 +111,7 @@ export default {
         planTime: null,
         deptName: null,
         inspectorUid: null,
+        username: getToken('insun')
       },
       pidS:[],
       aArray:[],
