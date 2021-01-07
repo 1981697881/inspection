@@ -29,7 +29,7 @@
       </el-row>
       <el-row :gutter="20"  type="flex" justify="center">
         <el-upload
-          action="web/file/imgUpload"
+          :action="fileUrl"
           list-type="picture-card"
           accept="image/jpeg,image/jpg,image/png,image/gif"
           :headers="headers"
@@ -82,6 +82,7 @@
           rectifyFinishDate: null,
           rectifyUid: null,
         },
+        fileUrl:'',
         images: [],
         count: 0,
         hideUpload: false,
@@ -102,6 +103,7 @@
       };
     },
     mounted() {
+      this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
       this.fetchFormat();
       if (this.listInfo) {
         this.form.recordId = this.listInfo.recordId

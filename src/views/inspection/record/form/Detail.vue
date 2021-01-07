@@ -174,7 +174,7 @@
         <el-col :span="24" style="text-align: center">
           <el-form-item :label="'隐患图片'" >
             <el-upload
-              action="web/file/returnOrder/imgUpload"
+              :action="fileUrl"
               list-type="picture-card"
               accept="image/jpeg,image/jpg,image/png,image/gif"
               :headers="headers"
@@ -223,6 +223,7 @@ export default {
         'authorization': getToken('insrx'),
       },
       list: [],
+      fileUrl: '',
       sel: null,
       columns: [
         { text: "检查情况", name: "" },
@@ -265,6 +266,7 @@ export default {
     };
   },
   mounted() {
+    this.fileUrl  = `${window.location.origin}/web/file/returnOrder/imgUpload`
     this.fetchFormat();
     console.log(this.listInfo)
     if (this.listInfo) {

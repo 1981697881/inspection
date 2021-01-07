@@ -23,7 +23,7 @@
             ref="upload"
             :headers="headers"
             :show-file-list="false"
-            action="web/excel/import/projectCheck"
+            :action="fileUrl"
             class="upload-demo"
             multiple
             :auto-upload="false"
@@ -51,12 +51,15 @@ export default {
       headers: {
         'authorization': getToken('insrx'),
       },
+      fileUrl: '',
       search: {
         loPrName: null
       }
     };
   },
-
+  mounted() {
+    this.fileUrl  = `${window.location.origin}/web/excel/import/projectCheck`
+  },
   methods: {
     // 查询条件过滤
     qFilter() {
