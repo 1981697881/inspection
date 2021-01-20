@@ -17,6 +17,7 @@
         <el-button-group style="float:right">
           <el-button :size="'mini'" type="primary" icon="el-icon-sort-up" @click="audit">审核</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-sort-down" @click="unAudit">反审核</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-download" @click="exportData">导出</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-refresh"    @click="upload">刷新</el-button>
         </el-button-group>
       </el-row>
@@ -72,6 +73,11 @@ export default {
   },
 
   methods: {
+    // 导出
+    exportData() {
+      this.$emit('exportData')
+      let qFilter = this.qFilter()
+    },
     changeItem(val){
       this.search.auditStatus = val
       this.$emit('uploadList')
