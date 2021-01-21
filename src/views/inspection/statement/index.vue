@@ -12,6 +12,7 @@
       v-if="visible"
       :width="'80%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <print  @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></print>
     </el-dialog>

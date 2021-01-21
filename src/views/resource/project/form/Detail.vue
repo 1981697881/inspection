@@ -45,7 +45,7 @@
         </el-col>
       </el-row> <el-row :gutter="20">
       <el-col :span="12">
-        <el-form-item :label="'风险等级'">
+        <el-form-item :label="'风险等级'" prop="riskLevel">
           <el-select v-model="form.riskLevel" filterable placeholder="风险等级">
             <el-option
               v-for="(t,i) in options"
@@ -114,6 +114,8 @@ export default {
         proName: [
           {required: true, message: '请输入名稱', trigger: 'blur'},
         ], deptId: [
+          {required: true, message: '请选择', trigger: 'change'},
+        ],riskLevel: [
           {required: true, message: '请选择', trigger: 'change'},
         ], principal: [
           {required: true, message: '请输入', trigger: 'blur'},

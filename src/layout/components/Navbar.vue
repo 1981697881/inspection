@@ -35,6 +35,7 @@
       v-if="visible"
       :width="'70%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <alter></alter>
 

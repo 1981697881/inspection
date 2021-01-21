@@ -13,6 +13,7 @@
       v-if="visible"
       :width="'40%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
 
@@ -23,6 +24,7 @@
       v-if="visible2"
       :width="'40%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <group @hideGroupDialog="hideGroupWindow" @uploadGroup="uploadGroup" :gpInfo="gpInfo"></group>
     </el-dialog>
@@ -32,6 +34,7 @@
       v-if="visible3"
       :width="'50%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <detail-t @hideGroupDialog="hideGroupWindow" @uploadGroup="uploadGroup" :listInfo="listInfo"></detail-t>
     </el-dialog>

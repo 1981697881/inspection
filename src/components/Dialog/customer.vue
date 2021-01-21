@@ -5,6 +5,7 @@
     width="70%"
     v-if="visible"
     destroy-on-close
+    :close-on-click-modal="false"
     append-to-body
   >
     <el-row :gutter="30" style="height:500px">

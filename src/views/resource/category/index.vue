@@ -14,6 +14,7 @@
       v-if="visible"
       v-dialogDrag
       :width="'40%'"
+      :close-on-click-modal="false"
       destroy-on-close
     >
       <info @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>

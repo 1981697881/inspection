@@ -5,6 +5,7 @@
     width="60%"
     v-if="visible"
     destroy-on-close
+    :close-on-click-modal="false"
     append-to-body
   >
     <el-container :style="{'min-height':'500px','max-height':'500px',}">

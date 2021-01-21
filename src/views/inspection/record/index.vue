@@ -19,6 +19,7 @@
       v-if="visible"
       :width="'70%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <info  @hideDialog="hideWindow" @uploadList="upload" :listInfo="listInfo"></info>
     </el-dialog>
@@ -28,6 +29,7 @@
       v-if="visible2"
       :width="'70%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <info-o @hideDialog="hideWindowO" @uploadList="upload" :listInfo="listInfo"></info-o>
     </el-dialog>
@@ -37,6 +39,7 @@
       v-if="visible3"
       :width="'70%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <info-t @hideDialog="hideWindowT" @uploadList="upload" :listInfo="listInfo"></info-t>
     </el-dialog>
@@ -46,6 +49,7 @@
       v-if="visible4"
       :width="'80%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <info-th @hideDialog="hideWindowTh" @uploadList="upload" :listInfo="listInfo"></info-th>
     </el-dialog>
@@ -55,6 +59,7 @@
       v-if="visible5"
       :width="'80%'"
       destroy-on-close
+      :close-on-click-modal="false"
     >
       <print @hideDialog="hidePrint" :listInfo="listInfo"></print>
     </el-dialog>

@@ -27,6 +27,7 @@
       v-if="visible"
       :width="'60%'"
       destroy-on-close
+      :close-on-click-modal="false"
       append-to-body
     >
       <el-form :model="form" label-width="100px" :size="'mini'">
@@ -151,6 +152,7 @@
       v-if="visible2"
       :width="'80%'"
       destroy-on-close
+      :close-on-click-modal="false"
       append-to-body
     >
       <el-form :size="'mini'" :label-width="'80px'">
