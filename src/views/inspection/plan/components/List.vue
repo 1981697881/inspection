@@ -66,12 +66,6 @@ export default {
         }
       });
     },
-    uploadPr(val) {
-      this.fetchData(val, {
-        pageNum: 1,
-        pageSize: this.list.size || 50
-      })
-    },
     //监听单击某一行
     rowClick(obj) {
       this.$store.dispatch("list/setClickData", obj.row);

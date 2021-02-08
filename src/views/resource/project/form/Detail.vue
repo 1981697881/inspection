@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { updateProject, departmentList } from "@/api/basic/index";
+import { updateProject, departmentList, getProjectList } from "@/api/basic/index";
 
 export default {
   props: {
@@ -127,8 +127,16 @@ export default {
     this.fetchFormat();
     if (this.listInfo) {
       this.form = this.listInfo
+    }else{
+      getProjectList({
+        pageNum: 1,
+        pageSize: 1
+      }).then(res => {
+        this.form.proCode = res.data.total+1;
+      });
     }
   },
+
   methods: {
     saveData(form) {
       this.$refs[form].validate((valid) => {

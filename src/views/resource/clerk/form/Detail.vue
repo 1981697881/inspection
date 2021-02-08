@@ -23,7 +23,7 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <el-form-item :label="'部门'" prop="deptIds">
-            <el-select v-model="form.deptIds" multiple class="width-full"  placeholder="请选择用户权限">
+            <el-select v-model="form.deptIds" multiple class="width-full" >
               <el-option :label="t.deptName" :value="t.deptId" v-for="(t,i) in pArray" :key="i"></el-option>
             </el-select>
           </el-form-item>
