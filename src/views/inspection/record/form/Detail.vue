@@ -413,6 +413,9 @@ export default {
           this.form.clockUid = res.data.clockUid.toString()
           this.list = res.data.recordCheckList
           let imgArray = res.data.concernsImg.split(',');
+          imgArray = imgArray.filter(function (s) {
+            return s && s.trim();
+          });
           const path = require('path')
           console.log(path)
           if (this.img != '') {

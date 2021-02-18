@@ -3,10 +3,10 @@
     <!--<Tree class="list-tree" @handler-node="handlerNode" />-->
     <el-container class="list-containerOther">
       <el-header style="padding: 0;height: auto">
-        <tabs-bar ref="tabs" @showDialog="handlerDialog" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
+        <tabs-bar ref="tabs" @showDialog="handlerDialog" @exportData="exportData" @showInfo="handlerInfo" @delList="delivery" @uploadList="upload" @queryBtn="query"/>
       </el-header>
       <el-main style="padding: 0;flex: 0.1">
-        <list ref="list" @handlerClick="clickT" @uploadList="upload" @exportData="exportData"  @showDialog="handlerDialog"/>
+        <list ref="list" @handlerClick="clickT" @uploadList="upload"   @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
         <tabs-detail @showDialog="handlerDialog" @uploadList="uploadDlist" @showDetail="handlerDetail" @showPrint="handlerPrint" @showInfo="handlerInfo" @delList="delivery" @queryBtn="query"/>
