@@ -41,10 +41,10 @@
           { text: "整改内容", name: "opinion" },
           { text: "隐患图片", name: "concernsImg" },
           { text: "要求整改完成日期", name: "orderNo" },
-          { text: "整改情况", name: "" },
+        /*  { text: "整改情况", name: "" },*/
           { text: "整改完成图片", name: "rectifyImg" },
           { text: "整改跟踪人", name: "rectifyUid" },
-          { text: "完成时间", name: "" },
+         /* { text: "完成时间", name: "" },*/
         ]
       };
     },

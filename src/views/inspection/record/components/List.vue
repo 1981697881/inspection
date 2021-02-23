@@ -34,16 +34,17 @@ export default {
       columns: [
         { text: "检查单号", name: "planNo" },
         { text: "被检人员", name: "username" },
-        { text: "检查时间", name: "" },
-        { text: "计划编号", name: "" },
+        { text: "检查时间", name: "clockTime" },
+    /*    { text: "计划编号", name: "" },*/
         { text: "被检公司", name: "deptName" },
         { text: "检查项目", name: "proName" },
         { text: "项目类别", name: "typeName" },
-        { text: "检查地址", name: "address" },
-        { text: "检查人员", name: "inspector" },
+        { text: "检查地址", name: "clockLocation" },
+      /*  { text: "检查人员", name: "inspector" },*/
+        { text: "检查人员", name: "cname" },
         { text: "计划检查时间", name: "planTime" },
         { text: "计划状态", name: "status" },
-        { text: "完成时间", name: "" },
+      /*  { text: "完成时间", name: "" },*/
       ]
     };
   },
