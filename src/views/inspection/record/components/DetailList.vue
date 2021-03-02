@@ -31,7 +31,7 @@
         loading: false,
         list: {},
         columns: [
-          { text: "打卡人", name: "clockUid" },
+          { text: "打卡人", name: "clockName" },
           { text: "位置信息", name: "clockLocation" },
           { text: "检查人员", name: "inspector" },
           { text: "打卡时间", name: "clockTime" },
@@ -40,10 +40,10 @@
           { text: "隐患问题", name: "concerns" },
           { text: "整改内容", name: "opinion" },
           { text: "隐患图片", name: "concernsImg" },
-          { text: "要求整改完成日期", name: "orderNo" },
+          { text: "要求整改完成日期", name: "rectifyFinishDate" },
         /*  { text: "整改情况", name: "" },*/
           { text: "整改完成图片", name: "rectifyImg" },
-          { text: "整改跟踪人", name: "rectifyUid" },
+          { text: "整改跟踪人", name: "rectifyName" },
          /* { text: "完成时间", name: "" },*/
         ]
       };

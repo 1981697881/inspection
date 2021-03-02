@@ -33,13 +33,14 @@ export default {
       list: {},
       columns: [
         { text: "检查单号", name: "planNo" },
-        { text: "被检人员", name: "username" },
-        { text: "检查时间", name: "clockTime" },
+        /*{ text: "被检人员", name: "username" },*/
+        { text: "巡检打卡时间", name: "clockTime" },
+        { text: "整改打卡时间", name: "clockTime" },
     /*    { text: "计划编号", name: "" },*/
         { text: "被检公司", name: "deptName" },
         { text: "检查项目", name: "proName" },
         { text: "项目类别", name: "typeName" },
-        { text: "检查地址", name: "clockLocation" },
+        { text: "巡检打卡地址", name: "clockLocation" },
       /*  { text: "检查人员", name: "inspector" },*/
         { text: "检查人员", name: "cname" },
         { text: "计划检查时间", name: "planTime" },

@@ -43,7 +43,7 @@ export default {
         {text: "整改内容", name: "opinion"},
         {text: "隐患图片", name: "concernsImg"},
         {text: "要求整改完成日期", name: "rectifyPlanDate"},
-        {text: "整改跟踪人", name: "rectifyUid"},
+        {text: "整改跟踪人", name: "rectifyName"},
         {text: "状态", name: "auditStatus"},
       ]
     };
