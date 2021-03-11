@@ -38,11 +38,11 @@ export default {
         { text: "整改打卡时间", name: "clockTime" },
     /*    { text: "计划编号", name: "" },*/
         { text: "被检公司", name: "deptName" },
+        { text: "被检人员", name: "cname" },
         { text: "检查项目", name: "proName" },
         { text: "项目类别", name: "typeName" },
         { text: "巡检打卡地址", name: "clockLocation" },
-      /*  { text: "检查人员", name: "inspector" },*/
-        { text: "检查人员", name: "cname" },
+        { text: "检查人员", name: "inspector" },
         { text: "计划检查时间", name: "planTime" },
         { text: "计划状态", name: "status" },
       /*  { text: "完成时间", name: "" },*/

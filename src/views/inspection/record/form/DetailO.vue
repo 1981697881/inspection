@@ -8,7 +8,7 @@
                 <el-option
                   v-for="(t,i) in pArray"
                   :key="i"
-                  :label="t.username"
+                  :label="t.chinaName"
                   :value="t.uid">
                 </el-option>
             </el-select>
@@ -41,7 +41,15 @@
         </el-col>
         <el-col :span="8">
           <el-form-item :label="'陪同人员'">
-            <el-input v-model="form.escort"></el-input>
+           <!-- <el-input v-model="form.escort"></el-input>-->
+            <el-select v-model="form.escortArray" multiple placeholder="陪同人员" style="width: 100%">
+              <el-option
+                v-for="(t,i) in pArray"
+                :key="i"
+                :label="t.chinaName"
+                :value="t.uid">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -203,6 +211,7 @@
           clockLocation: null,
           clockTime: null,
           escort: null,
+          escortArray: [],
           checkTime: null,
           delayTimeLimit: null,
           proposer: null,
@@ -232,6 +241,11 @@
       this.fetchFormat();
       if (this.listInfo) {
         this.form.recordId = this.listInfo.recordId
+        let escortArray = []
+        this.listInfo.escortArray.forEach((item)=>{
+          escortArray.push(item.toString())
+        })
+        this.form.escortArray = escortArray
         /*this.form = this.listInfo
         delete this.form.recordCheckList
         let imgArray = res.data.rectifyImg.split(',');

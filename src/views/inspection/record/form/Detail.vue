@@ -41,7 +41,15 @@
         </el-col>
         <el-col :span="8">
           <el-form-item :label="'陪同人员'">
-            <el-input v-model="form.escort"></el-input>
+           <!-- <el-input v-model="form.escort"></el-input>-->
+            <el-select v-model="form.escortArray" multiple placeholder="陪同人员" style="width: 100%">
+              <el-option
+                v-for="(t,i) in pArray"
+                :key="i"
+                :label="t.chinaName"
+                :value="t.uid">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="8">
@@ -119,6 +127,19 @@
        <!-- <el-col :span="24">
           <div class="el-table-add-row" style="width: 99.2%;" @click="addMaster()"><span>+ 添加</span></div>
         </el-col>-->
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-form-item :label="'登记签名'">
+            <div class="demo-image__preview">
+              <el-image
+                style="width: 100px; height: 100px"
+                :src="qmUrl"
+                :preview-src-list="qmUsrcList">
+              </el-image>
+            </div>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row :gutter="20" style="padding-top: 20px">
         <span style="font-size: 20px;">整改信息-整改意见</span>
@@ -231,6 +252,8 @@ export default {
       ],
       imgData: {
       },
+      qmUrl:'',
+      qmUsrcList:[],
       images: [],
       hideUpload: false,
       dialogImageUrl: '',
@@ -240,6 +263,7 @@ export default {
       nowImg: [],
       form: {
         clockUid: null,
+        escortArray: [],
         orderNo: null,
         clockLocation: null,
         clockTime: null,
@@ -405,13 +429,19 @@ export default {
         }
       });
     },fetchData(val) {
-      console.log()
       pollingRecordByPlanId(val).then(res => {
         console.log(res)
         if(res.flag){
           this.form = res.data
           this.form.clockUid = res.data.clockUid.toString()
           this.list = res.data.recordCheckList
+          let escortArray = []
+          res.data.escortArray.forEach((item)=>{
+            escortArray.push(item.toString())
+          })
+          this.qmUrl = this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl
+          this.qmUsrcList.push(this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl)
+          this.form.escortArray = escortArray
           let imgArray = res.data.concernsImg.split(',');
           imgArray = imgArray.filter(function (s) {
             return s && s.trim();

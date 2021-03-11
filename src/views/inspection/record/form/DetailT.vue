@@ -53,12 +53,12 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-form-item :label="'签名'" >
+          <el-form-item :label="'完成签名'" >
             <div class="demo-image__preview">
               <el-image
                 style="width: 100px; height: 100px"
-                :src="url"
-                :preview-src-list="srcList">
+                :src="qmUrl"
+                :preview-src-list="qmSrcList">
               </el-image>
             </div>
           </el-form-item>
@@ -89,10 +89,8 @@
         headers: {
           'authorization': getToken('insrx'),
         },
-        url: 'https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg',
-        srcList: [
-          'https://fuss10.elemecdn.com/8/27/f01c15bb73e1ef3793e64e6b7bbccjpeg.jpeg',
-          'https://fuss10.elemecdn.com/1/8e/aeffeb4de74e2fde4bd74fc7b4486jpeg.jpeg'
+        qmUrl: '',
+        qmSrcList: [
         ],
         imgData: {
         },
@@ -125,6 +123,8 @@
       this.fetchFormat();
       if (this.listInfo) {
         this.form.recordId = this.listInfo.recordId
+        this.qmUrl = this.$store.state.user.url+'/uploadFiles/image/' + this.listInfo.signature
+        this.qmUsrcList.push(this.$store.state.user.url+'/uploadFiles/image/' + this.listInfo.signature)
        /* let imgArray = res.data.concernsImg.split(',');
         const path = require('path')
         if (this.img != '') {
