@@ -35,7 +35,9 @@ export default {
       columns: [
         {text: "打卡人", name: "clockName"},
         {text: "位置信息", name: "clockLocation"},
-        {text: "检查人员", name: "checkStaff"},
+        {text: "检查人员", name: "inspector"},
+        {text: "被检人员", name: "checkStaff"},
+        {text: "陪同人员", name: "escortName"},
         {text: "打卡时间", name: "clockTime"},
         {text: "通知单号", name: "orderNo"},
         {text: "登记日期", name: "recordDate"},

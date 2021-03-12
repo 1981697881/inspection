@@ -420,7 +420,8 @@
         columns: [
           {text: "打卡人", name: "clockName"},
           {text: "位置信息", name: "clockLocation"},
-          {text: "检查人员", name: "checkStaff"},
+          {text: "检查人员", name: "inspector"},
+          {text: "被检人员", name: "checkStaff"},
           {text: "打卡时间", name: "clockTime"},
           {text: "通知单号", name: "orderNo"},
           {text: "登记日期", name: "recordDate"},
@@ -428,10 +429,10 @@
           {text: "整改内容", name: "opinion"},
           {text: "隐患图片", name: "concernsImg"},
           {text: "要求整改完成日期", name: "rectifyPlanDate"},
-          {text: "整改情况", name: ""},
+        /*  {text: "整改情况", name: ""},*/
           /* { text: "整改完成图片", name: "rectifyImg" },*/
           {text: "整改跟踪人", name: "rectifyUid"},
-          {text: "完成时间", name: ""},
+         /* {text: "完成时间", name: ""},*/
         ]
       };
     },

@@ -12,7 +12,7 @@
               class="input-class"
               unlink-panels
               range-separator="至"
-              value-format="yyyy-MM-dd"
+              value-format="HH:mm:ss"
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               :picker-options="pickerOptions">

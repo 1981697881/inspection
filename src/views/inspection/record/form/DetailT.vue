@@ -66,7 +66,7 @@
       </el-row>
     </el-form>
     <div slot="footer" style="text-align:center;padding-top: 10px">
-      <el-button type="primary" @click="saveData('form')">保存</el-button>
+      <el-button type="primary" v-if="isDis" @click="saveData('form')">保存</el-button>
     </div>
   </div>
 </template>
@@ -100,6 +100,7 @@
         },
         fileUrl:'',
         images: [],
+        isDis: true,
         count: 0,
         hideUpload: false,
         dialogImageUrl: '',
@@ -119,12 +120,29 @@
       };
     },
     mounted() {
-      this.fileUrl  = `${window.location.origin}/web/file/imgUpload`
-      this.fetchFormat();
-      if (this.listInfo) {
-        this.form.recordId = this.listInfo.recordId
-        this.qmUrl = this.$store.state.user.url+'/uploadFiles/image/' + this.listInfo.signature
-        this.qmUsrcList.push(this.$store.state.user.url+'/uploadFiles/image/' + this.listInfo.signature)
+      let that = this
+      that.fileUrl  = `${window.location.origin}/web/file/imgUpload`
+      that.fetchFormat();
+      if (that.listInfo) {
+        that.form.recordId = that.listInfo.recordId
+        that.form.rectifyFinishDate = that.listInfo.rectifyFinishDate
+        that.form.rectifyUid = that.listInfo.createUid.toString()
+        if(that.listInfo.status == '结束'){
+          that.isDis = false
+          that.hideUpload = true;
+          //判断是否为空
+          if(that.listInfo.rectifyImg!=''){
+            that.fileList.push({
+              url: that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.rectifyImg
+            })
+          }
+        }else{
+          that.hideUpload = true;
+          that.isDis = true
+        }
+        that.qmUrl = that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.signature
+        let url = that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.signature
+        that.qmSrcList.push(url)
        /* let imgArray = res.data.concernsImg.split(',');
         const path = require('path')
         if (this.img != '') {
