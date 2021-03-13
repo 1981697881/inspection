@@ -20,7 +20,7 @@
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.username"
+                :label="t.chinaName"
                 :value="t.uid">
               </el-option>
             </el-select>
@@ -56,6 +56,7 @@
           <el-form-item :label="'完成签名'" >
             <div class="demo-image__preview">
               <el-image
+                :lazy='true'
                 style="width: 100px; height: 100px"
                 :src="qmUrl"
                 :preview-src-list="qmSrcList">
@@ -137,12 +138,14 @@
             })
           }
         }else{
-          that.hideUpload = true;
+          that.hideUpload = false;
           that.isDis = true
         }
-        that.qmUrl = that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.signature
-        let url = that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.signature
-        that.qmSrcList.push(url)
+        if(that.listInfo.signature!=''){
+          that.qmUrl = that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.signature
+          let url = that.$store.state.user.url+'/uploadFiles/image/' + that.listInfo.signature
+          that.qmSrcList.push(url)
+        }
        /* let imgArray = res.data.concernsImg.split(',');
         const path = require('path')
         if (this.img != '') {
@@ -166,6 +169,11 @@
       }
     },
     methods: {
+      imgLoad(val){
+        console.log(val)
+      }, imgError(val){
+        console.log(val)
+      },
       //批量上传图片
       submitUpload(val) {
         this.formDate = new FormData();

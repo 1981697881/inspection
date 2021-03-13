@@ -8,7 +8,7 @@
               <el-option
                 v-for="(t,i) in pArray"
                 :key="i"
-                :label="t.username"
+                :label="t.chinaName"
                 :value="t.uid">
               </el-option>
             </el-select>

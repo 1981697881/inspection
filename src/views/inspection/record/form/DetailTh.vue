@@ -431,7 +431,7 @@
           {text: "要求整改完成日期", name: "rectifyPlanDate"},
         /*  {text: "整改情况", name: ""},*/
           /* { text: "整改完成图片", name: "rectifyImg" },*/
-          {text: "整改跟踪人", name: "rectifyUid"},
+          {text: "整改跟踪人", name: "rectifyName"},
          /* {text: "完成时间", name: ""},*/
         ]
       };
@@ -487,7 +487,7 @@
         })
       },
       handlePrint(val) {
-        if(this.row.rectifyId){
+        if(this.row){
           this.fetchData(this.row.rectifyId)
           this.printName = ''
           if (val == 'all1') {
