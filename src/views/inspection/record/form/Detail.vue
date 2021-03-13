@@ -133,6 +133,7 @@
           <el-form-item :label="'登记签名'">
             <div class="demo-image__preview">
               <el-image
+                :lazy='true'
                 style="width: 100px; height: 100px"
                 :src="qmUrl"
                 :preview-src-list="qmUsrcList">
@@ -439,8 +440,10 @@ export default {
           res.data.escortArray.forEach((item)=>{
             escortArray.push(item.toString())
           })
-          this.qmUrl = this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl
-          this.qmUsrcList.push(this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl)
+          if(res.data.photoUrl !='' && res.data.photoUrl != null){
+            this.qmUrl = this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl
+            this.qmUsrcList.push(this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl)
+          }
           this.form.escortArray = escortArray
           let imgArray = res.data.concernsImg.split(',');
           imgArray = imgArray.filter(function (s) {
