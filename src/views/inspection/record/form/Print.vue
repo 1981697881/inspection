@@ -36,9 +36,9 @@
             <th colspan="4">检查项目</th>
           </tr>
           <tr v-for="(t,i) in print.recordCheckList" :key="i">
-            <th class="order_title">{{i+1}}</th>
-            <th class="order_title">√</th>
-            <th colspan="4">{{t.checkName}}</th>
+            <td class="order_title">{{i+1}}</td>
+            <td class="order_title">√</td>
+            <td colspan="4">{{t.checkName}}</td>
           </tr>
         </table>
       </el-row>
@@ -129,8 +129,9 @@
   .order_table{
     width: 99%;
   }
-  .order_table tr th{
+  .order_table tr th, .order_table tr td{
     height: 30px;
+    text-align: center;
     line-height: 30px;
   }
 </style>

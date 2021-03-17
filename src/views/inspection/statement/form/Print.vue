@@ -29,18 +29,18 @@
             <th class="order_title">通知单号</th>
           </tr>
           <tr v-for="(t,i) in print.detailVOList" :key="i">
-            <th class="order_title">{{i+1}}</th>
-            <th colspan="3">
+            <td class="order_title">{{i+1}}</td>
+            <td colspan="3">
               <p style="margin: 0;text-align: left;" v-for="(tt,ii) in t.concerns" :key="ii">
                 {{tt}}
               </p>
-            </th>
-            <th class="order_title">{{t.rectifyPlanDate}}</th>
-            <th class="order_title">{{t.recordDate}}</th>
-            <th class="order_title">{{t.orderNo}}</th>
+            </td>
+            <td class="order_title">{{t.rectifyPlanDate}}</td>
+            <td class="order_title">{{t.recordDate}}</td>
+            <td class="order_title">{{t.orderNo}}</td>
           </tr>
           <tr>
-            <th colspan="8">备注</th>
+            <td colspan="8">备注</td>
           </tr>
         </table>
       </el-row>
@@ -81,7 +81,9 @@
             this.print = res.data
             this.print.detailNum = res.data.detailVOList.length+1
             this.print.detailVOList.forEach((item,index)=>{
-              item.concerns = item.concerns.split("。")
+              if(item.concerns!=null){
+                item.concerns = item.concerns.split("。")
+              }
             })
           }
         });
@@ -97,6 +99,7 @@
 
           //一页pdf显示html页面生成的canvas高度;
           var pageHeight = contentWidth / 595.28 * 841.89;
+          console.log(contentHeight)
           //未生成pdf的html页面高度
           var leftHeight = contentHeight;
           //pdf页面偏移
@@ -140,8 +143,10 @@
   .order_table{
     width: 99%;
   }
-  .order_table tr th{
+  .order_table tr th ,.order_table tr td{
     height: 30px;
+    text-align: center;
     line-height: 30px;
   }
+
 </style>

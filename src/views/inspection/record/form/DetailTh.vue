@@ -150,7 +150,7 @@
       :visible.sync="visible2"
       title="记录"
       v-if="visible2"
-      :width="'80%'"
+      :width="'70%'"
       destroy-on-close
       :close-on-click-modal="false"
       append-to-body
@@ -197,7 +197,9 @@
                   style="width: 100px; height: 100px"
                   :src="imageUrl+t"
                   fit="fit">
-
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
                 </el-image>
               </th>
             </tr>
@@ -222,7 +224,9 @@
                   style="width: 100px; height: 100px"
                   :src="imageUrl+printData.signature"
                   fit="fit">
-
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
                 </el-image>
               </th>
             </tr>
@@ -241,7 +245,9 @@
                   style="width: 100px; height: 100px"
                   :src="imageUrl+t"
                   fit="fit">
-
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
                 </el-image>
               </th>
             </tr>
@@ -317,7 +323,9 @@
                   style="width: 100px; height: 100px"
                   :src="imageUrl+t"
                   fit="fit">
-
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
                 </el-image></th>
             </tr>
             <tr>
@@ -346,7 +354,9 @@
                 style="width: 100px; height: 100px"
                 :src="imageUrl+t"
                 fit="fit">
-
+                <div slot="error" class="image-slot">
+                  <i class="el-icon-picture-outline"></i>
+                </div>
               </el-image></th>
             </tr>
             <tr>
@@ -594,6 +604,7 @@
 
   .order_table {
     width: 99%;
+    height: 1250px;
   }
 
   .order_table tr th {
