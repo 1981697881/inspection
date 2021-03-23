@@ -38,7 +38,9 @@
         <el-col :span="12">
           <el-form-item :label="'超级管理员'" >
             <el-switch
-              v-model="value"
+              v-model="form.adminSuper"
+              active-value="0"
+              inactive-value="1"
               >
             </el-switch>
           </el-form-item>
@@ -111,6 +113,7 @@
                 Checkeds: [],
                 form: {
                   uid: null,
+                  adminSuper: '1',
                   username: null, // 名称
                   eid: null,
                   jobNum: null,

@@ -39,7 +39,7 @@ export default {
         { text: "通知书数量", name: "orderNum" },
         { text: "整改序号", name: "number" },
         { text: "存在隐患", name: "concerns" },
-        { text: "整改期限", name: "rectifyPlanDate" },
+        { text: "整改期限", name: "delayTimeLimit" },
         { text: "整改时间", name: "recordDate" },
         { text: "通知单号", name: "orderNo" },
       ]
