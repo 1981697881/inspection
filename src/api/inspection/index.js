@@ -141,6 +141,30 @@ export function delPollingrecord(data) {
     url: url,
     method: 'delete',
   })
+}// 删除图片
+export function deleteImg(data) {
+  // 查询分页数据
+  const url = '/polling-record/deleteImg'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'post',
+    data: data
+  })
+}// 删除图片
+export function delRectifyImg(data) {
+  // 查询分页数据
+  const url = '/record-rectify/deleteImg'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+    },
+    url: url,
+    method: 'post',
+    data: data
+  })
 }
 //查询巡检登记
 export function pollingRecordByPlanId(data) {

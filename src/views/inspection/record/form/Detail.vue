@@ -227,7 +227,7 @@
 </template>
 
 <script>
-import { pollingRecordByPlanId } from "@/api/inspection/index";
+import { pollingRecordByPlanId,deleteImg } from "@/api/inspection/index";
 import { userFormat } from "@/api/system/index";
 import {
   getToken
@@ -252,6 +252,7 @@ export default {
         { text: "检查项目", name: "checkName" },
       ],
       imgData: {
+        recordId: null,
       },
       qmUrl:'',
       qmUsrcList:[],
@@ -291,7 +292,7 @@ export default {
     };
   },
   mounted() {
-    this.fileUrl  = `${window.location.origin}/web/file/returnOrder/imgUpload`
+    this.fileUrl  = `${window.location.origin}/web/polling-record/imgUpload`
     this.fetchFormat();
     console.log(this.listInfo)
     if (this.listInfo) {
@@ -299,9 +300,6 @@ export default {
     }
   },
   methods: {
-    handleChange(file, fileList) {
-      this.hideUpload = fileList.length >= this.limitCount;
-    },
     //上传失败事件
     uploadError(res) {
       console.log(res)
@@ -314,23 +312,31 @@ export default {
     //上传成功事件
     uploadSuccess(res, file, fileList) {
       file.name = res.data;
-      this.images.push(res.data)
+      this.fileList.push({
+        url: this.$store.state.user.url+'/uploadFiles/image/' + res.data
+      })
       this.$message({
         message: res.msg,
         type: "success"
       });
-      console.log(this.images)
       this.$emit('uploadList')
     },
     //删除图片
     handleRemove(file, fileList) {
-      let array = this.images;
-      for (let i in array) {
-        if (file.name == array[i]) {
-          array.splice(i, 1);
+      let array = this.fileList;
+      let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+      deleteImg({img: img,recordId: this.imgData.recordId }).then(res => {
+        if(res.flag){
+         array.forEach((item,index)=>{
+           if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+             console.log(index)
+             array.splice(index, 1);
+           }
+         })
+          this.hideUpload = false;
+          this.$emit('uploadList')
         }
-
-      }
+      });
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -434,6 +440,7 @@ export default {
         console.log(res)
         if(res.flag){
           this.form = res.data
+          this.imgData.recordId = res.data.recordId
           this.form.clockUid = res.data.clockUid.toString()
           this.list = res.data.recordCheckList
           let escortArray = []

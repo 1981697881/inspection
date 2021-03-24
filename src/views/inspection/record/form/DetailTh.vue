@@ -126,16 +126,21 @@
           <el-col :span="24" style="text-align: center">
             <el-form-item :label="'图片'">
               <el-upload
-                action="#"
+                :action="fileUrl"
                 list-type="picture-card"
                 accept="image/jpeg,image/jpg,image/png,image/gif"
+                :headers="headers"
                 :data="imgData"
                 :limit="3"
                 name="imgS"
+                :on-success="uploadSuccess"
+                :on-error="uploadError"
                 :class="{hide:hideUpload}"
+                :on-preview="handlePictureCardPreview"
+                :on-change="handleChange"
                 :file-list="fileList"
                 ref="upload"
-              >
+                :on-remove="handleRemove">
                 <i class="el-icon-plus"></i>
               </el-upload>
               <el-dialog :visible.sync="dialogVisible" append-to-body size="tiny">
@@ -378,11 +383,13 @@
 </template>
 
 <script>
-  import {recordRectifyFindList, printRecordRectify} from "@/api/inspection/index";
+  import {recordRectifyFindList, printRecordRectify,delRectifyImg} from "@/api/inspection/index";
   import List from "@/components/List";
   import html2canvas from 'html2canvas';
   import jspdf from 'jspdf';
-
+  import {
+    getToken
+  } from '@/utils/auth'
   export default {
     components: {
       List
@@ -395,10 +402,16 @@
     },
     data() {
       return {
-        imgData: {},
+        fileUrl: '',
+        imgData: {
+          rectifyId: null
+        },
         images: [],
+        headers: {
+          'authorization': getToken('insrx'),
+        },
         imageUrl: this.$store.state.user.url+'/uploadFiles/image/',
-        hideUpload: true,
+        hideUpload: false,
         isPrint2: false,
         isPrint1: false,
         dialogImageUrl: '',
@@ -447,11 +460,56 @@
       };
     },
     mounted() {
+      this.fileUrl  = `${window.location.origin}/web/record-rectify/imgUpload`
       if (this.listInfo) {
         this.fetchFormat({recordId: this.listInfo.recordId})
       }
     },
     methods: {
+      //上传失败事件
+      uploadError(res) {
+        console.log(res)
+        this.$message({
+          message: res.msg,
+          type: "warning"
+        });
+        this.$emit('uploadList')
+      },
+      //上传成功事件
+      uploadSuccess(res, file, fileList) {
+        file.name = res.data;
+        this.fileList.push({
+          url: this.$store.state.user.url+'/uploadFiles/image/' + res.data
+        })
+        this.$message({
+          message: res.msg,
+          type: "success"
+        });
+        this.$emit('uploadList')
+      },
+      //删除图片
+      handleRemove(file, fileList) {
+        let array = this.fileList;
+        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
+        delRectifyImg({img: img,rectifyId: this.imgData.rectifyId }).then(res => {
+          if(res.flag){
+            array.forEach((item,index)=>{
+              if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+                array.splice(index, 1);
+              }
+            })
+            this.hideUpload = false;
+            this.$emit('uploadList')
+          }
+        });
+      },
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
+      },
+      handleChange(file, fileList) {
+        this.hideUpload = fileList.length >= this.limitCount;
+      },
       //监听单击某一行
       rowClick(obj) {
         this.row = obj.row
@@ -523,16 +581,16 @@
       dblclick(obj) {
         this.visible = true
         this.form = obj.row
-
+        this.imgData.rectifyId = obj.row.rectifyId
         let imgArray = obj.row.rectifyImg.split(',');
         if (this.img != '') {
           if (imgArray.length > 0) {
             //到图片数量大于3或等于3时添加按钮隐藏
-          /*  if (imgArray.length >= 3) {
+            if (imgArray.length >= 3) {
               this.hideUpload = true;
             } else {
               this.hideUpload = false;
-            }*/
+            }
             this.fileList = []
             for (let i in imgArray) {
               this.fileList.push({
@@ -558,6 +616,7 @@
         this.loading = true;
         recordRectifyFindList(val).then(res => {
           this.loading = false;
+
           this.list = {records: res.data}
         });
       },
