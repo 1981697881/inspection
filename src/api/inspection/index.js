@@ -189,7 +189,22 @@ export function printRecordRectify(data) {
     url: url,
     method: 'get',
   })
-}//查询导出PDF数据
+}
+//查询导出PDF数据
+export function printFindAll(data) {
+  // 查询分页数据
+  const url = '/record-rectify/findAll'
+  return request({
+    headers: {
+      'authorization': getToken('insrx'),
+      'Content-Type': 'application/json'
+    },
+    url: url,
+    data: data,
+    method: 'post',
+  })
+}
+//查询导出PDF数据
 export function printPollingPlanReport(data) {
   // 查询分页数据
   const url = '/print/printPollingPlanReport/'+data

@@ -1,21 +1,21 @@
 <template>
   <div>
     <el-form :size="'mini'">
-    <list
-      class="list-main box-shadow"
-      :columns="columns"
-      :loading="loading"
-      :list="list"
-      @dblclick="dblclick"
-      @row-click="rowClick"
-      index
-    />
+      <list
+        class="list-main box-shadow"
+        :columns="columns"
+        :loading="loading"
+        :list="list"
+        @dblclick="dblclick"
+        @row-click="rowClick"
+        index
+      />
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item>
-            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all1')">检查记录表
+            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrintO">检查记录表
             </el-button>
-            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint('all2')">检查反馈记录表
+            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrintT">检查反馈记录表
             </el-button>
           </el-form-item>
         </el-col>
@@ -331,11 +331,12 @@
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>
                   </div>
-                </el-image></th>
+                </el-image>
+              </th>
             </tr>
             <tr>
               <th class="order_title">整改意见</th>
-              <th colspan="5"> <p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
+              <th colspan="5"><p style="margin: 0;text-align: left;" v-for="(t,i) in printData.opinion" :key="i">
                 {{t}}
               </p></th>
             </tr>
@@ -354,15 +355,17 @@
             </tr>
             <tr>
               <th class="order_title">整改图片</th>
-              <th colspan="5"><el-image
-                v-for="(t,i) in printData.rectifyImg" :key="i"
-                style="width: 100px; height: 100px"
-                :src="imageUrl+t"
-                fit="fit">
-                <div slot="error" class="image-slot">
-                  <i class="el-icon-picture-outline"></i>
-                </div>
-              </el-image></th>
+              <th colspan="5">
+                <el-image
+                  v-for="(t,i) in printData.rectifyImg" :key="i"
+                  style="width: 100px; height: 100px"
+                  :src="imageUrl+t"
+                  fit="fit">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
+              </th>
             </tr>
             <tr>
               <th class="order_title">整改情况</th>
@@ -383,13 +386,14 @@
 </template>
 
 <script>
-  import {recordRectifyFindList, printRecordRectify,delRectifyImg} from "@/api/inspection/index";
+  import {recordRectifyFindList, printRecordRectify, printFindAll, delRectifyImg} from "@/api/inspection/index";
   import List from "@/components/List";
   import html2canvas from 'html2canvas';
   import jspdf from 'jspdf';
   import {
     getToken
   } from '@/utils/auth'
+
   export default {
     components: {
       List
@@ -410,7 +414,7 @@
         headers: {
           'authorization': getToken('insrx'),
         },
-        imageUrl: this.$store.state.user.url+'/uploadFiles/image/',
+        imageUrl: this.$store.state.user.url + '/uploadFiles/image/',
         hideUpload: false,
         isPrint2: false,
         isPrint1: false,
@@ -452,15 +456,15 @@
           {text: "整改内容", name: "opinion"},
           {text: "隐患图片", name: "concernsImg"},
           {text: "要求整改完成日期", name: "rectifyPlanDate"},
-        /*  {text: "整改情况", name: ""},*/
+          /*  {text: "整改情况", name: ""},*/
           /* { text: "整改完成图片", name: "rectifyImg" },*/
           {text: "整改跟踪人", name: "rectifyName"},
-         /* {text: "完成时间", name: ""},*/
+          /* {text: "完成时间", name: ""},*/
         ]
       };
     },
     mounted() {
-      this.fileUrl  = `${window.location.origin}/web/record-rectify/imgUpload`
+      this.fileUrl = `${window.location.origin}/web/record-rectify/imgUpload`
       if (this.listInfo) {
         this.fetchFormat({recordId: this.listInfo.recordId})
       }
@@ -479,7 +483,7 @@
       uploadSuccess(res, file, fileList) {
         file.name = res.data;
         this.fileList.push({
-          url: this.$store.state.user.url+'/uploadFiles/image/' + res.data
+          url: this.$store.state.user.url + '/uploadFiles/image/' + res.data
         })
         this.$message({
           message: res.msg,
@@ -490,11 +494,11 @@
       //删除图片
       handleRemove(file, fileList) {
         let array = this.fileList;
-        let img =file.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1]
-        delRectifyImg({img: img,rectifyId: this.imgData.rectifyId }).then(res => {
-          if(res.flag){
-            array.forEach((item,index)=>{
-              if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
+        let img = file.url.split(this.$store.state.user.url + '/uploadFiles/image/')[1]
+        delRectifyImg({img: img, rectifyId: this.imgData.rectifyId}).then(res => {
+          if (res.flag) {
+            array.forEach((item, index) => {
+              if (item.url.split(this.$store.state.user.url + '/uploadFiles/image/')[1] == img) {
                 array.splice(index, 1);
               }
             })
@@ -551,32 +555,33 @@
               }
             }
           }
-          pdf.save(that.printName+'.pdf');
+          pdf.save(that.printName + '.pdf');
         })
       },
-      handlePrint(val) {
-        if(this.row){
-          this.fetchData(this.row.rectifyId)
+      handlePrintO(val) {
+        this.printName = ''
+        this.fetchData({recordId: this.listInfo.recordId})
+        this.isPrint1 = true
+        this.isPrint2 = false
+        this.printId = '#all1'
+        this.printName = '检查记录表'
+        this.visible2 = true
+      },
+      handlePrintT(val) {
+        if (this.row) {
           this.printName = ''
-          if (val == 'all1') {
-            this.isPrint1 = true
-            this.isPrint2 = false
-            this.printId = '#all1'
-            this.printName = '检查记录表'
-          } else {
-            this.isPrint1 = false
-            this.isPrint2 = true
-            this.printId = '#all2'
-            this.printName = '检查反馈记录表'
-          }
+          this.fetchDataT(this.row.rectifyId)
+          this.isPrint1 = false
+          this.isPrint2 = true
+          this.printId = '#all2'
+          this.printName = '检查反馈记录表'
           this.visible2 = true
-        }else{
+        } else {
           this.$message({
             message: "无选中行",
             type: "warning"
           });
         }
-
       },
       dblclick(obj) {
         this.visible = true
@@ -621,6 +626,15 @@
         });
       },
       fetchData(val) {
+        printFindAll(val).then(res => {
+          this.printData = res.data
+          this.printData.concerns = res.data.concerns.split(',')
+          this.printData.concernsImg = res.data.concernsImg.split(',')
+          this.printData.opinion = res.data.opinion.split('。')
+          this.printData.rectifyImg = res.data.rectifyImg.split(',')
+        });
+      },
+      fetchDataT(val) {
         printRecordRectify(val).then(res => {
           this.printData = res.data
           this.printData.concerns = res.data.concerns.split(',')
@@ -645,6 +659,7 @@
     display: flex;
     line-height: 34px;
   }
+
   .hide .el-upload--picture-card {
     display: none;
   }
@@ -653,6 +668,7 @@
   .list-main {
     height: calc(100vh / 3);
   }
+
   .demonstration {
     font-size: 25px;
   }
