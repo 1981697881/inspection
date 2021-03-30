@@ -3,7 +3,7 @@
     <el-form :model="form" :rules="rules" ref="form" label-width="80px" :size="'mini'">
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item :label="'打卡人'">
+          <el-form-item :label="'打卡人'" prop="clockUid">
             <el-select v-model="form.clockUid" filterable placeholder="请选择" style="width: 100%" >
                 <el-option
                   v-for="(t,i) in pArray"
@@ -20,7 +20,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'打卡时间'">
+          <el-form-item :label="'打卡时间'" prop="clockTime">
             <div class="block">
               <el-date-picker
                 v-model="form.clockTime"
@@ -35,7 +35,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item :label="'被检人员'">
+          <el-form-item :label="'被检人员'" prop="checkStaff">
             <el-input v-model="form.checkStaff"></el-input>
           </el-form-item>
         </el-col>
@@ -53,7 +53,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'检查日期'">
+          <el-form-item :label="'检查日期'" prop="checkTime">
             <div class="block">
               <el-date-picker
                 v-model="form.checkTime"
@@ -99,7 +99,7 @@
       </el-row>
       <el-row :gutter="20" style="padding-top: 10px">
         <el-col :span="8">
-          <el-form-item :label="'延期期限'">
+          <el-form-item :label="'延期期限'" prop="delayTimeLimit">
             <div class="block">
               <el-date-picker
                 v-model="form.delayTimeLimit"
@@ -151,7 +151,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'完成时间'">
+          <el-form-item :label="'完成时间'" prop="rectifyPlanDate">
             <div class="block">
               <el-date-picker
                 v-model="form.rectifyPlanDate"
@@ -227,12 +227,19 @@
         pArray: [],
         plArray: [],
         rules: {
-          loPrName: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+          checkStaff: [
+            {required: true, message: '请输入', trigger: 'blur'},
           ],
-          loPrCode: [
-            {required: true, message: '请输入名稱', trigger: 'blur'},
+          clockUid: [
+            {required: true, message: '请选择', trigger: 'change'},
           ],
+          checkTime: [
+            {type: 'date',required: true, message: '请选择', trigger: 'change'},
+          ],clockTime: [
+            {type: 'date',required: true, message: '请选择', trigger: 'change'},
+          ],delayTimeLimit: [
+            {type: 'date',required: true, message: '请选择', trigger: 'change'},
+          ]
         },
       };
     },
@@ -277,7 +284,12 @@
       //批量上传图片
       submitUpload(val) {
         this.formDate = new FormData();
-        console.log(this.formDate)
+        if(this.$refs.upload.uploadFiles.length == 0){
+          return this.$message({
+            message: '请选择整改图片',
+            type: "warning"
+          });
+        }
         this.$refs.upload.submit();
         /*let config = {
           headers: {
@@ -300,7 +312,6 @@
       },
       handleChange(file, fileList) {
         this.hideUpload = fileList.length >= this.limitCount;
-
       },
       //上传失败事件
       uploadError(res) {
@@ -357,7 +368,6 @@
       saveData(form) {
         this.count = 0
         this.submitUpload()
-
       },
       fetchFormat() {
         userFormat().then(res => {

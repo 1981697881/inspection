@@ -13,8 +13,8 @@
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item>
-            <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrintO">检查记录表
-            </el-button>
+           <!-- <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrintO">检查记录表
+            </el-button>-->
             <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrintT">检查反馈记录表
             </el-button>
           </el-form-item>
@@ -360,6 +360,19 @@
                   v-for="(t,i) in printData.rectifyImg" :key="i"
                   style="width: 100px; height: 100px"
                   :src="imageUrl+t"
+                  fit="fit">
+                  <div slot="error" class="image-slot">
+                    <i class="el-icon-picture-outline"></i>
+                  </div>
+                </el-image>
+              </th>
+            </tr>
+            <tr>
+              <th class="order_title">被检公司代表签名</th>
+              <th colspan="5">
+                <el-image
+                  style="width: 100px; height: 100px"
+                  :src="imageUrl+printData.signature"
                   fit="fit">
                   <div slot="error" class="image-slot">
                     <i class="el-icon-picture-outline"></i>

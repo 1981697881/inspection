@@ -4,6 +4,7 @@
       <el-row :gutter="10">
         <el-button-group style="float:right">
           <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="downPdf">巡查记录表</el-button>
+          <el-button :size="'mini'" type="primary" icon="el-icon-picture" @click="handlePrint">检查记录表</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerRegister">反馈登记</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-plus" @click="handlerFeedback">完成反馈</el-button>
           <el-button :size="'mini'" type="primary" icon="el-icon-delete" @click="handlerDel">删除</el-button>
@@ -35,6 +36,15 @@
       downPdf() {
         if (this.clickData.recordId) {
           this.$emit('showPrint', this.clickData)
+        } else {
+          this.$message({
+            message: "无选中行",
+            type: "warning"
+          });
+        }
+      }, handlePrint() {
+        if (this.clickData.recordId) {
+          this.$emit('showPrintF', this.clickData)
         } else {
           this.$message({
             message: "无选中行",

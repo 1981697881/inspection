@@ -9,7 +9,7 @@
         <list ref="list" @handlerClick="clickT" @uploadList="upload"   @showDialog="handlerDialog"/>
       </el-main>
       <el-footer style="padding: 0">
-        <tabs-detail @showDialog="handlerDialog" @uploadList="uploadDlist" @showDetail="handlerDetail" @showPrint="handlerPrint" @showInfo="handlerInfo" @delList="delivery" @queryBtn="query"/>
+        <tabs-detail @showDialog="handlerDialog" @uploadList="uploadDlist" @showDetail="handlerDetail" @showPrint="handlerPrint" @showPrintF="handlerPrintF" @showInfo="handlerInfo" @delList="delivery" @queryBtn="query"/>
         <d-list ref="dlist" @uploadList="uploadDlist"  @showDialog="showList"/>
       </el-footer>
     </el-container>
@@ -63,12 +63,22 @@
     >
       <print @hideDialog="hidePrint" :listInfo="listInfo"></print>
     </el-dialog>
+    <el-dialog
+      :visible.sync="visible6"
+      title="记录"
+      v-if="visible6"
+      :width="'80%'"
+      destroy-on-close
+      :close-on-click-modal="false"
+    >
+      <info-f @hideDialog="hidePrintF" :listInfo="listInfo"></info-f>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { TabsBar, List, DList,TabsDetail } from "./components";
-import { Info, InfoO, InfoT, InfoTh, Print } from "./form";
+import { Info, InfoO, InfoT, InfoTh, Print,InfoF } from "./form";
 
 export default {
   components: {
@@ -80,6 +90,7 @@ export default {
     InfoO,
     InfoT,
     Print,
+    InfoF,
     InfoTh,
   },
   data() {
@@ -89,6 +100,7 @@ export default {
       visible3: null,
       visible4: null,
       visible5: null,
+      visible6: null,
       oid: null,
       listInfo: null,
       treeId: null, // null
@@ -126,6 +138,9 @@ export default {
     }, hidePrint(val) {
       this.visible5 = val
     },
+    hidePrintF(val) {
+      this.visible6 = val
+    },
     handlerDialog(obj) {
       this.listInfo = null
       if(obj) {
@@ -140,6 +155,13 @@ export default {
         this.listInfo = info
       }
       this.visible5 = true
+    },handlerPrintF(obj) {
+      this.listInfo = null
+      if(obj) {
+        const info = JSON.parse(JSON.stringify(obj))
+        this.listInfo = info
+      }
+      this.visible6 = true
     },
     handlerInfo(obj) {
       this.listInfo = null
