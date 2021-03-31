@@ -15,7 +15,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'位置信息'">
+          <el-form-item :label="'位置信息'" prop="clockLocation">
             <el-input v-model="form.clockLocation"></el-input>
           </el-form-item>
         </el-col>
@@ -68,7 +68,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="检查情况">
+          <el-form-item label="检查情况" prop="checkContent">
             <el-input type="textarea" v-model="form.checkContent"></el-input>
           </el-form-item>
         </el-col>
@@ -113,12 +113,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'申请人'">
+          <el-form-item :label="'申请人'" prop="proposer">
             <el-input v-model="form.proposer"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'申请日期'" >
+          <el-form-item :label="'申请日期'" prop="applicationDate">
             <div class="block">
               <el-date-picker
                 v-model="form.applicationDate"
@@ -133,12 +133,12 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-form-item :label="'批准人'">
+          <el-form-item :label="'批准人'" prop="ratify">
             <el-input v-model="form.ratify"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8">
-          <el-form-item :label="'批准日期'">
+          <el-form-item :label="'批准日期'" prop="approvalTime">
             <div class="block">
               <el-date-picker
                 v-model="form.approvalTime"
@@ -166,7 +166,7 @@
       </el-row>
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item :label="'延期原因'">
+          <el-form-item :label="'延期原因'" prop="delayReason">
             <el-input type="textarea" v-model="form.delayReason"></el-input>
           </el-form-item>
         </el-col>
@@ -229,16 +229,28 @@
         rules: {
           checkStaff: [
             {required: true, message: '请输入', trigger: 'blur'},
+          ], ratify: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], delayReason: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], checkContent: [
+            {required: true, message: '请输入', trigger: 'blur'},
+          ], proposer: [
+            {required: true, message: '请输入', trigger: 'blur'},
           ],
           clockUid: [
             {required: true, message: '请选择', trigger: 'change'},
           ],
-          checkTime: [
-            {type: 'date',required: true, message: '请选择', trigger: 'change'},
+          applicationDate: [
+            {required: true, message: '请选择', trigger: 'change'},
+          ],checkTime: [
+            {required: true, message: '请选择', trigger: 'change'},
+          ], approvalTime: [
+            {required: true, message: '请选择', trigger: 'change'},
           ],clockTime: [
-            {type: 'date',required: true, message: '请选择', trigger: 'change'},
+            {required: true, message: '请选择', trigger: 'change'},
           ],delayTimeLimit: [
-            {type: 'date',required: true, message: '请选择', trigger: 'change'},
+            {required: true, message: '请选择', trigger: 'change'},
           ]
         },
       };

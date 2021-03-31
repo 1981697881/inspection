@@ -40,7 +40,7 @@
           { text: "通知单号", name: "orderNo" },
           { text: "登记日期", name: "recordDate" },
           { text: "隐患问题", name: "concerns" },
-          { text: "整改内容", name: "opinion" },
+          { text: "整改意见", name: "opinion" },
           { text: "隐患图片", name: "concernsImg" },
           { text: "要求整改完成日期", name: "rectifyFinishDate" },
         /*  { text: "整改情况", name: "" },*/

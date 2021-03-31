@@ -302,7 +302,6 @@ export default {
   methods: {
     //上传失败事件
     uploadError(res) {
-      console.log(res)
       this.$message({
         message: res.msg,
         type: "warning"
@@ -329,7 +328,6 @@ export default {
         if(res.flag){
          array.forEach((item,index)=>{
            if (item.url.split(this.$store.state.user.url+'/uploadFiles/image/')[1] == img) {
-             console.log(index)
              array.splice(index, 1);
            }
          })
