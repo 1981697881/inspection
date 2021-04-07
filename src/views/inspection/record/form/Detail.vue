@@ -442,9 +442,11 @@ export default {
           this.form.clockUid = res.data.clockUid.toString()
           this.list = res.data.recordCheckList
           let escortArray = []
-          res.data.escortArray.forEach((item)=>{
-            escortArray.push(item.toString())
-          })
+          if(res.data.escortArray != null && res.data.escortArray != ''){
+            res.data.escortArray.forEach((item)=>{
+              escortArray.push(item.toString())
+            })
+          }
           if(res.data.photoUrl !='' && res.data.photoUrl != null){
             this.qmUrl = this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl
             this.qmUsrcList.push(this.$store.state.user.url+'/uploadFiles/image/' + res.data.photoUrl)

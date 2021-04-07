@@ -162,7 +162,7 @@
         fileList: [],
         limitCount: 3,
         nowImg: [],
-        printName: '',
+        printName: '检查记录表',
         row: null,
         printData: {},
       };
@@ -179,12 +179,11 @@
       downPdf() {
         window.scrollTo(0, 0) //注意这里必须设置为顶部不然会出现图片不全
         let that = this;
-        html2canvas(document.querySelector(that.printId), {//对应的dom元素id
+        html2canvas(document.querySelector('#all1'), {//对应的dom元素id
           allowTaint: true
         }).then(function (canvas) {
           var contentWidth = canvas.width;
           var contentHeight = canvas.height;
-
           //一页pdf显示html页面生成的canvas高度;
           var pageHeight = contentWidth / 595.28 * 841.89;
           //未生成pdf的html页面高度
