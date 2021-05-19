@@ -457,7 +457,6 @@ export default {
             return s && s.trim();
           });
           const path = require('path')
-          console.log(path)
           if (this.img != '') {
             if (imgArray.length > 0) {
               //到图片数量大于3或等于3时添加按钮隐藏

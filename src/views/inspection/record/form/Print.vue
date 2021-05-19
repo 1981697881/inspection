@@ -3,7 +3,7 @@
     <el-form :size="'mini'" :label-width="'80px'">
       <el-row :gutter="20" id="all">
         <div class="block text-center" style="margin-top:15px;">
-          <span class="demonstration">广州市番盈新投资有限公司安全生产巡查记录表</span>
+          <span class="demonstration">{{print.deptName}}安全生产巡查记录表</span>
         </div>
         <table class="order_table"  border="1px" cellspacing="0" cellpadding="0">
           <tr>
@@ -16,17 +16,17 @@
           </tr>
           <tr>
             <th class="order_title">检查地址</th>
-            <th colspan="5">{{print.recordDate}}</th>
+            <th colspan="5">{{print.clockLocation}}</th>
           </tr>
           <tr>
             <th class="order_title">检查人员</th>
-            <th colspan="3">{{print.recordDate}}</th>
+            <th colspan="3">{{print.inspector}}</th>
             <th class="order_title">检查时间</th>
-            <th>{{print.checkTime}}</th>
+            <th>{{print.clockTime}}</th>
           </tr>
           <tr>
             <th class="order_title">被检人员</th>
-            <th colspan="3">{{print.checkStaffName}}</th>
+            <th colspan="3">{{print.checkStaff}}</th>
             <th class="order_title">检查单号</th>
             <th>{{print.checkNo}}</th>
           </tr>

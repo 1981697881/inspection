@@ -224,6 +224,7 @@
           this.printData.concernsImg = res.data.concernsImg.split(',')
           this.printData.opinion = res.data.opinion.split('。')
           this.printData.rectifyImg = res.data.rectifyImg.split(',')
+          console.log(this.printData)
         });
       },
     }

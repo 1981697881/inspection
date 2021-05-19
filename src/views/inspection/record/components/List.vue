@@ -35,7 +35,7 @@ export default {
         { text: "检查单号", name: "planNo" },
         /*{ text: "被检人员", name: "username" },*/
         { text: "巡检打卡时间", name: "clockTime" },
-        { text: "整改打卡时间", name: "clockTime" },
+        { text: "整改打卡时间", name: "lastClockTime" },
     /*    { text: "计划编号", name: "" },*/
         { text: "被检公司", name: "deptName" },
         { text: "被检人员", name: "cname" },
